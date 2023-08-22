@@ -18,7 +18,7 @@ import {
   Title,
   Square,
   ColorInfoContainer,
-  Delete,
+  CustomTooltip,
   NewCategoryButton,
 } from './styles';
 import FormAddCategory from './FormAddCategory';
@@ -27,6 +27,7 @@ const ReactSwal = withReactContent(Swal);
 
 function Config(): React.JSX.Element {
   const { theme } = useTheme();
+  const [categoryEdit, setCategoryEdit] = useState<Category>();
   const [categories, setCategories] = useState<Category[]>([]);
   const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
 
@@ -44,7 +45,10 @@ function Config(): React.JSX.Element {
     setIsShowingModal(false);
   }, []);
 
-  const handleOpenModal = useCallback(() => {
+  const handleOpenModal = useCallback((category?: Category) => {
+    setCategoryEdit(category);
+    console.log('Category selected: ', category);
+
     setIsShowingModal(true);
   }, []);
 
@@ -121,6 +125,7 @@ function Config(): React.JSX.Element {
                 <th>Ícone</th>
                 <th>Cor Dark</th>
                 <th>Cor Light</th>
+                <th>Ações</th>
                 <th>
                   <NewCategoryButton
                     type="button"
@@ -132,40 +137,48 @@ function Config(): React.JSX.Element {
               </tr>
             </thead>
             <tbody>
-              {categories &&
-                categories.map(category => {
-                  const Icon = (Icons as any)[category.icon];
-                  return (
-                    <tr key={category.id}>
-                      <TableBodyColumn>{category.title}</TableBodyColumn>
-                      <TableBodyColumn>
-                        <Icon size={20} />
-                      </TableBodyColumn>
-                      <TableBodyColumn>
-                        <ColorInfoContainer>
-                          <Square background={category.background_color_dark} />
-                          <span>{category.background_color_dark}</span>
-                        </ColorInfoContainer>
-                      </TableBodyColumn>
-                      <TableBodyColumn>
-                        <ColorInfoContainer>
-                          <Square
-                            background={category.background_color_light}
-                          />
-                          <span>{category.background_color_light}</span>
-                        </ColorInfoContainer>
-                      </TableBodyColumn>
-                      <TableBodyColumn>
-                        <Delete title="Apagar categoria">
-                          <Icons.FiTrash
-                            size={20}
-                            onClick={() => handleDelete(category)}
-                          />
-                        </Delete>
-                      </TableBodyColumn>
-                    </tr>
-                  );
-                })}
+              {categories?.map(category => {
+                const Icon = (Icons as any)[category.icon];
+                return (
+                  <tr key={category.id}>
+                    <TableBodyColumn>{category.title}</TableBodyColumn>
+                    <TableBodyColumn>
+                      <Icon size={20} />
+                    </TableBodyColumn>
+                    <TableBodyColumn>
+                      <ColorInfoContainer>
+                        <Square background={category.background_color_dark} />
+                        <span>{category.background_color_dark}</span>
+                      </ColorInfoContainer>
+                    </TableBodyColumn>
+                    <TableBodyColumn>
+                      <ColorInfoContainer>
+                        <Square background={category.background_color_light} />
+                        <span>{category.background_color_light}</span>
+                      </ColorInfoContainer>
+                    </TableBodyColumn>
+                    <TableBodyColumn>
+                      <CustomTooltip className="edit" title="Editar categoria">
+                        <Icons.FiEdit
+                          size={20}
+                          onClick={() => handleOpenModal(category)}
+                        />
+                      </CustomTooltip>
+                    </TableBodyColumn>
+                    <TableBodyColumn>
+                      <CustomTooltip
+                        className="delete"
+                        title="Apagar categoria"
+                      >
+                        <Icons.FiTrash
+                          size={20}
+                          onClick={() => handleDelete(category)}
+                        />
+                      </CustomTooltip>
+                    </TableBodyColumn>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </TableContainer>
@@ -174,6 +187,7 @@ function Config(): React.JSX.Element {
           <FormAddCategory
             onSubmitted={handleCategoryAdded}
             onCancel={handleCloseModal}
+            categoryEdit={categoryEdit}
           />
         </Modal>
       </Container>

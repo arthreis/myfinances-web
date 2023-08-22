@@ -129,46 +129,45 @@ function DashboardTableView({
           </thead>
 
           <tbody>
-            {transactions &&
-              transactions.map(transaction => {
-                // const [, iconName] = transaction.category.icon.split('/');
-                const CategoryIcon = (Icons as any)[transaction.category.icon];
-                const categoryBackgroundKey = `background_color_${theme.title}`;
-                const categoryBackground =
-                  transaction.category[
-                    categoryBackgroundKey as
-                      | 'background_color_light'
-                      | 'background_color_dark'
-                  ];
-                return (
-                  <tr key={transaction.id}>
-                    <TableBodyColumn
-                      categoryBackground={categoryBackground}
-                      className="title"
-                    >
-                      {transaction.title}
-                    </TableBodyColumn>
-                    <TableBodyColumn className={transaction.type}>
-                      {formatValue(transaction.value)}
-                    </TableBodyColumn>
-                    <TableBodyColumn className="category">
-                      <CategoryIcon size={20} color={categoryBackground} />
-                      {transaction.category.title}
-                    </TableBodyColumn>
-                    <TableBodyColumn>
-                      {format(new Date(transaction.created_at), 'dd/MM/yyyy')}
-                    </TableBodyColumn>
-                    <TableBodyColumn>
-                      <Delete title="Apagar transação">
-                        <Icons.FiTrash
-                          size={20}
-                          onClick={() => handleDelete(transaction)}
-                        />
-                      </Delete>
-                    </TableBodyColumn>
-                  </tr>
-                );
-              })}
+            {transactions?.map(transaction => {
+              // const [, iconName] = transaction.category.icon.split('/');
+              const CategoryIcon = (Icons as any)[transaction.category.icon];
+              const categoryBackgroundKey = `background_color_${theme.title}`;
+              const categoryBackground =
+                transaction.category[
+                  categoryBackgroundKey as
+                    | 'background_color_light'
+                    | 'background_color_dark'
+                ];
+              return (
+                <tr key={transaction.id}>
+                  <TableBodyColumn
+                    categoryBackground={categoryBackground}
+                    className="title"
+                  >
+                    {transaction.title}
+                  </TableBodyColumn>
+                  <TableBodyColumn className={transaction.type}>
+                    {formatValue(transaction.value)}
+                  </TableBodyColumn>
+                  <TableBodyColumn className="category">
+                    <CategoryIcon size={20} color={categoryBackground} />
+                    {transaction.category.title}
+                  </TableBodyColumn>
+                  <TableBodyColumn>
+                    {format(new Date(transaction.created_at), 'dd/MM/yyyy')}
+                  </TableBodyColumn>
+                  <TableBodyColumn>
+                    <Delete title="Apagar transação">
+                      <Icons.FiTrash
+                        size={20}
+                        onClick={() => handleDelete(transaction)}
+                      />
+                    </Delete>
+                  </TableBodyColumn>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </TableContainer>

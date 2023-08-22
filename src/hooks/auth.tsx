@@ -63,12 +63,13 @@ export function AuthProvider({
     setData({} as AuthState);
   }, []);
 
+  const userProvider = React.useMemo(
+    () => ({ user: data.user, signIn, signOut, token: data.token }),
+    [data.user, signIn, signOut, data.token],
+  );
+
   return (
-    <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, token: data.token }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={userProvider}>{children}</AuthContext.Provider>
   );
 }
 

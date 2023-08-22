@@ -97,16 +97,28 @@ export const ColorInfoContainer = styled.div`
   }
 `;
 
-export const Delete = styled(Tooltip)`
+export const CustomTooltip = styled(Tooltip)`
   width: 20px;
   height: 20px;
 
+  /* color: ${props => (props.className === 'delete' ? 'blue' : 'green')}; */
+
   span {
-    background: ${props => props.theme.colors.danger};
-    color: ${props => props.theme.colors.dangerText};
+    background: ${props =>
+      props.className === 'delete'
+        ? props.theme.colors.danger
+        : props.theme.colors.success};
+    color: ${props =>
+      props.className === 'delete'
+        ? props.theme.colors.dangerText
+        : props.theme.colors.successText};
 
     &::before {
-      border-color: ${props => props.theme.colors.danger} transparent;
+      border-color: ${props =>
+          props.className === 'delete'
+            ? props.theme.colors.danger
+            : props.theme.colors.success}
+        transparent;
     }
   }
 
@@ -114,7 +126,10 @@ export const Delete = styled(Tooltip)`
     transition: color 0.2s;
     &:hover {
       cursor: pointer;
-      color: ${props => props.theme.colors.danger};
+      color: ${props =>
+        props.className === 'delete'
+          ? props.theme.colors.danger
+          : props.theme.colors.success};
     }
   }
 `;
@@ -129,4 +144,9 @@ export const NewCategoryButton = styled(Button)`
   svg {
     vertical-align: normal;
   }
+`;
+
+export const ContainerButtons = styled.div`
+  display: flex;
+  gap: 8px;
 `;

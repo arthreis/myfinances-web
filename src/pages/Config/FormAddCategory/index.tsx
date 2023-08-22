@@ -20,10 +20,12 @@ import ColorPicker from '../../../components/ColorPicker';
 import Input from '../../../components/Input';
 import Select from '../../../components/Select';
 import CategoryIconOptionConfig from '../CategoryIconOptionConfig';
+import CategoryIconSingleValueConfig from '../CategoryIconSingleValueConfig';
 
 interface FormAddCategoryProps {
   onSubmitted(category: Category): void;
   onCancel(): void;
+  categoryEdit?: Category;
 }
 
 interface AddCategoryFormData {
@@ -36,6 +38,7 @@ interface AddCategoryFormData {
 function FormAddCategory({
   onSubmitted,
   onCancel,
+  categoryEdit,
 }: FormAddCategoryProps): React.JSX.Element {
   const { theme } = useTheme();
   const formRef = useRef<FormHandles>(null);
@@ -45,11 +48,11 @@ function FormAddCategory({
   const Icons = {
     ...(IconsFi as any),
   };
-  const icons = Object.keys(Icons as any).map(icon => {
+  const icons = Object.keys(Icons).map(icon => {
     const id = `${icon}`;
     return {
       id,
-      Component: (Icons as any)[id],
+      Component: Icons[id],
     };
   });
 
@@ -119,11 +122,21 @@ function FormAddCategory({
     [onSubmitted],
   );
 
+  const [value, setValue] = React.useState(
+    categoryEdit ? icons.filter(i => i.id === categoryEdit?.icon) : null,
+  );
+
+  const onChange = (e: any): void => {
+    setValue(e);
+  };
+
+  const labelSubmit = categoryEdit ? 'Editar' : 'Enviar';
+
   return (
     <Container>
-      <Form onSubmit={handleSubmit} ref={formRef}>
+      <Form onSubmit={handleSubmit} ref={formRef} initialData={categoryEdit}>
         <Header>
-          <h1>Nova categoria</h1>
+          {categoryEdit ? <h1>Editar categoria</h1> : <h1>Nova categoria</h1>}
         </Header>
 
         <Body>
@@ -153,19 +166,23 @@ function FormAddCategory({
             options={icons}
             components={{
               Option: CategoryIconOptionConfig,
-              SingleValue: CategoryIconOptionConfig,
+              SingleValue: CategoryIconSingleValueConfig,
             }}
+            onChange={onChange}
+            value={value}
           />
 
           <ColorPicker
             containerClassName="form-group"
             name="background_color_dark"
             placeholder="Cor Dark"
+            color={categoryEdit?.background_color_dark}
           />
           <ColorPicker
             containerClassName="form-group"
             name="background_color_light"
             placeholder="Cor Light"
+            color={categoryEdit?.background_color_light}
           />
         </Body>
 
@@ -174,7 +191,7 @@ function FormAddCategory({
             {isLoading ? LoadingSpinner : 'Cancelar'}
           </CancelButton>
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? LoadingSpinner : 'Enviar'}
+            {isLoading ? LoadingSpinner : labelSubmit}
           </Button>
         </Footer>
       </Form>

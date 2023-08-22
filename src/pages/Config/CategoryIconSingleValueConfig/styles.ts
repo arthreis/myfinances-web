@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  text-align: center;
+export const Container = styled.div<any>`
+  /* text-align: center; */
+  background-color: red;
+  /* flex: 1; */
+  /* display: flex; */
   svg {
     transition: color 0.2s ease;
-    vertical-align: middle;
+    /* vertical-align: top; */
 
     &:hover {
       cursor: pointer;

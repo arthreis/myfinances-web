@@ -16,6 +16,7 @@ import formatValue from '../../utils/formatValue';
 import { Balance } from '../../services/interfaces';
 
 import { Container, CardContainer, Card, TitleAndViewSelector } from './styles';
+import PeriodDate from '../../components/PeriodDate';
 
 function Dashboard(): React.JSX.Element {
   const [balance, setBalance] = useState<Balance>({} as Balance);
@@ -25,6 +26,9 @@ function Dashboard(): React.JSX.Element {
     const { data } = await api.get('/transactions/balance');
     setBalance(data);
   }, []);
+
+  const [date, setDate] = React.useState(new Date());
+  // const date = new Date();
 
   useEffect(() => {
     reloadBalance();
@@ -62,6 +66,8 @@ function Dashboard(): React.JSX.Element {
 
         <TitleAndViewSelector>
           <h1>Dashboard</h1>
+
+          <PeriodDate date={date} />
 
           <div>
             <FiList

@@ -4,14 +4,15 @@ import { OptionProps, SingleValueProps } from 'react-select';
 
 import { Container } from './styles';
 
-export default function CategoryIconOptionConfig({
+export default function CategoryIconSingleValueConfig({
+  innerProps,
   data,
 }: OptionProps<any> | SingleValueProps<any>): React.JSX.Element {
   const { id } = data;
   const Icon = (Icons as any)[id];
   return (
-    <Container>
-      <Icon size={20} />
+    <Container {...innerProps}>
+      <Icon size={20} /> {id}
     </Container>
   );
 }

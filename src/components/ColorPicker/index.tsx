@@ -30,11 +30,12 @@ interface ColorPickerProps extends InputHTMLAttributes<HTMLInputElement> {
 function ColorPicker({
   name,
   containerClassName,
+  color = '#000',
   ...rest
 }: ColorPickerProps): React.JSX.Element {
   const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedColor, setSelectedColor] = useState('#000');
+  const [selectedColor, setSelectedColor] = useState(color);
   const [isFilled, setIsFilled] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -48,9 +49,9 @@ function ColorPicker({
   }, []);
 
   const handleColorChange = useCallback(
-    (color: any) => {
-      setSelectedColor(color.hex);
-      if (inputRef.current) inputRef.current.value = color.hex;
+    (colorHex: any) => {
+      setSelectedColor(colorHex.hex);
+      if (inputRef.current) inputRef.current.value = colorHex.hex;
     },
     [inputRef],
   );

@@ -77,7 +77,9 @@ function NewTransaction(): React.JSX.Element {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
-        err.inner.map(e => toast.error(e.message));
+        err.inner.forEach(element => {
+          toast.error(element.message);
+        });
       } else if (formData.type === 'income') {
         toast.error(
           'Não foi possível cadastrar a entrada. Verifique os dados e tente novamente',
@@ -115,12 +117,6 @@ function NewTransaction(): React.JSX.Element {
 
             <TransactionTypeSelector name="type" onSelect={handleTypeSelect} />
 
-            {/* <Input
-              name="category"
-              containerClassName="form-group"
-              placeholder="Categoria"
-            /> */}
-
             <Select
               name="category"
               keyField="id"
@@ -131,6 +127,7 @@ function NewTransaction(): React.JSX.Element {
                 Option: CategoryIconOption,
                 SingleValue: CategoryIconSingleValue,
               }}
+              placeholder="Selecione uma categoria"
             />
 
             <Input
