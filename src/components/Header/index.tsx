@@ -22,22 +22,22 @@ function Header({ size = 'large' }: HeaderProps): React.JSX.Element {
   return (
     <Container size={size}>
       <header>
-        <Link to="/dashboard">
+        <Link to="/home">
           <img src={Logo} alt="GoFinances" />
         </Link>
         <div>
           <nav>
             <NavLink
               className={navData => (navData.isActive ? 'active-link' : '')}
-              to="/dashboard"
+              to="/home"
             >
-              Listagem
+              Home
             </NavLink>
             <NavLink
               className={navData => (navData.isActive ? 'active-link' : '')}
-              to="/new-transaction"
+              to="/dashboard"
             >
-              Nova transação
+              Dashboard
             </NavLink>
             <NavLink
               className={navData => (navData.isActive ? 'active-link' : '')}

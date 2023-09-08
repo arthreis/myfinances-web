@@ -1,5 +1,5 @@
 /* eslint-disable import/no-duplicates */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { format } from 'date-fns';
 import brLocale from 'date-fns/locale/pt-BR';
@@ -7,19 +7,23 @@ import { Container, SelectDate } from './styles';
 
 interface InputProps {
   date: Date;
+  onChangePeriod(period: Date): void;
 }
 
-export default function PeriodDate({ date }: InputProps): React.JSX.Element {
+export default function PeriodDate({
+  date,
+  onChangePeriod,
+}: InputProps): React.JSX.Element {
   const [periodDate, setPeriodDate] = React.useState(date);
 
-  const increasePeriod = (): void => {
-    periodDate.setMonth(periodDate.getMonth() + 1);
-    return setPeriodDate(new Date(periodDate));
-  };
-
-  const decreasePeriod = (): void => {
-    periodDate.setMonth(periodDate.getMonth() - 1);
-    return setPeriodDate(new Date(periodDate));
+  const handlePeriod = (type: 'increase' | 'decrease'): void => {
+    if (type === 'increase') {
+      periodDate.setMonth(periodDate.getMonth() + 1);
+    } else {
+      periodDate.setMonth(periodDate.getMonth() - 1);
+    }
+    setPeriodDate(new Date(periodDate));
+    onChangePeriod(new Date(periodDate));
   };
 
   return (
@@ -27,7 +31,7 @@ export default function PeriodDate({ date }: InputProps): React.JSX.Element {
       <FiChevronLeft
         size={25}
         style={{ paddingBottom: 0, cursor: 'pointer', marginRight: 24 }}
-        onClick={decreasePeriod}
+        onClick={() => handlePeriod('decrease')}
       />
 
       <SelectDate>
@@ -37,7 +41,7 @@ export default function PeriodDate({ date }: InputProps): React.JSX.Element {
       <FiChevronRight
         size={25}
         style={{ paddingBottom: 0, cursor: 'pointer', marginLeft: 24 }}
-        onClick={increasePeriod}
+        onClick={() => handlePeriod('increase')}
       />
     </Container>
   );

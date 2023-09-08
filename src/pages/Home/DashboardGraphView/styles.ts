@@ -62,6 +62,10 @@ export const Widget = styled.div<WidgetProps>`
     margin-top: 20px;
   }
 
+  > span {
+    font-size: 10px;
+  }
+
   h2 {
     font-size: 24px;
     font-weight: normal;

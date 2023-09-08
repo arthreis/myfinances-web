@@ -4,10 +4,9 @@ import { Routes, Route } from 'react-router-dom';
 import {
   SignIn,
   SignUp,
-  Dashboard,
   Import,
-  NewTransaction,
   Config,
+  Home,
 } from '../pages';
 import PrivateRoute from './PrivateRoute';
 
@@ -17,18 +16,18 @@ function Router(): React.JSX.Element {
       <Route path="/" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route
-        path="/dashboard"
+        path="/home"
         element={
           <PrivateRoute>
-            <Dashboard />
+            <Home />
           </PrivateRoute>
         }
       />
       <Route
-        path="/new-transaction"
+        path="/dashboard"
         element={
           <PrivateRoute>
-            <NewTransaction />
+            <Home />
           </PrivateRoute>
         }
       />

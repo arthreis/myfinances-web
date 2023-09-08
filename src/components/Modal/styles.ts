@@ -32,10 +32,10 @@ export const ModalContent = styled.div<ModalContentProps>`
   background: ${props => props.theme.colors.default};
   color: ${props => props.theme.colors.primaryText};
   display: flex;
-  height: 100%;
+  /* height: 100%; */
   left: 0;
   margin: 50px auto;
-  max-height: ${props => (props.height ? `${props.height}px` : '80%')};
+  /* max-height: ${props => (props.height ? `${props.height}px` : '80%')}; */
   position: absolute;
   right: 0;
   width: ${({ size }) => {

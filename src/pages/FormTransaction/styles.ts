@@ -3,6 +3,7 @@ import { tint, shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
+  /* height: 100%; */
   max-width: 700px;
   margin: 0 auto;
   padding: 40px 20px;

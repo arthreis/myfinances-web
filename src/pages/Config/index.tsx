@@ -20,8 +20,9 @@ import {
   ColorInfoContainer,
   CustomTooltip,
   NewCategoryButton,
+  Actions,
 } from './styles';
-import FormAddCategory from './FormAddCategory';
+import FormAddOrEditCategory from './FormAddOrEditCategory';
 
 const ReactSwal = withReactContent(Swal);
 
@@ -34,7 +35,6 @@ function Config(): React.JSX.Element {
   useEffect(() => {
     async function loadCategories(): Promise<void> {
       const { data } = await api.get('/categories');
-
       setCategories(data);
     }
 
@@ -47,16 +47,24 @@ function Config(): React.JSX.Element {
 
   const handleOpenModal = useCallback((category?: Category) => {
     setCategoryEdit(category);
-    console.log('Category selected: ', category);
-
     setIsShowingModal(true);
   }, []);
 
-  const handleCategoryAdded = useCallback(
-    (categoryAdded: Category) => {
-      setCategories([...categories, categoryAdded]);
+  const handleCategoryAddedOrEdited = useCallback(
+    (categoryAddedOrEdited: Category) => {
+      let isEdited = false;
+      const newState = categories.map(c => {
+        if (c.id === categoryAddedOrEdited.id) {
+          isEdited = true;
+          return categoryAddedOrEdited;
+        }
+        return c;
+      });
+      setCategories(isEdited ? newState : [...newState, categoryAddedOrEdited]);
 
-      toast.success('Categoria adicionada com sucesso!');
+      toast.success(
+        `Categoria ${isEdited ? 'editada' : 'adicionada'} com sucesso!`,
+      );
 
       handleCloseModal();
     },
@@ -68,7 +76,6 @@ function Config(): React.JSX.Element {
       const newCategories = categories.filter(
         category => category.id !== categoryToDelete.id,
       );
-
       setCategories([...newCategories]);
     },
     [categories],
@@ -157,25 +164,29 @@ function Config(): React.JSX.Element {
                         <span>{category.background_color_light}</span>
                       </ColorInfoContainer>
                     </TableBodyColumn>
-                    <TableBodyColumn>
-                      <CustomTooltip className="edit" title="Editar categoria">
-                        <Icons.FiEdit
-                          size={20}
-                          onClick={() => handleOpenModal(category)}
-                        />
-                      </CustomTooltip>
+                    <TableBodyColumn className="actions">
+                      <Actions>
+                        <CustomTooltip
+                          className="edit"
+                          title="Editar categoria"
+                        >
+                          <Icons.FiEdit
+                            size={20}
+                            onClick={() => handleOpenModal(category)}
+                          />
+                        </CustomTooltip>
+                        <CustomTooltip
+                          className="delete"
+                          title="Apagar categoria"
+                        >
+                          <Icons.FiTrash
+                            size={20}
+                            onClick={() => handleDelete(category)}
+                          />
+                        </CustomTooltip>
+                      </Actions>
                     </TableBodyColumn>
-                    <TableBodyColumn>
-                      <CustomTooltip
-                        className="delete"
-                        title="Apagar categoria"
-                      >
-                        <Icons.FiTrash
-                          size={20}
-                          onClick={() => handleDelete(category)}
-                        />
-                      </CustomTooltip>
-                    </TableBodyColumn>
+                    <TableBodyColumn></TableBodyColumn>
                   </tr>
                 );
               })}
@@ -184,8 +195,8 @@ function Config(): React.JSX.Element {
         </TableContainer>
 
         <Modal show={isShowingModal} onClose={handleCloseModal} height={650}>
-          <FormAddCategory
-            onSubmitted={handleCategoryAdded}
+          <FormAddOrEditCategory
+            onSubmitted={handleCategoryAddedOrEdited}
             onCancel={handleCloseModal}
             categoryEdit={categoryEdit}
           />

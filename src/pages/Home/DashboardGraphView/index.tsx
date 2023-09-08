@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect, useCallback } from 'react';
 import * as Icons from 'react-icons/fi';
+import * as IconsBi from 'react-icons/bi';
 import Chart, { CategoryScale, LinearScale } from 'chart.js/auto';
 import { Line, Doughnut } from 'react-chartjs-2';
 
@@ -20,6 +19,7 @@ import {
 } from './styles';
 
 import { Category, GraphData } from '../../../services/interfaces';
+import { format } from 'date-fns';
 
 Chart.register(CategoryScale, LinearScale);
 
@@ -29,13 +29,20 @@ interface OverviewData {
   category?: Category;
 }
 
+interface DonutGraphFilter {
+  type: 'count' | 'value';
+}
 interface LineGraphFilter {
-  period: string;
+  period: 'week' | 'month';
 }
 
-function DashboardGraphView(): React.JSX.Element {
-  // ChartJS.register(ArcElement, Tooltip, Legend);
+interface DashboardGraphViewProps {
+  period: Date;
+}
 
+function DashboardGraphView({
+  period,
+}: DashboardGraphViewProps): React.JSX.Element {
   const [donutData, setDonutData] = useState<GraphData>(() => {
     return {
       labels: [],
@@ -58,15 +65,34 @@ function DashboardGraphView(): React.JSX.Element {
   const [lineFilters, setLineFilters] = useState<LineGraphFilter>({
     period: 'week',
   });
+  const [donutGraphFilters, setDonutGraphFilters] = useState<DonutGraphFilter>({
+    type: 'count',
+  });
 
   const { theme } = useTheme();
 
   useEffect(() => {
     async function loadData(): Promise<void> {
+      const periodFormated = format(period, 'yyyy-MM');
+
+      const urlOverviewData = `/transactions/overview-data?period=${periodFormated}`;
+      const urlCountByCategory = `/transactions/count-by-category?period=${periodFormated}`;
+      const urlValueByCategory = `/transactions/value-by-category?period=${periodFormated}&type=outcome`;
+      const urlBalanceGraph = `/transactions/balance-graph?period=${lineFilters.period}&date=${periodFormated}`;
+
+      const tooltipLabel =
+        donutGraphFilters.type === 'count'
+          ? 'Transações por Categoria'
+          : 'Valor por categoria';
+
       const promises = Promise.all([
-        api.get('/transactions/overview-data'),
-        api.get('/transactions/count-by-category'),
-        api.get(`/transactions/balance-graph?period=${lineFilters.period}`),
+        api.get(urlOverviewData),
+        api.get(
+          donutGraphFilters.type === 'count'
+            ? urlCountByCategory
+            : urlValueByCategory,
+        ),
+        api.get(urlBalanceGraph),
       ]);
 
       const [overview, donut, line] = await promises;
@@ -74,6 +100,7 @@ function DashboardGraphView(): React.JSX.Element {
         theme,
         donut.data,
         'donut',
+        tooltipLabel,
       );
 
       const lineSerializedData = serializeGraphData(theme, line.data, 'line');
@@ -84,25 +111,34 @@ function DashboardGraphView(): React.JSX.Element {
     }
 
     loadData();
-  }, [theme, lineFilters.period]);
+  }, [theme, lineFilters.period, period, donutGraphFilters.type]);
 
   let CategoryIcon: any;
 
   if (overviewData.category) {
-    // const [, iconName] = overviewData.category.icon.split('/');
     CategoryIcon = (Icons as any)[overviewData.category.icon];
   }
 
   const handleLineFilters = useCallback(
-    (period: string) => {
+    (period: 'week' | 'month') => {
       const newLineFilters = {
         ...lineFilters,
         period,
       };
-
       setLineFilters(newLineFilters);
     },
     [lineFilters],
+  );
+
+  const handleDonutGraphFilters = useCallback(
+    (type: 'count' | 'value') => {
+      const newFilters = {
+        ...donutGraphFilters,
+        type,
+      };
+      setDonutGraphFilters(newFilters);
+    },
+    [donutGraphFilters],
   );
 
   return (
@@ -141,14 +177,18 @@ function DashboardGraphView(): React.JSX.Element {
       <GraphGridContainer>
         <Widget>
           <header>
-            <p>Entrada / Saída</p>
+            <p>
+              {lineFilters.period === 'week'
+                ? 'Acúmulo diário'
+                : 'Acúmulo semanal'}
+            </p>
 
             <div className="flex">
               <span
                 className={lineFilters.period === 'week' ? 'active' : undefined}
                 onClick={() => handleLineFilters('week')}
               >
-                S
+                <IconsBi.BiCalendar size={20} />
               </span>
               <span
                 className={
@@ -156,7 +196,7 @@ function DashboardGraphView(): React.JSX.Element {
                 }
                 onClick={() => handleLineFilters('month')}
               >
-                M
+                <IconsBi.BiCalendarWeek size={20} />
               </span>
             </div>
           </header>
@@ -164,10 +204,35 @@ function DashboardGraphView(): React.JSX.Element {
           <div>
             <Line data={lineData} options={getChartOptions(theme, 'line')} />
           </div>
+          <span>
+            Obs: Transações de dias fora do mês atual não são contabilizados.
+          </span>
         </Widget>
         <Widget>
           <header>
-            <p>Transações por categoria</p>
+            <p>
+              {donutGraphFilters.type === 'count'
+                ? 'Quantidade de transações por categoria'
+                : 'Gastos por categoria'}
+            </p>
+            <div className="flex">
+              <span
+                className={
+                  donutGraphFilters.type === 'count' ? 'active' : undefined
+                }
+                onClick={() => handleDonutGraphFilters('count')}
+              >
+                <Icons.FiHash size={20} />
+              </span>
+              <span
+                className={
+                  donutGraphFilters.type === 'value' ? 'active' : undefined
+                }
+                onClick={() => handleDonutGraphFilters('value')}
+              >
+                <Icons.FiDollarSign size={20} />
+              </span>
+            </div>
           </header>
           <div>
             <Doughnut

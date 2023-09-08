@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<any>`
   text-align: center;
   svg {
     transition: color 0.2s ease;

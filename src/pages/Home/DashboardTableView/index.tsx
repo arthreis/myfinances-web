@@ -22,23 +22,28 @@ import {
   Delete,
   PaginationContainer,
 } from './styles';
+import { Actions } from '../../Config/styles';
+import Modal from '../../../components/Modal';
+import FormTransaction from '../../FormTransaction';
 
 interface DashboardTablewViewProps {
   onTransactionDeleted(): void;
+  period: Date;
 }
 
 function DashboardTableView({
   onTransactionDeleted,
+  period,
 }: DashboardTablewViewProps): React.JSX.Element {
   const { theme } = useTheme();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
   const [sortData, setSortData] = useState<Sort>(() => {
     return {
       sort: 'created_at',
       direction: 'DESC',
     };
   });
-
   const [pagination, setPagination] = useState<Pagination>(() => {
     return {
       page: 1,
@@ -46,8 +51,10 @@ function DashboardTableView({
       total: 0,
     };
   });
+  const [transactionEdit, setTransactionEdit] = useState<Transaction>();
 
   const reloadTransactions = useCallback(() => {
+    console.log('Carregando transações');
     async function loadTransactions(
       { sort, direction }: Sort,
       { page, pageSize }: Omit<Pagination, 'total'>,
@@ -58,10 +65,12 @@ function DashboardTableView({
           direction,
           page,
           pageSize,
+          period: format(period, 'yyyy-MM'),
         },
       });
 
       setTransactions(data.transactions);
+
       setPagination(oldPagination => ({
         ...oldPagination,
         total: data.pageCount,
@@ -72,11 +81,7 @@ function DashboardTableView({
       page: pagination.page,
       pageSize: pagination.pageSize,
     });
-  }, [sortData, pagination.page, pagination.pageSize]);
-
-  useEffect(() => {
-    reloadTransactions();
-  }, [reloadTransactions]);
+  }, [sortData, pagination.page, pagination.pageSize, period]);
 
   const handlePaginate = useCallback((selectedItem: PaginationChange) => {
     setPagination(oldPagination => ({
@@ -101,6 +106,21 @@ function DashboardTableView({
     [reloadTransactions, onTransactionDeleted],
   );
 
+  const handleCloseModal = useCallback(() => {
+    setIsShowingModal(false);
+  }, []);
+
+  const handleTransactionAddedOrEdited = useCallback(() => {
+    console.log('DashboardTableView');
+    reloadTransactions();
+    handleCloseModal();
+  }, [handleCloseModal, reloadTransactions]);
+
+  const handleOpenModalEdit = useCallback((transaction?: Transaction) => {
+    setTransactionEdit(transaction);
+    setIsShowingModal(true);
+  }, []);
+
   const sortIcon =
     sortData.direction === 'DESC' ? (
       <Icons.FiChevronDown
@@ -114,6 +134,10 @@ function DashboardTableView({
       />
     );
 
+  useEffect(() => {
+    reloadTransactions();
+  }, [reloadTransactions]);
+
   return (
     <>
       <TableContainer>
@@ -124,13 +148,12 @@ function DashboardTableView({
               <th>Preço</th>
               <th>Categoria</th>
               <th>Data {sortIcon}</th>
-              <th>&nbsp;</th>
+              <th>&nbsp;Ações</th>
             </tr>
           </thead>
 
           <tbody>
             {transactions?.map(transaction => {
-              // const [, iconName] = transaction.category.icon.split('/');
               const CategoryIcon = (Icons as any)[transaction.category.icon];
               const categoryBackgroundKey = `background_color_${theme.title}`;
               const categoryBackground =
@@ -155,15 +178,24 @@ function DashboardTableView({
                     {transaction.category.title}
                   </TableBodyColumn>
                   <TableBodyColumn>
-                    {format(new Date(transaction.created_at), 'dd/MM/yyyy')}
+                    {format(
+                      new Date(transaction.transaction_date),
+                      'dd/MM/yyyy',
+                    )}
                   </TableBodyColumn>
                   <TableBodyColumn>
-                    <Delete title="Apagar transação">
-                      <Icons.FiTrash
+                    <Actions>
+                      <Icons.FiEdit
                         size={20}
-                        onClick={() => handleDelete(transaction)}
+                        onClick={() => handleOpenModalEdit(transaction)}
                       />
-                    </Delete>
+                      <Delete title="Apagar transação">
+                        <Icons.FiTrash
+                          size={20}
+                          onClick={() => handleDelete(transaction)}
+                        />
+                      </Delete>
+                    </Actions>
                   </TableBodyColumn>
                 </tr>
               );
@@ -187,6 +219,14 @@ function DashboardTableView({
           previousClassName="previous_page"
         />
       </PaginationContainer>
+
+      <Modal show={isShowingModal} onClose={handleCloseModal}>
+        <FormTransaction
+          onSubmitted={handleTransactionAddedOrEdited}
+          onCancel={handleCloseModal}
+          transactionEdit={transactionEdit}
+        />
+      </Modal>
     </>
   );
 }

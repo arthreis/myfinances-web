@@ -22,7 +22,7 @@ import Select from '../../../components/Select';
 import CategoryIconOptionConfig from '../CategoryIconOptionConfig';
 import CategoryIconSingleValueConfig from '../CategoryIconSingleValueConfig';
 
-interface FormAddCategoryProps {
+interface FormAddOrEditCategoryProps {
   onSubmitted(category: Category): void;
   onCancel(): void;
   categoryEdit?: Category;
@@ -35,11 +35,11 @@ interface AddCategoryFormData {
   background_color_light: string;
 }
 
-function FormAddCategory({
+function FormAddOrEditCategory({
   onSubmitted,
   onCancel,
   categoryEdit,
-}: FormAddCategoryProps): React.JSX.Element {
+}: FormAddOrEditCategoryProps): React.JSX.Element {
   const { theme } = useTheme();
   const formRef = useRef<FormHandles>(null);
 
@@ -103,7 +103,12 @@ function FormAddCategory({
           abortEarly: false,
         });
 
-        const { data } = await api.post('/categories', formData);
+        console.log('CATEGORY-EDIT: ', categoryEdit);
+        console.log(categoryEdit ? 'EDITANDO: ' : 'CRIANDO: ', formData);
+
+        const { data } = categoryEdit
+          ? await api.put(`/categories/${categoryEdit.id}`, formData)
+          : await api.post('/categories', formData);
 
         setIsLoading(false);
 
@@ -119,18 +124,20 @@ function FormAddCategory({
         setIsLoading(false);
       }
     },
-    [onSubmitted],
+    [categoryEdit, onSubmitted],
   );
 
   const [value, setValue] = React.useState(
-    categoryEdit ? icons.filter(i => i.id === categoryEdit?.icon) : null,
+    categoryEdit
+      ? icons.filter(i => i.id === categoryEdit?.icon)
+      : ({} as Category),
   );
 
   const onChange = (e: any): void => {
     setValue(e);
   };
 
-  const labelSubmit = categoryEdit ? 'Editar' : 'Enviar';
+  const labelButtonSubmit = categoryEdit ? 'Editar' : 'Enviar';
 
   return (
     <Container>
@@ -191,7 +198,7 @@ function FormAddCategory({
             {isLoading ? LoadingSpinner : 'Cancelar'}
           </CancelButton>
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? LoadingSpinner : labelSubmit}
+            {isLoading ? LoadingSpinner : labelButtonSubmit}
           </Button>
         </Footer>
       </Form>
@@ -199,4 +206,4 @@ function FormAddCategory({
   );
 }
 
-export default FormAddCategory;
+export default FormAddOrEditCategory;

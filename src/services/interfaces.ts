@@ -7,6 +7,7 @@ export interface Category {
   created_at: string;
   updated_at: string;
   transactionsCount?: number;
+  transactionsTotalValue?: number;
 }
 
 export interface Transaction {
@@ -17,7 +18,9 @@ export interface Transaction {
   formattedDate: string;
   type: 'income' | 'outcome';
   category: Category;
+  category_id: string;
   created_at: Date;
+  transaction_date: Date;
 }
 
 export interface Balance {

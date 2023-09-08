@@ -36,7 +36,7 @@ function Modal({
     <div>
       {show && (
         <ModalWrapper>
-          <ModalContent size={size || 'md'} height={height}>
+          <ModalContent size={size ?? 'md'} height={height}>
             <ModalOverflow>{children}</ModalOverflow>
             <ModalCloseButton onClick={() => onClose()}>
               &times;

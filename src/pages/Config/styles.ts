@@ -146,7 +146,7 @@ export const NewCategoryButton = styled(Button)`
   }
 `;
 
-export const ContainerButtons = styled.div`
+export const Actions = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 64px;
 `;
