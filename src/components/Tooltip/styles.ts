@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import * as Constants from '../../constants';
 
 export const Container = styled.div`
   position: relative;
@@ -8,7 +9,6 @@ export const Container = styled.div`
     background: ${props => props.theme.colors.secondary};
     padding: 8px;
     border-radius: 4px;
-    font-size: 14px;
     font-weight: 500;
     opacity: 0;
     transition: opacity 0.4s;
@@ -21,6 +21,14 @@ export const Container = styled.div`
     bottom: calc(100% + 12px);
 
     color: ${props => props.theme.colors.secondaryText};
+
+    font-size: ${Constants.FONT_SIZE.desktop.small};
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${Constants.FONT_SIZE.tablet.small};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${Constants.FONT_SIZE.mobile.small};
+    }
 
     &::before {
       content: '';

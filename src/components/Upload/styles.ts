@@ -4,6 +4,7 @@ import styled, {
   ThemeProps,
 } from 'styled-components';
 import Theme from '../../styles/themes/theme';
+import * as Constants from '../../constants';
 
 interface UploadProps extends ThemeProps<Theme> {
   isDragActive: boolean;
@@ -46,9 +47,16 @@ const messageColors = (theme: Theme): any => ({
 
 export const UploadMessage = styled.p`
   display: flex;
-  font-size: 16px;
   line-height: 24px;
   padding: 48px 0;
+
+  font-size: ${Constants.FONT_SIZE.desktop.normal};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${Constants.FONT_SIZE.tablet.normal};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${Constants.FONT_SIZE.mobile.normal};
+  }
 
   color: ${({ type, theme }: UploadProps) =>
     messageColors(theme)[type || 'default']};

@@ -1,5 +1,6 @@
 import styled, { ThemeProps } from 'styled-components';
 import Theme from '../../styles/themes/theme';
+import * as Constants from '../../constants';
 
 interface CardProps extends ThemeProps<Theme> {
   total?: boolean;
@@ -7,21 +8,30 @@ interface CardProps extends ThemeProps<Theme> {
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1120px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 40px 20px;
 `;
 
 export const Title = styled.h1`
-  font-size: 48px;
+  font-size: ${Constants.FONT_SIZE.desktop.xxxlarge};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${Constants.FONT_SIZE.tablet.xxxlarge};
+  }
+  @media (max-width: 480px) {
+    font-size: ${Constants.FONT_SIZE.mobile.xxxlarge};
+  }
   color: ${props => props.theme.colors.primaryText};
 `;
 
 export const CardContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 32px;
+  grid-gap: 28px;
   margin-top: -150px;
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    /* margin-top: -120px; */
+  }
 `;
 
 export const Card = styled.div`
@@ -31,6 +41,7 @@ export const Card = styled.div`
   border-radius: 5px;
   color: ${({ total, theme }: CardProps): string =>
     total ? theme.colors.secondaryText : theme.colors.primaryText};
+  width: 100%;
 
   header {
     display: flex;
@@ -38,15 +49,33 @@ export const Card = styled.div`
     justify-content: space-between;
 
     p {
-      font-size: 16px;
+      font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+      @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+        font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+      }
+      @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+        font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+      }
     }
   }
 
   h1 {
     margin-top: 14px;
-    font-size: 36px;
+    font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
     font-weight: normal;
     line-height: 54px;
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      margin-top: 8px;
+      font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+      font-weight: normal;
+      line-height: 44px;
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      margin-top: 8px;
+      font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+      font-weight: normal;
+      line-height: 54px;
+    }
   }
 
   transition: transform 0.2s ease-in;
@@ -64,9 +93,15 @@ export const TitleAndViewSelector = styled.section`
 
   h1 {
     font-weight: 500;
-    font-size: 36px;
     line-height: 54px;
     color: ${props => props.theme.colors.primaryText};
+    font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+    }
   }
 
   > div {

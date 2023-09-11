@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import * as Constants from '../../constants';
 
 export const Container = styled.ul`
   margin-top: 20px;
@@ -35,9 +36,16 @@ export const FileInfo = styled.div`
     justify-content: space-between;
 
     span {
-      font-size: 12px;
       color: ${props => props.theme.colors.defaultText};
       margin-top: 5px;
+
+      font-size: ${Constants.FONT_SIZE.desktop.xsmall};
+      @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+        font-size: ${Constants.FONT_SIZE.tablet.xsmall};
+      }
+      @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+        font-size: ${Constants.FONT_SIZE.mobile.xsmall};
+      }
     }
 
     svg {

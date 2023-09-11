@@ -16,4 +16,12 @@ export default interface Theme {
     successText: string;
     dangerText: string;
   };
+
+  layout: {
+    breakpoints: {
+      mobile: string;
+      tablet: string;
+      desktop: string;
+    };
+  };
 }

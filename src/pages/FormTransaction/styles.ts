@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { tint, shade } from 'polished';
+import * as Constants from '../../constants';
 
 export const Container = styled.div`
   width: 100%;
@@ -11,10 +12,16 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   font-weight: 500;
-  font-size: 36px;
   line-height: 54px;
   color: ${props => props.theme.colors.primaryText};
   text-align: center;
+  font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+  }
 `;
 
 export const NewTransactonContainer = styled.section`

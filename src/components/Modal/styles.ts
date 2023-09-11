@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { rgba } from 'polished';
+import * as Constants from '../../constants';
 
 export const ModalWrapper = styled.div`
   bottom: 0;
@@ -53,9 +54,16 @@ export const ModalBackground = styled.div`
 export const ModalCloseButton = styled.span`
   color: ${props => props.theme.colors.defaultText};
   cursor: pointer;
-  font-size: 30px;
   padding: 10px;
   position: absolute;
   right: 0;
   top: -50px;
+
+  font-size: ${Constants.FONT_SIZE.desktop.xlarge};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${Constants.FONT_SIZE.tablet.xlarge};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${Constants.FONT_SIZE.mobile.xlarge};
+  }
 `;

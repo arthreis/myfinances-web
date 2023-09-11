@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { rgba, tint, shade } from 'polished';
 
 import Button from '../../../components/Button';
+import * as Constants from '../../../constants';
 
 export const Container = styled.div`
   padding: 20px;
@@ -24,8 +25,15 @@ export const Header = styled.div`
 
   h1 {
     font-weight: 500;
-    font-size: 24px;
     color: ${props => props.theme.colors.primaryText};
+
+    font-size: ${Constants.FONT_SIZE.desktop.large};
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${Constants.FONT_SIZE.tablet.large};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${Constants.FONT_SIZE.mobile.large};
+    }
   }
 `;
 

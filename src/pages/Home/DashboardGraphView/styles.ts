@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import * as Constants from '../../../constants';
 
 export const Container = styled.div`
   display: grid;
@@ -30,8 +31,14 @@ export const Widget = styled.div<WidgetProps>`
     justify-content: space-between;
 
     p {
-      font-size: 16px;
       color: ${props => props.theme.colors.defaultText};
+      font-size: ${Constants.FONT_SIZE.desktop.normal};
+      @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+        font-size: ${Constants.FONT_SIZE.tablet.normal};
+      }
+      @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+        font-size: ${Constants.FONT_SIZE.mobile.normal};
+      }
     }
 
     > div.flex {
@@ -63,13 +70,26 @@ export const Widget = styled.div<WidgetProps>`
   }
 
   > span {
-    font-size: 10px;
+    font-size: ${Constants.FONT_SIZE.desktop.xxsmall};
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${Constants.FONT_SIZE.tablet.xxsmall};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${Constants.FONT_SIZE.mobile.xxsmall};
+    }
   }
 
   h2 {
-    font-size: 24px;
     font-weight: normal;
     margin-top: 15px;
+
+    font-size: ${Constants.FONT_SIZE.desktop.large};
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${Constants.FONT_SIZE.tablet.large};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${Constants.FONT_SIZE.mobile.large};
+    }
 
     svg {
       vertical-align: middle;
@@ -97,4 +117,9 @@ export const GraphGridContainer = styled.div`
   display: grid;
   grid-template-columns: 2fr 2fr;
   column-gap: 20px;
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
 `;

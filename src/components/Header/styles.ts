@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { tint } from 'polished';
+import * as Constants from '../../constants';
 
 interface ContainerProps {
   size?: 'small' | 'large';
@@ -8,9 +9,10 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   background: ${props => props.theme.colors.primary};
   padding: 30px 0;
+  /* width: 100%; */
 
   header {
-    width: 1120px;
+    /* width: 1120px; */
     margin: 0 auto;
     padding: ${({ size }) => (size === 'small' ? '0 20px ' : '0 20px 150px')};
     display: flex;
@@ -25,9 +27,16 @@ export const Container = styled.div<ContainerProps>`
         a {
           color: ${props => props.theme.colors.secondaryText};
           text-decoration: none;
-          font-size: 16px;
           transition: opacity 0.2s;
           padding-bottom: 10px;
+
+          font-size: ${Constants.FONT_SIZE.desktop.normal};
+          @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+            font-size: ${Constants.FONT_SIZE.tablet.normal};
+          }
+          @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+            font-size: ${Constants.FONT_SIZE.mobile.normal};
+          }
 
           & + a {
             margin-left: 32px;

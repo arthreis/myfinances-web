@@ -39,12 +39,12 @@ function Header({ size = 'large' }: HeaderProps): React.JSX.Element {
             >
               Dashboard
             </NavLink>
-            <NavLink
+            {/* <NavLink
               className={navData => (navData.isActive ? 'active-link' : '')}
               to="/import"
             >
               Importar
-            </NavLink>
+            </NavLink> */}
             <NavLink
               className={navData => (navData.isActive ? 'active-link' : '')}
               to="/config"

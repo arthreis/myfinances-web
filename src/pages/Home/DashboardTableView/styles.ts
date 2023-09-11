@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { rgba, tint, shade } from 'polished';
 import Tooltip from '../../../components/Tooltip';
+import * as Constants from '../../../constants';
 
 interface TableBodyColumnProps {
   categoryBackground?: string;
@@ -13,10 +14,17 @@ export const TableBodyColumn = styled.td<TableBodyColumnProps>`
   border-left-width: 8px;
   border-left-style: solid;
   border-left-color: ${props => props.theme.colors.default};
-  font-size: 16px;
   font-weight: normal;
   color: ${props => props.theme.colors.defaultText};
   transition: border-left-width 0.2s ease-in;
+
+  font-size: ${Constants.FONT_SIZE.desktop.normal};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${Constants.FONT_SIZE.tablet.normal};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${Constants.FONT_SIZE.mobile.normal};
+  }
 
   &.title {
     color: ${props => props.theme.colors.primaryText};
@@ -66,9 +74,16 @@ export const TableContainer = styled.section`
       font-weight: normal;
       padding: 20px 42px;
       text-align: left;
-      font-size: 16px;
       line-height: 24px;
       height: 30px;
+
+      font-size: ${Constants.FONT_SIZE.desktop.normal};
+      @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+        font-size: ${Constants.FONT_SIZE.tablet.normal};
+      }
+      @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+        font-size: ${Constants.FONT_SIZE.mobile.normal};
+      }
 
       svg {
         vertical-align: middle;

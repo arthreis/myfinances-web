@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import Tooltip from '../../components/Tooltip';
 import Button from '../../components/Button';
+import * as Constants from '../../constants';
 
 export const Container = styled.div`
   width: 100%;
@@ -12,10 +13,17 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   font-weight: 500;
-  font-size: 36px;
   line-height: 54px;
   color: ${props => props.theme.colors.primaryText};
   text-align: center;
+
+  font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+  }
 `;
 
 export const TableContainer = styled.section`
@@ -29,9 +37,16 @@ export const TableContainer = styled.section`
       font-weight: normal;
       padding: 20px 42px;
       text-align: left;
-      font-size: 16px;
       line-height: 24px;
       height: 30px;
+
+      font-size: ${Constants.FONT_SIZE.desktop.normal};
+      @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+        font-size: ${Constants.FONT_SIZE.tablet.normal};
+      }
+      @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+        font-size: ${Constants.FONT_SIZE.mobile.normal};
+      }
     }
 
     td:first-child {
@@ -51,10 +66,17 @@ export const TableBodyColumn = styled.td`
   border-left-width: 8px;
   border-left-style: solid;
   border-left-color: ${props => props.theme.colors.default};
-  font-size: 16px;
   font-weight: normal;
   color: ${props => props.theme.colors.defaultText};
   transition: border-left-width 0.2s ease-in;
+
+  font-size: ${Constants.FONT_SIZE.desktop.normal};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${Constants.FONT_SIZE.tablet.normal};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${Constants.FONT_SIZE.mobile.normal};
+  }
 
   &.title {
     color: ${props => props.theme.colors.primaryText};
