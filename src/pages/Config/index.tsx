@@ -23,6 +23,7 @@ import {
   Actions,
 } from './styles';
 import FormAddOrEditCategory from './FormAddOrEditCategory';
+import Burguer from '../../components/Burguer';
 
 const ReactSwal = withReactContent(Swal);
 
@@ -119,11 +120,17 @@ function Config(): React.JSX.Element {
     [theme, filterAndSetCategories],
   );
 
+  const [open, setOpen] = React.useState(false);
+
   return (
     <>
-      <Header size="small" />
+      <Burguer open={open} setOpen={setOpen} />
+      <Header open={open} size="small" />
       <Container>
         <Title>Configurações</Title>
+        <NewCategoryButton type="button" onClick={() => handleOpenModal()}>
+          Criar categoria
+        </NewCategoryButton>
         <TableContainer>
           <table>
             <thead>
@@ -133,14 +140,6 @@ function Config(): React.JSX.Element {
                 <th>Cor Dark</th>
                 <th>Cor Light</th>
                 <th>Ações</th>
-                <th>
-                  <NewCategoryButton
-                    type="button"
-                    onClick={() => handleOpenModal()}
-                  >
-                    <Icons.FiPlus size={20} />
-                  </NewCategoryButton>
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -186,7 +185,6 @@ function Config(): React.JSX.Element {
                         </CustomTooltip>
                       </Actions>
                     </TableBodyColumn>
-                    <TableBodyColumn></TableBodyColumn>
                   </tr>
                 );
               })}

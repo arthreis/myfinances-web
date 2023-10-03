@@ -3,11 +3,18 @@ import { tint, shade } from 'polished';
 import * as Constants from '../../constants';
 
 export const Container = styled.div`
-  width: 100%;
+  /* width: 100%; */
   /* height: 100%; */
-  max-width: 700px;
+  /* max-width: 700px; */
   margin: 0 auto;
   padding: 40px 20px;
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    /* height: 100%; */
+    /* width: 100%; */
+  }
+  @media (min-width: calc(${p => p.theme.layout.breakpoints.tablet} +1px)) {
+    /* max-width: 700px; */
+  }
 `;
 
 export const Title = styled.h1`
@@ -26,9 +33,19 @@ export const Title = styled.h1`
 
 export const NewTransactonContainer = styled.section`
   background: ${props => props.theme.colors.default};
-  margin-top: 40px;
+  margin-top: 24px;
   border-radius: 5px;
   padding: 32px;
+
+  @media (max-width: calc(${p => p.theme.layout.breakpoints.tablet} - 1px)) {
+    padding: 0px;
+    /* margin-top: 0px; */
+    /* overflow: auto; */
+    > form {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 
   form {
     .form-group {

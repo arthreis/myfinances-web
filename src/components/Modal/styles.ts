@@ -42,7 +42,14 @@ export const ModalContent = styled.div<ModalContentProps>`
   width: ${({ size }) => {
     return size ? `${sizes[size]}px` : '100%';
   }};
+  @media (max-width: calc(${p => p.theme.layout.breakpoints.tablet} - 1px)) {
+    width: 100%;
+    margin: 0;
+  }
   z-index: 1;
+
+  height: 100vh;
+  overflow-y: auto;
 `;
 
 export const ModalBackground = styled.div`
@@ -57,11 +64,12 @@ export const ModalCloseButton = styled.span`
   padding: 10px;
   position: absolute;
   right: 0;
-  top: -50px;
+  /* top: -50px; */
 
   font-size: ${Constants.FONT_SIZE.desktop.xlarge};
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
     font-size: ${Constants.FONT_SIZE.tablet.xlarge};
+    top: 0;
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
     font-size: ${Constants.FONT_SIZE.mobile.xlarge};

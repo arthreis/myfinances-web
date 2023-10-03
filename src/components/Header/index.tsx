@@ -14,13 +14,18 @@ import Logo from '../../assets/logo.svg';
 
 interface HeaderProps {
   size?: 'small' | 'large';
+  open: boolean;
 }
 
-function Header({ size = 'large' }: HeaderProps): React.JSX.Element {
+function Header({
+  size = 'large',
+  open,
+  ...props
+}: HeaderProps): React.JSX.Element {
   const { toggleTheme, theme } = useTheme();
 
   return (
-    <Container size={size}>
+    <Container size={size} open={open} {...props}>
       <header>
         <Link to="/home">
           <img src={Logo} alt="GoFinances" />

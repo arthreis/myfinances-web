@@ -6,9 +6,12 @@ import * as Constants from '../../constants';
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1120px;
+  max-width: ${p => p.theme.layout.maxContainer};
   margin: 0 auto;
   padding: 40px 20px;
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    padding: 10px 20px;
+  }
 `;
 
 export const Title = styled.h1`
@@ -28,6 +31,8 @@ export const Title = styled.h1`
 
 export const TableContainer = styled.section`
   margin-top: 20px;
+  /* overflow-x: auto; */
+
   table {
     width: 100%;
     border-spacing: 0 8px;
@@ -39,22 +44,104 @@ export const TableContainer = styled.section`
       text-align: left;
       line-height: 24px;
       height: 30px;
-
       font-size: ${Constants.FONT_SIZE.desktop.normal};
+
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
         font-size: ${Constants.FONT_SIZE.tablet.normal};
       }
       @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
         font-size: ${Constants.FONT_SIZE.mobile.normal};
+        padding: 10px 21px;
       }
     }
 
+    /* @media (min-width: calc(${p =>
+      p.theme.layout.breakpoints.tablet} + 1)) { */
     td:first-child {
       border-radius: 8px 0 0 8px;
     }
-
     td:last-child {
       border-radius: 0 8px 8px 0;
+    }
+    /* } */
+  }
+
+  /* @media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) { */
+  @media only screen and (max-width: 768px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    tr {
+      /* border: 1px solid #ccc; */
+      border-radius: 8px;
+      margin: 16px 0px;
+    }
+
+    td:first-child {
+      border-radius: 8px 8px 0 0 !important;
+    }
+
+    td:last-child {
+      border-radius: 0 0 8px 8px !important;
+    }
+
+    td::before {
+      /* background-color: red; */
+      /* text-align: center; */
+      padding-left: 16px;
+    }
+
+    td {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 50%;
+    }
+
+    td:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      /* top: 6px; */
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    /*
+	Label the data
+	*/
+    td:nth-of-type(1):before {
+      content: 'Titulo';
+    }
+    td:nth-of-type(2):before {
+      content: 'Ícone';
+    }
+    td:nth-of-type(3):before {
+      content: 'Cor Dark';
+    }
+    td:nth-of-type(4):before {
+      content: 'Cor Light';
+    }
+    td:nth-of-type(5):before {
+      content: 'Ações';
     }
   }
 `;
@@ -69,13 +156,15 @@ export const TableBodyColumn = styled.td`
   font-weight: normal;
   color: ${props => props.theme.colors.defaultText};
   transition: border-left-width 0.2s ease-in;
-
   font-size: ${Constants.FONT_SIZE.desktop.normal};
+
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
     font-size: ${Constants.FONT_SIZE.tablet.normal};
+    padding: 10px 16px;
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
     font-size: ${Constants.FONT_SIZE.mobile.normal};
+    padding: 10px 16px;
   }
 
   &.title {
@@ -157,18 +246,14 @@ export const CustomTooltip = styled(Tooltip)`
 `;
 
 export const NewCategoryButton = styled(Button)`
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  padding: 5px;
+  width: 200px;
   margin-top: 0;
-
-  svg {
-    vertical-align: normal;
-  }
 `;
 
 export const Actions = styled.div`
   display: flex;
   gap: 64px;
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    gap: 24px;
+  }
 `;

@@ -23,6 +23,7 @@ const light: Theme = {
       tablet: '768px',
       desktop: '1024px',
     },
+    maxContainer: '960px',
   },
 };
 

@@ -2,11 +2,18 @@ import styled, { css } from 'styled-components';
 import * as Constants from '../../../constants';
 
 export const Container = styled.div`
-  display: grid;
+  /* display: grid;
   grid-template-rows: 100px 1fr;
   gap: 20px;
   margin-top: 40px;
-  min-height: 455px;
+  min-height: 455px; */
+
+  display: flex;
+  flex-direction: column;
+  /* grid-template-rows: 100px 1fr; */
+  gap: 20px;
+  margin-top: 20px;
+  /* min-height: 455px; */
 `;
 
 interface WidgetProps {
@@ -103,13 +110,28 @@ export const Widget = styled.div<WidgetProps>`
 `;
 
 export const OverviewGridContainer = styled.div`
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
   > ${Widget} {
     flex: 1;
     & + ${Widget} {
       margin-left: 20px;
     }
+  } */
+
+  display: flex;
+  /* justify-content: space-between; */
+  /* flex-wrap: wrap; */
+  gap: 24px;
+  > ${Widget} {
+    flex: 1;
+    & + ${Widget} {
+      /* margin-left: 20px; */
+    }
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    flex-direction: column;
+    gap: 16px;
   }
 `;
 

@@ -23,5 +23,6 @@ export default interface Theme {
       tablet: string;
       desktop: string;
     };
+    maxContainer: string;
   };
 }

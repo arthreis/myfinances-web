@@ -23,6 +23,7 @@ const dark: Theme = {
       tablet: '768px',
       desktop: '1024px',
     },
+    maxContainer: '1120px',
   },
 };
 

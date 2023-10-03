@@ -19,12 +19,15 @@ import Select from '../../components/Select';
 import CategoryIconOption from './CategoryIconOption';
 import CategoryIconSingleValue from './CategoryIconSingleValue';
 
-import TransactionTypeSelector, {
-  SelectedType,
-} from '../../components/TransactionTypeSelector';
+// import TransactionTypeSelector, {
+//   SelectedType,
+// } from '../../components/TransactionTypeSelector';
 import { useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 import Textarea from '../../components/TextArea';
+import TransactionTypeSelector, {
+  SelectedType,
+} from '../../components/TransactionTypeSelector';
 
 interface NewTransactionFormData {
   title: string;
@@ -54,7 +57,9 @@ function FormTransaction({
   // const [transactionEdit, setTransactionEdit] = useState<Transaction>();
 
   const [categoryValue, setCategoryValue] = React.useState();
-  const [transactionDate, setTransactionDate] = React.useState<string>();
+  const [transactionDate, setTransactionDate] = React.useState<
+    string | undefined
+  >(format(new Date(), 'yyyy-MM-dd'));
 
   const onChangeCategory = (e: any): void => {
     setCategoryValue(e);
@@ -121,7 +126,9 @@ function FormTransaction({
         title: Yup.string().required('Título é obrigatório'),
         type: Yup.string().required('Tipo da transação é obrigatório'),
         category: Yup.string().required('Categoria é obrigatória'),
-        transaction_date: Yup.string().required('Data da transação é obrigatória'),
+        transaction_date: Yup.string().required(
+          'Data da transação é obrigatória',
+        ),
         value: Yup.number().moreThan(0).required('Valor é obrigatório'),
       });
 
@@ -210,7 +217,6 @@ function FormTransaction({
           <Input
             name="transaction_date"
             containerClassName="form-group"
-            placeholder="Data da transação"
             type="date"
             value={transactionDate}
             onChange={onChangeTransactionDate}

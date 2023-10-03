@@ -48,6 +48,20 @@ export const Container = styled.div<ContainerProps>`
     }
   }
 
+  input[type='date'] {
+    /* display: block; */
+    /* margin: 0 auto; */
+    /* margin-top: 1em; */
+    /* width: 90%; */
+    /* outline: none; */
+    /* border: none; */
+    /* border-radius: 5px; */
+    /* padding: 0.7em 0.5em; */
+    padding: 8px;
+    /* font-family: Quicksand; */
+    /* font-size: 1rem; */
+  }
+
   > svg {
     margin-right: 16px;
   }

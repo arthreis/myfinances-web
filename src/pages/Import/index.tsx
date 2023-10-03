@@ -86,7 +86,7 @@ function Import(): React.JSX.Element {
 
   return (
     <>
-      <Header size="small" />
+      <Header size="small" open />
       <Container>
         <Title>Importar uma transação</Title>
         <ImportFileContainer>

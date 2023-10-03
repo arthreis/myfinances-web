@@ -23,6 +23,7 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import FormTransaction from '../FormTransaction';
 import { useLocation } from 'react-router-dom';
+import Burguer from '../../components/Burguer';
 
 function Home(): React.JSX.Element {
   const [balance, setBalance] = useState<Balance>({} as Balance);
@@ -44,6 +45,7 @@ function Home(): React.JSX.Element {
     });
     setBalance(data);
   }, [period]);
+
   const handleCloseModal = useCallback(() => {
     setIsShowingModal(false);
   }, []);
@@ -61,38 +63,46 @@ function Home(): React.JSX.Element {
 
   useEffect(() => {
     location.pathname.includes('home') ? setView('table') : setView('graph');
+    setOpen(false);
     reloadBalance();
   }, [location.pathname, reloadBalance]);
 
+  const [open, setOpen] = React.useState(true);
+
   return (
     <>
-      <Header />
+      <Burguer open={open} setOpen={setOpen} />
+      <Header open={open} size={view === 'graph' ? 'small' : 'large'} />
       <Container>
-        <CardContainer>
-          <Card>
-            <header>
-              <p>Entradas</p>
-              <img src={income} alt="Income" />
-            </header>
-            <h1 data-testid="balance-income">{formatValue(balance?.income)}</h1>
-          </Card>
-          <Card>
-            <header>
-              <p>Saídas</p>
-              <img src={outcome} alt="Outcome" />
-            </header>
-            <h1 data-testid="balance-outcome">
-              {formatValue(balance?.outcome)}
-            </h1>
-          </Card>
-          <Card total>
-            <header>
-              <p>Total</p>
-              <img src={total} alt="Total" />
-            </header>
-            <h1 data-testid="balance-total">{formatValue(balance?.total)}</h1>
-          </Card>
-        </CardContainer>
+        {view === 'table' && (
+          <CardContainer>
+            <Card>
+              <header>
+                <img src={income} alt="Income" />
+                <p>Entradas</p>
+              </header>
+              <h1 data-testid="balance-income">
+                {formatValue(balance?.income)}
+              </h1>
+            </Card>
+            <Card>
+              <header>
+                <img src={outcome} alt="Outcome" />
+                <p>Saídas</p>
+              </header>
+              <h1 data-testid="balance-outcome">
+                {formatValue(balance?.outcome)}
+              </h1>
+            </Card>
+            <Card total>
+              <header>
+                <img src={total} alt="Total" />
+                <p>Total</p>
+              </header>
+              <h1 data-testid="balance-total">{formatValue(balance?.total)}</h1>
+            </Card>
+          </CardContainer>
+        )}
 
         <TitleAndViewSelector>
           {view === 'table' ? <h1>Transações</h1> : <h1>Dashboard</h1>}
@@ -101,19 +111,6 @@ function Home(): React.JSX.Element {
             date={period}
             onChangePeriod={newDate => setPeriod(newDate)}
           />
-
-          <div>
-            {/* <FiList
-              size={25}
-              className={view === 'table' ? 'active' : undefined}
-              onClick={() => setView('table')}
-            />
-            <FiPieChart
-              size={25}
-              className={view === 'graph' ? 'active' : undefined}
-              onClick={() => setView('graph')}
-            /> */}
-          </div>
         </TitleAndViewSelector>
 
         {view === 'table' && (
