@@ -23,8 +23,8 @@ interface WidgetProps {
 export const Widget = styled.div<WidgetProps>`
   padding: 15px 20px;
   border-radius: 5px;
-  border-left: 5px solid ${props => props.theme.colors.default};
-  background-color: ${props => props.theme.colors.default};
+  border-left: 5px solid ${props => props.theme.colors.tertiary};
+  background-color: ${props => props.theme.colors.tertiary};
   color: ${props => props.theme.colors.primaryText};
 
   ${props =>
@@ -38,7 +38,7 @@ export const Widget = styled.div<WidgetProps>`
     justify-content: space-between;
 
     p {
-      color: ${props => props.theme.colors.defaultText};
+      color: ${props => props.theme.colors.primaryText};
       font-size: ${Constants.FONT_SIZE.desktop.normal};
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
         font-size: ${Constants.FONT_SIZE.tablet.normal};

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
 import api from '../services/api';
+import { constants } from '../utils/constants';
 
 interface AuthState {
   token: string;
@@ -29,8 +30,8 @@ export function AuthProvider({
   children: React.ReactNode;
 }): React.JSX.Element {
   const [data, setData] = useState<AuthState>(() => {
-    const user = localStorage.getItem('@GO_FINANCES/user');
-    const token = localStorage.getItem('@GO_FINANCES/token');
+    const user = localStorage.getItem(`${constants.NAME_KEY_STORAGE}/user`);
+    const token = localStorage.getItem(`${constants.NAME_KEY_STORAGE}/token`);
 
     if (user && token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -48,8 +49,8 @@ export function AuthProvider({
 
     const { user, token } = response.data;
 
-    localStorage.setItem('@GO_FINANCES/user', JSON.stringify(user));
-    localStorage.setItem('@GO_FINANCES/token', token);
+    localStorage.setItem(`${constants.NAME_KEY_STORAGE}/user`, JSON.stringify(user));
+    localStorage.setItem(`${constants.NAME_KEY_STORAGE}/token`, token);
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -57,8 +58,8 @@ export function AuthProvider({
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GO_FINANCES/user');
-    localStorage.removeItem('@GO_FINANCES/token');
+    localStorage.removeItem(`${constants.NAME_KEY_STORAGE}/user`);
+    localStorage.removeItem(`${constants.NAME_KEY_STORAGE}/token`);
 
     setData({} as AuthState);
   }, []);

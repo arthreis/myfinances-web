@@ -20,10 +20,10 @@ export default function getCustomSelectOptions(theme: Theme): any {
         backgroundColor:
           theme.title === 'light'
             ? tint(0.95, theme.colors.defaultText)
-            : shade(0.25, theme.colors.default),
+            : shade(0.25, theme.colors.tertiary),
         border: 'none',
         boxShadow: 'none',
-        borderColor: theme.colors.default,
+        borderColor: theme.colors.tertiary,
       };
     },
     valueContainer: (provided: CSSProperties) => ({
@@ -39,7 +39,7 @@ export default function getCustomSelectOptions(theme: Theme): any {
       backgroundColor:
         theme.title === 'light'
           ? tint(0.95, theme.colors.defaultText)
-          : shade(0.25, theme.colors.default),
+          : shade(0.25, theme.colors.tertiary),
     }),
   };
 }
@@ -52,7 +52,7 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
       backgroundColor:
         theme.title === 'light'
           ? tint(0.8, theme.colors.defaultText)
-          : shade(0.25, theme.colors.default),
+          : shade(0.25, theme.colors.tertiary),
       padding: '5px 0',
     }),
     control: (provided: CSSProperties) => {
@@ -63,7 +63,7 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
         backgroundColor:
           theme.title === 'light'
             ? tint(0.8, theme.colors.defaultText)
-            : shade(0.25, theme.colors.default),
+            : shade(0.25, theme.colors.tertiary),
         border: 'none',
         boxShadow: 'none',
         borderColor: tint(0.8, theme.colors.defaultText),

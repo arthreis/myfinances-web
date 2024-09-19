@@ -8,7 +8,7 @@ import { IconSwitcherContainer } from '../Header/styles';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { shade } from 'polished';
 
-export default function Burguer({
+export default function Burger({
   open,
   setOpen,
   ...props

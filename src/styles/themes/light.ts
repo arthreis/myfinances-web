@@ -3,9 +3,9 @@ import Theme from './theme';
 const light: Theme = {
   title: 'light',
   colors: {
-    primary: '#5636d3',
-    secondary: '#ff872c',
-    default: '#fff',
+    primary: '#1DB954',
+    secondary: '#191414',
+    tertiary: '#fff',
     background: '#F0F2F5',
     success: '#12a454',
     danger: '#e83f5b',
@@ -23,7 +23,14 @@ const light: Theme = {
       tablet: '768px',
       desktop: '1024px',
     },
-    maxContainer: '960px',
+    maxContainer: '1120px',
+  },
+  fontSize: {
+    XS: '8px',
+    SM: '12px',
+    MD: '16px',
+    LG: '20px',
+    XL: '32px',
   },
 };
 

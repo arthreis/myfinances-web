@@ -37,7 +37,7 @@ export const CardContainer = styled.section`
   } */
   @media (min-width: ${p => p.theme.layout.breakpoints.tablet}) {
     /* margin-top: 0px; */
-    margin-top: -100px;
+    /* margin-top: -100px; */
     margin-bottom: 20px;
   }
   @media (max-width: calc(${p => p.theme.layout.breakpoints.tablet} - 1px)) {
@@ -55,7 +55,7 @@ export const CardContainer = styled.section`
 
 export const Card = styled.div`
   background: ${({ total, theme }: CardProps): string =>
-    total ? theme.colors.secondary : theme.colors.default};
+    total ? theme.colors.secondary : theme.colors.tertiary};
   /* padding: 22px 32px; */
   padding: 8px 16px;
   border-radius: 5px;

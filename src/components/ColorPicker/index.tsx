@@ -94,7 +94,7 @@ function ColorPicker({
                 },
                 input: {
                   boxShadow: `${rgba(
-                    theme.colors.default,
+                    theme.colors.tertiary,
                     1,
                   )} 0px 0px 0px 1px inset`,
                   color: theme.colors.primaryText,

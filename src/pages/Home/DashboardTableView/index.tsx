@@ -21,12 +21,15 @@ import {
   TableBodyColumn,
   Delete,
   PaginationContainer,
+  RowsByPageContainer,
 } from './styles';
 import { Actions } from '../../Config/styles';
 import Modal from '../../../components/Modal';
 import FormTransaction from '../../FormTransaction';
+import SelectSimple from '../../../components/SelectSimple';
+import { Typography } from '../../../components/Typograph';
 
-interface DashboardTablewViewProps {
+interface DashboardTableViewProps {
   onTransactionDeleted(): void;
   period: Date;
 }
@@ -34,10 +37,15 @@ interface DashboardTablewViewProps {
 function DashboardTableView({
   onTransactionDeleted,
   period,
-}: DashboardTablewViewProps): React.JSX.Element {
+}: DashboardTableViewProps): React.JSX.Element {
   const { theme } = useTheme();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
+  const [rowsByPage] = useState<{ value: number; label: number }[]>([
+    { value: 5, label: 5 },
+    { value: 10, label: 10 },
+    { value: 20, label: 20 },
+  ]);
   const [sortData, setSortData] = useState<Sort>(() => {
     return {
       sort: 'created_at',
@@ -47,7 +55,7 @@ function DashboardTableView({
   const [pagination, setPagination] = useState<Pagination>(() => {
     return {
       page: 1,
-      pageSize: 5,
+      pageSize: rowsByPage[0].value,
       total: 0,
     };
   });
@@ -134,6 +142,16 @@ function DashboardTableView({
       />
     );
 
+  const onChangePageSize = (e: any): void => {
+    // setPageSize(Number(e.value));
+    // setPageSize(Number(e.value));
+    setPagination(oldPagination => ({
+      ...oldPagination,
+      pageSize: Number(e.value),
+    }));
+    // reloadTransactions();
+  };
+
   useEffect(() => {
     reloadTransactions();
   }, [reloadTransactions]);
@@ -204,6 +222,14 @@ function DashboardTableView({
         </table>
       </TableContainer>
       <PaginationContainer className="pagination">
+        <RowsByPageContainer className="rowsByPage">
+          <Typography>Linhas por página:</Typography>
+          <SelectSimple
+            options={rowsByPage}
+            onChange={onChangePageSize}
+            defaultValue={rowsByPage[0]}
+          />
+        </RowsByPageContainer>
         <ReactPaginate
           previousLabel={<Icons.FiChevronLeft />}
           nextLabel={<Icons.FiChevronRight />}

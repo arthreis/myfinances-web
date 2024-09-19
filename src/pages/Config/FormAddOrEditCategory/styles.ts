@@ -45,11 +45,11 @@ export const Body = styled.div`
     background: ${props =>
       props.theme.title === 'light'
         ? tint(0.8, props.theme.colors.defaultText)
-        : shade(0.25, props.theme.colors.default)};
+        : shade(0.25, props.theme.colors.tertiary)};
     border-color: ${props =>
       props.theme.title === 'light'
         ? tint(0.8, props.theme.colors.defaultText)
-        : shade(0.25, props.theme.colors.default)};
+        : shade(0.25, props.theme.colors.tertiary)};
   }
 
   > div + div {

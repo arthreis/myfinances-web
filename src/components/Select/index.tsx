@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useRef, useEffect } from 'react';
 import ReactSelect, { Options, Props as SelectProps } from 'react-select';
 import AsyncReactSelect from 'react-select/async';

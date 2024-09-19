@@ -23,7 +23,7 @@ import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import FormTransaction from '../FormTransaction';
 import { useLocation } from 'react-router-dom';
-import Burguer from '../../components/Burguer';
+import Burger from '../../components/Burger';
 
 function Home(): React.JSX.Element {
   const [balance, setBalance] = useState<Balance>({} as Balance);
@@ -71,8 +71,8 @@ function Home(): React.JSX.Element {
 
   return (
     <>
-      <Burguer open={open} setOpen={setOpen} />
-      <Header open={open} size={view === 'graph' ? 'small' : 'large'} />
+      <Burger open={open} setOpen={setOpen} />
+      <Header open={open} size={view === 'graph' ? 'small' : 'small'} />
       <Container>
         {view === 'table' && (
           <CardContainer>
@@ -132,7 +132,7 @@ function Home(): React.JSX.Element {
         {view === 'graph' && <DashboardGraphView period={period} />}
       </Container>
 
-      <Modal show={isShowingModal} onClose={handleCloseModal}>
+      <Modal show={isShowingModal} onClose={handleCloseModal} height={50}>
         <FormTransaction
           onSubmitted={handleTransactionAddedOrEdited}
           onCancel={handleCloseModal}

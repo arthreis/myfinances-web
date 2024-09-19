@@ -6,6 +6,7 @@ import usePersistedState from './usePersistedState';
 import Theme from '../styles/themes/theme';
 import light from '../styles/themes/light';
 import dark from '../styles/themes/dark';
+import { constants } from '../utils/constants';
 
 interface ThemeContextData {
   theme: Theme;
@@ -20,7 +21,7 @@ export function AppThemeProvider({
   children: React.ReactNode;
 }): React.JSX.Element {
   const [theme, setTheme] = usePersistedState<Theme>(
-    '@GO_FINANCES/theme',
+    `${constants.NAME_KEY_STORAGE}/theme`,
     light,
   );
 

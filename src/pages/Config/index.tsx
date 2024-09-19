@@ -23,7 +23,7 @@ import {
   Actions,
 } from './styles';
 import FormAddOrEditCategory from './FormAddOrEditCategory';
-import Burguer from '../../components/Burguer';
+import Burguer from '../../components/Burger';
 
 const ReactSwal = withReactContent(Swal);
 

@@ -34,14 +34,14 @@ export const TypeInput = styled.div<TypeInputProps>`
   color: ${props => props.theme.colors.primaryText};
   cursor: pointer;
   text-align: center;
-  background: transparent;
+  background: ${ p => p.theme.colors.tertiary};
   padding: 16px;
   border-radius: 10px;
   border: 1px solid
     ${props =>
       props.theme.title === 'light'
         ? tint(0.8, props.theme.colors.defaultText)
-        : shade(0.1, props.theme.colors.default)};
+        : shade(0.1, props.theme.colors.tertiary)};
 
   & + div {
     margin-left: 8px;

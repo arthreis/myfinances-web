@@ -10,10 +10,10 @@ import { useTheme } from '../../hooks/theme';
 
 import { Container, IconSwitcherContainer } from './styles';
 
-import Logo from '../../assets/logo.svg';
+import Logo1 from '../../assets/logo.svg';
 
 interface HeaderProps {
-  size?: 'small' | 'large';
+  size: 'small' | 'large';
   open: boolean;
 }
 
@@ -28,7 +28,7 @@ function Header({
     <Container size={size} open={open} {...props}>
       <header>
         <Link to="/home">
-          <img src={Logo} alt="GoFinances" />
+          <img src={Logo1} alt="MyFinances" height={35} />
         </Link>
         <div>
           <nav>

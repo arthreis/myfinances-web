@@ -6,6 +6,7 @@ export const Container = styled.div`
   /* width: 100%; */
   /* height: 100%; */
   /* max-width: 700px; */
+  background-color: ${p => p.theme.colors.background};
   margin: 0 auto;
   padding: 40px 20px;
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
@@ -32,7 +33,7 @@ export const Title = styled.h1`
 `;
 
 export const NewTransactonContainer = styled.section`
-  background: ${props => props.theme.colors.default};
+  /* background: ${props => props.theme.colors.background}; */
   margin-top: 24px;
   border-radius: 5px;
   padding: 32px;
@@ -52,11 +53,11 @@ export const NewTransactonContainer = styled.section`
       background: ${props =>
         props.theme.title === 'light'
           ? tint(0.95, props.theme.colors.defaultText)
-          : shade(0.25, props.theme.colors.default)};
+          : shade(0.25, props.theme.colors.tertiary)};
       border-color: ${props =>
         props.theme.title === 'light'
           ? tint(0.95, props.theme.colors.defaultText)
-          : shade(0.25, props.theme.colors.default)};
+          : shade(0.25, props.theme.colors.tertiary)};
     }
 
     > div + div {

@@ -16,6 +16,7 @@ export const Title = styled.h1`
   text-align: center;
 
   font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
     font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
   }
@@ -25,7 +26,7 @@ export const Title = styled.h1`
 `;
 
 export const ImportFileContainer = styled.section`
-  background: ${props => props.theme.colors.default};
+  background: ${props => props.theme.colors.tertiary};
   margin-top: 40px;
   border-radius: 5px;
   padding: 64px;

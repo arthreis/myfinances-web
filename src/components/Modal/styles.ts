@@ -30,7 +30,7 @@ const sizes: { [key in ModalSizeVariant]: string } = {
 };
 
 export const ModalContent = styled.div<ModalContentProps>`
-  background: ${props => props.theme.colors.default};
+  background: ${props => props.theme.colors.tertiary};
   color: ${props => props.theme.colors.primaryText};
   display: flex;
   /* height: 100%; */
@@ -48,7 +48,7 @@ export const ModalContent = styled.div<ModalContentProps>`
   }
   z-index: 1;
 
-  height: 100vh;
+  /* height: 100vh; */
   overflow-y: auto;
 `;
 

@@ -4,7 +4,7 @@ export default interface Theme {
   colors: {
     primary: string;
     secondary: string;
-    default: string;
+    tertiary: string;
     background: string;
     success: string;
     danger: string;
@@ -16,7 +16,6 @@ export default interface Theme {
     successText: string;
     dangerText: string;
   };
-
   layout: {
     breakpoints: {
       mobile: string;
@@ -24,5 +23,12 @@ export default interface Theme {
       desktop: string;
     };
     maxContainer: string;
+  };
+  fontSize: {
+    XS: string;
+    SM: string;
+    MD: string;
+    LG: string;
+    XL: string;
   };
 }

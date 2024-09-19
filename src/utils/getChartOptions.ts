@@ -11,6 +11,7 @@ export default function getChartOptions(
           fontColor: theme.colors.primaryText,
           fontStyle: '500',
           fontFamily: "'Poppins', sans-serif",
+          color: 'red',
         },
         position: 'left',
         align: 'center',
@@ -26,6 +27,7 @@ export default function getChartOptions(
         fontColor: theme.colors.primaryText,
         fontFamily: "'Poppins', sans-serif",
         fontStyle: '500',
+        color: 'red',
       },
     },
     tooltips: {
@@ -35,12 +37,12 @@ export default function getChartOptions(
     scales: {
       x: {
         ticks: {
-          fontColor: theme.colors.primaryText,
+          color: theme.colors.primaryText,
         },
       },
       y: {
         ticks: {
-          fontColor: theme.colors.primaryText,
+          color: theme.colors.primaryText,
           maxTicksLimit: 5,
         },
       },

@@ -149,10 +149,10 @@ export const TableContainer = styled.section`
 export const TableBodyColumn = styled.td`
   padding: 20px 32px;
   border: 0;
-  background: ${props => props.theme.colors.default};
+  background: ${props => props.theme.colors.tertiary};
   border-left-width: 8px;
   border-left-style: solid;
-  border-left-color: ${props => props.theme.colors.default};
+  border-left-color: ${props => props.theme.colors.tertiary};
   font-weight: normal;
   color: ${props => props.theme.colors.defaultText};
   transition: border-left-width 0.2s ease-in;

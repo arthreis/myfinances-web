@@ -10,10 +10,10 @@ interface TableBodyColumnProps {
 export const TableBodyColumn = styled.td<TableBodyColumnProps>`
   padding: 20px 32px;
   border: 0;
-  background: ${props => props.theme.colors.default};
+  background: ${props => props.theme.colors.tertiary};
   border-left-width: 8px;
   border-left-style: solid;
-  border-left-color: ${props => props.theme.colors.default};
+  border-left-color: ${props => props.theme.colors.tertiary};
   font-weight: normal;
   color: ${props => props.theme.colors.defaultText};
   transition: border-left-width 0.2s ease-in;
@@ -190,8 +190,7 @@ export const TableContainer = styled.section`
 export const PaginationContainer = styled.section`
   display: flex;
   margin-top: 20px;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
   width: 100%;
   ul {
     display: flex;
@@ -208,15 +207,12 @@ export const PaginationContainer = styled.section`
           color: ${props => props.theme.colors.secondaryText};
         }
       }
-
       &.previous_page {
         border-radius: 5px 0 0 5px;
       }
-
       &.next_page {
         border-radius: 0 5px 5px 0;
       }
-
       &.active_page {
         background: ${props => props.theme.colors.secondary};
 
@@ -267,5 +263,19 @@ export const Delete = styled(Tooltip)`
     &::before {
       border-color: ${props => props.theme.colors.danger} transparent;
     }
+  }
+`;
+
+export const RowsByPageContainer = styled.div`
+  align-items: center;
+  gap: 8px;
+  display: flex;
+
+  .react-select__option {
+    color: white;
+  }
+
+  .react-select__option:hover {
+    background-color: ${props => tint(0.2, props.theme.colors.secondary)};
   }
 `;
