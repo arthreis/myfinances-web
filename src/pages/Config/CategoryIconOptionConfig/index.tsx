@@ -12,7 +12,10 @@ export default function CategoryIconOptionConfig({
   const Icon = (Icons as any)[id];
   return (
     <Container {...innerProps}>
-      <Icon size={20} />
+      { Icon && (
+          <Icon size={20} />
+        )
+      }
     </Container>
   );
 }
