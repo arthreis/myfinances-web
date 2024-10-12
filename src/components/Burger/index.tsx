@@ -30,7 +30,7 @@ export default function Burger({
       </Styles.Burger>
 
       <Link to="/home">
-        <img src={Logo} alt="GoFinances" />
+        <img src={Logo} alt="MyFinances" />
       </Link>
 
       <div>

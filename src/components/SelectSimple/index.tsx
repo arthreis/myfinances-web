@@ -9,8 +9,8 @@ function SelectSimple({ ...rest }: StateManagerProps): React.JSX.Element {
   const myTheme = useTheme();
 
   return (
-    <Container>
-      {
+    // <Container>
+      // {
         <ReactSelect
           {...rest}
           classNamePrefix="react-select"
@@ -25,8 +25,8 @@ function SelectSimple({ ...rest }: StateManagerProps): React.JSX.Element {
             },
           })}
         />
-      }
-    </Container>
+      // }
+    // </Container>
   );
 }
 

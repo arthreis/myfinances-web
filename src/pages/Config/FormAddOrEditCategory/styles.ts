@@ -53,7 +53,7 @@ export const Body = styled.div`
   }
 
   > div + div {
-    margin-top: 10px;
+    /* margin-top: 10px; */
   }
 `;
 

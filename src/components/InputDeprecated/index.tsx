@@ -1,32 +1,31 @@
 // biome-ignore lint/style/useImportType: <explanation>
 import React, {
+  InputHTMLAttributes,
   useEffect,
   useRef,
   useCallback,
   useState,
-  TextareaHTMLAttributes,
 } from 'react';
-// biome-ignore lint/style/useImportType: <explanation>
-import { IconBaseProps } from 'react-icons';
+import type { IconBaseProps } from 'react-icons';
 // import { useField } from '@unform/core';
 import { FiAlertCircle } from 'react-icons/fi';
 
 import { Container, ErrorContainer } from './styles';
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
   containerClassName?: string;
   mask?: string;
 }
 
-function Textarea({
+function Input({
   name,
   icon: Icon,
   containerClassName,
   ...rest
-}: TextareaProps): React.JSX.Element {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+}: InputProps): React.JSX.Element {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isFilled, setIsFilled] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -36,7 +35,7 @@ function Textarea({
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
-    setIsFilled(!!textareaRef.current?.value);
+    setIsFilled(!!inputRef.current?.value);
   }, []);
 
   // const { fieldName, defaultValue, error, registerField } = useField(name);
@@ -44,7 +43,7 @@ function Textarea({
   // useEffect(() => {
   //   registerField({
   //     name: fieldName,
-  //     ref: textareaRef.current,
+  //     ref: inputRef.current,
   //     path: 'value',
   //   });
   // }, [fieldName, registerField]);
@@ -54,17 +53,17 @@ function Textarea({
       className={containerClassName}
       isFilled={isFilled}
       isFocused={isFocused}
-      hasError={false}
       // hasError={!!error}
+      hasError={false}
     >
       {Icon && <Icon size={20} />}
 
-      <textarea
+      <input
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         // defaultValue={defaultValue}
         {...rest}
-        ref={textareaRef}
+        ref={inputRef}
       />
 
       {/* {error && (
@@ -76,4 +75,4 @@ function Textarea({
   );
 }
 
-export default Textarea;
+export default Input;

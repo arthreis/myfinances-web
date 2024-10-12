@@ -61,7 +61,7 @@ export const NewTransactonContainer = styled.section`
     }
 
     > div + div {
-      margin-top: 10px;
+      /* margin-top: 10px; */
     }
 
     button {
@@ -76,7 +76,7 @@ export const NewTransactonContainer = styled.section`
 export const Footer = styled.div`
   text-align: right;
   button {
-    margin-top: 0;
-    width: 200px;
+    /* margin-top: 0; */
+    /* width: 200px; */
   }
 `;

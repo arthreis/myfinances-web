@@ -1,3 +1,4 @@
+// biome-ignore lint/style/useImportType: <explanation>
 import React, {
   InputHTMLAttributes,
   useEffect,
@@ -10,7 +11,7 @@ import { FiAlertCircle } from 'react-icons/fi';
 import { rgba } from 'polished';
 
 import { BlockPicker } from 'react-color';
-import { useField } from '@unform/core';
+// import { useField } from '@unform/core';
 
 import { useTheme } from '../../hooks/theme';
 
@@ -19,8 +20,9 @@ import {
   ColorSquare,
   BlockPickerContainer,
   BlockPickerCover,
-  Error,
+  ErrorTooltip,
 } from './styles';
+import Input from '../Input';
 
 interface ColorPickerProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -48,7 +50,9 @@ function ColorPicker({
     setIsFilled(!!inputRef.current?.value);
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const handleColorChange = useCallback(
+
     (colorHex: any) => {
       setSelectedColor(colorHex.hex);
       if (inputRef.current) inputRef.current.value = colorHex.hex;
@@ -56,15 +60,15 @@ function ColorPicker({
     [inputRef],
   );
 
-  const { fieldName, defaultValue, registerField, error } = useField(name);
+  // const { fieldName, defaultValue, registerField, error } = useField(name);
 
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      path: 'value',
-    });
-  }, [fieldName, registerField]);
+  // useEffect(() => {
+  //   registerField({
+  //     name: fieldName,
+  //     ref: inputRef.current,
+  //     path: 'value',
+  //   });
+Input  // }, [fieldName, registerField]);
 
   return (
     <Container
@@ -76,7 +80,7 @@ function ColorPicker({
 
       <input
         onFocus={handleInputFocus}
-        defaultValue={defaultValue}
+        // defaultValue={defaultValue}
         {...rest}
         ref={inputRef}
       />
@@ -105,11 +109,11 @@ function ColorPicker({
         </BlockPickerContainer>
       )}
 
-      {error && (
-        <Error title={error}>
+      {/* {error && (
+        <ErrorTooltip title={error}>
           <FiAlertCircle size={20} />
-        </Error>
-      )}
+        </ErrorTooltip>
+      )} */}
     </Container>
   );
 }

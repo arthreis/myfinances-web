@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Icons from 'react-icons/fi';
-import { SingleValueProps } from 'react-select';
+import type { SingleValueProps } from 'react-select';
 
 import { useTheme } from '../../../hooks/theme';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Icons from 'react-icons/fi';
-import { OptionProps, SingleValueProps } from 'react-select';
+import type { OptionProps, SingleValueProps } from 'react-select';
 
 import { Container } from './styles';
 

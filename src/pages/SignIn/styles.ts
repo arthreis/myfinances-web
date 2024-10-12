@@ -21,15 +21,6 @@ export const Content = styled.div`
   justify-content: center;
   color: ${props => props.theme.colors.secondaryText};
 
-  form {
-    width: 100%;
-    margin: 50px 0;
-
-    div + div {
-      margin-top: 10px;
-    }
-  }
-
   > a {
     color: ${props => props.theme.colors.secondaryText};
     text-decoration: none;
@@ -39,4 +30,17 @@ export const Content = styled.div`
       color: ${props => shade(0.15, props.theme.colors.secondaryText)};
     }
   }
+`;
+
+export const Form = styled.form`
+    background-color: aqua;
+    width: 100%;
+    margin: 50px 0;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+
+    button {
+      margin-top: 16px;
+    }
 `;

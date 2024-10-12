@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import * as Icons from 'react-icons/fi';
-import { OptionProps } from 'react-select';
+// import { OptionProps } from 'react-select';
 import { useTheme } from '../../../hooks/theme';
 
 import { Container } from './styles';
