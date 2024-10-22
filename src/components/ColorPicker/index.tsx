@@ -1,17 +1,13 @@
-// biome-ignore lint/style/useImportType: <explanation>
 import React, {
   InputHTMLAttributes,
-  useEffect,
   useRef,
   useCallback,
   useState,
 } from 'react';
-import { FiAlertCircle } from 'react-icons/fi';
 
 import { rgba } from 'polished';
 
-import { BlockPicker } from 'react-color';
-// import { useField } from '@unform/core';
+import { BlockPicker, type ColorResult } from 'react-color';
 
 import { useTheme } from '../../hooks/theme';
 
@@ -20,19 +16,20 @@ import {
   ColorSquare,
   BlockPickerContainer,
   BlockPickerCover,
-  ErrorTooltip,
 } from './styles';
-import Input from '../Input';
+import { isValidHexColor } from '../../utils/isValidHexColor';
 
 interface ColorPickerProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   containerClassName?: string;
+  onSelectColor(color: any): void;
 }
 
 function ColorPicker({
   name,
   containerClassName,
   color = '#000',
+  onSelectColor,
   ...rest
 }: ColorPickerProps): React.JSX.Element {
   const { theme } = useTheme();
@@ -50,25 +47,23 @@ function ColorPicker({
     setIsFilled(!!inputRef.current?.value);
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const handleColorChange = useCallback(
-
-    (colorHex: any) => {
-      setSelectedColor(colorHex.hex);
-      if (inputRef.current) inputRef.current.value = colorHex.hex;
+    (colorHex: string) => {
+      setSelectedColor(colorHex);
+      onSelectColor(colorHex);
+      if (inputRef.current) {
+        inputRef.current.value = colorHex;
+      }
     },
     [inputRef],
   );
 
-  // const { fieldName, defaultValue, registerField, error } = useField(name);
-
-  // useEffect(() => {
-  //   registerField({
-  //     name: fieldName,
-  //     ref: inputRef.current,
-  //     path: 'value',
-  //   });
-Input  // }, [fieldName, registerField]);
+  React.useEffect(() => {
+    if (color) {
+      setSelectedColor(color);
+      onSelectColor(color);
+    }
+  }, []);
 
   return (
     <Container
@@ -79,10 +74,14 @@ Input  // }, [fieldName, registerField]);
       <ColorSquare color={selectedColor} />
 
       <input
-        onFocus={handleInputFocus}
-        // defaultValue={defaultValue}
         {...rest}
+        onFocus={handleInputFocus}
         ref={inputRef}
+        onChange={e => {
+          if (isValidHexColor(color)) {
+            handleColorChange(e.target.value);
+          }
+        }}
       />
 
       {isFocused && (
@@ -90,9 +89,14 @@ Input  // }, [fieldName, registerField]);
           <BlockPickerCover onClick={handleInputBlur} />
           <BlockPicker
             color={inputRef.current?.value}
-            onChange={handleColorChange}
+            onChangeComplete={(color: ColorResult) =>
+              handleColorChange(color.hex)
+            }
             styles={{
               default: {
+                card: {
+                  position: 'fixed',
+                },
                 body: {
                   backgroundColor: theme.colors.background,
                 },
@@ -108,12 +112,6 @@ Input  // }, [fieldName, registerField]);
           />
         </BlockPickerContainer>
       )}
-
-      {/* {error && (
-        <ErrorTooltip title={error}>
-          <FiAlertCircle size={20} />
-        </ErrorTooltip>
-      )} */}
     </Container>
   );
 }

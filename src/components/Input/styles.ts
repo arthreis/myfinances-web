@@ -1,108 +1,36 @@
 import styled, { css } from 'styled-components';
 
-import Tooltip from '../Tooltip';
+export const InputCssBorder = css`
+  border: 1px solid ${props =>
+    props.theme.title === 'light'
+      ? props.theme.colors.tertiary
+      : props.theme.colors.tertiary};
 
-interface ContainerProps {
-  isFilled: boolean;
-  isFocused: boolean;
-  hasError: boolean;
-}
-
-export const Container = styled.div<ContainerProps>`
-  background: ${props => props.theme.colors.background};
-  border-radius: 10px;
-  padding: 16px;
-  border: 2px solid ${props => props.theme.colors.primary};
-  color: ${props => props.theme.colors.defaultText};
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-
-  ${props =>
-    props.hasError &&
-    css`
-      border-color: ${props.theme.colors.danger};
-    `}
-
-  ${props =>
-    (props.isFocused || props.isFilled) &&
-    css`
-      color: ${props.theme.colors.secondary};
-    `}
-
-  input {
-    border: 0;
-    flex: 1;
-    background: transparent;
-    color: ${props => props.theme.colors.primaryText};
-
-    &::placeholder {
-      color: ${props => props.theme.colors.defaultText};
-    }
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+  &:hover, :focus {
+    border: 1px solid ${props =>
+      props.theme.title === 'light'
+        ? props.theme.colors.secondaryText
+        : props.theme.colors.secondaryText};
   }
 
-  input[type='date'] {
-    /* display: block; */
-    /* margin: 0 auto; */
-    /* margin-top: 1em; */
-    /* width: 90%; */
-    /* outline: none; */
-    /* border: none; */
-    /* border-radius: 5px; */
-    /* padding: 0.7em 0.5em; */
-    padding: 8px;
-    /* font-family: Quicksand; */
-    /* font-size: 1rem; */
-  }
-
-  > svg {
-    margin-right: 16px;
-  }
 `;
 
-export const ErrorContainer = styled(Tooltip)`
-  height: 20px;
-  margin-left: 16px;
-  color: ${props => props.theme.colors.danger};
+export const InputCssBackground = css`
+  background-color: ${({ theme }) =>
+    theme.title === 'light' ? theme.colors.white : theme.colors.tertiary};
 
-  svg {
-    margin: 0;
-  }
-
-  span {
-    background: ${props => props.theme.colors.danger};
-    color: ${props => props.theme.colors.dangerText};
-
-    &::before {
-      border-color: ${props => props.theme.colors.danger} transparent;
-    }
-  }
 `;
 
-export const InputCustom = styled.input`
-
+export const InputCssCommom = css`
+  ${InputCssBorder}
+  ${InputCssBackground}
   border-radius: 10px;
   padding: 16px;
-  border: 2px solid ${props => props.theme.colors.primary};
-  color: ${props => props.theme.colors.defaultText};
   width: 100%;
-
-
-  border: 0;
-  flex: 1;
-  background-color: ${props => props.theme.colors.background};
-
   color: ${props => props.theme.colors.primaryText};
 
   &::placeholder {
-    color: ${props => props.theme.colors.defaultText};
+    color: ${props => props.theme.colors.secondaryText};
   }
 
   &::-webkit-outer-spin-button,
@@ -110,19 +38,42 @@ export const InputCustom = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+  ::-webkit-calendar-picker-indicator {
+    ${({ theme }) =>
+      theme.title === 'light'
+        ? css` filter: invert(0); `
+        : css` filter: invert(1); `}
+  }
+`;
 
+export const InputCustom = styled.input`
 
-  /* input[type='date'] { */
-    /* display: block; */
-    /* margin: 0 auto; */
-    /* margin-top: 1em; */
-    /* width: 90%; */
-    /* outline: none; */
-    /* border: none; */
-    /* border-radius: 5px; */
-    /* padding: 0.7em 0.5em; */
-    /* padding: 8px; */
-    /* font-family: Quicksand; */
-    /* font-size: 1rem; */
-  /* } */
-`
+  ${InputCssCommom}
+
+  /* input {
+    &::placeholder {
+      color: ${props => props.theme.colors.primaryText};
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  } */
+
+  /* input[type='date'] {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1em;
+    width: 90%;
+    outline: none;
+    border: none;
+    border: 2px solid yellow;
+    border-radius: 5px;
+    padding: 0.7em 0.5em;
+    padding: 8px;
+    font-family: Quicksand;
+    font-size: 1rem;
+  } */
+`;

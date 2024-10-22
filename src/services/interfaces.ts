@@ -21,6 +21,7 @@ export interface Transaction {
   category_id: string;
   created_at: Date;
   transaction_date: Date;
+  description: string;
 }
 
 export interface Balance {
@@ -48,3 +49,5 @@ export interface GraphData {
   labels: string[];
   datasets: any[];
 }
+
+export type RowsByPageOption = { value: number; label: number };

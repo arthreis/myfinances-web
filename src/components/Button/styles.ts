@@ -1,18 +1,29 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { tint } from 'polished';
+import type { ButtonProps } from '.';
 
-export const Container = styled.button`
-  background: ${props => props.theme.colors.secondary};
+export const ButtonStyles = styled.button<ButtonProps>`
+  background: ${({ theme, variant }) => (variant === 'tertiary' ? theme.colors.tertiary : variant === 'secondary' ? theme.colors.secondary : theme.colors.primary)};
   height: 56px;
   border-radius: 10px;
-  /* padding: 0 16px; */
-  color: ${props => props.theme.colors.secondaryText};
+  color: ${({ theme, variant }) => (variant === 'tertiary' ? theme.colors.primaryText : variant === 'secondary' ? theme.colors.white : theme.colors.primaryText)};
   width: 100%;
-  /* margin-top: 16px; */
   transition: background-color 0.2s;
 
+  ${({ theme, variant, outlined }) =>
+    outlined &&
+    css`
+      border: 1px solid ${variant === 'tertiary' ? theme.colors.tertiary : variant === 'secondary' ? theme.colors.secondary : theme.colors.primary};
+    `};
+
   &:hover {
-    background: ${props => tint(0.15, props.theme.colors.secondary)};
+    opacity: 0.9;
+
+    ${({ theme, variant, outlined }) =>
+      !outlined &&
+      css`
+          border: 1px solid ${variant === 'tertiary' ? theme.colors.primaryText : variant === 'secondary' ? theme.colors.white : theme.colors.primaryText};
+    `};
   }
 
   &:disabled {

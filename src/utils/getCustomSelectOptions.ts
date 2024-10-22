@@ -10,20 +10,16 @@ export default function getCustomSelectOptions(theme: Theme): any {
     }),
     placeholder: (provided: CSSProperties) => ({
       ...provided,
-      color: theme.colors.defaultText,
+      color: theme.colors.secondaryText,
     }),
     control: (provided: CSSProperties) => {
       return {
         ...provided,
         height: 60,
         borderRadius: 10,
-        backgroundColor:
-          theme.title === 'light'
-            ? tint(0.95, theme.colors.defaultText)
-            : shade(0.25, theme.colors.tertiary),
+        backgroundColor: theme.colors.tertiary,
         border: 'none',
         boxShadow: 'none',
-        borderColor: theme.colors.tertiary,
       };
     },
     valueContainer: (provided: CSSProperties) => ({
@@ -38,7 +34,7 @@ export default function getCustomSelectOptions(theme: Theme): any {
       ...provided,
       backgroundColor:
         theme.title === 'light'
-          ? tint(0.95, theme.colors.defaultText)
+          ? tint(0.95, theme.colors.primaryText)
           : shade(0.25, theme.colors.tertiary),
     }),
   };
@@ -51,7 +47,7 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
       ...provided,
       backgroundColor:
         theme.title === 'light'
-          ? tint(0.8, theme.colors.defaultText)
+          ? tint(0.8, theme.colors.primaryText)
           : shade(0.25, theme.colors.tertiary),
       padding: '5px 0',
     }),
@@ -62,11 +58,11 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
         borderRadius: 10,
         backgroundColor:
           theme.title === 'light'
-            ? tint(0.8, theme.colors.defaultText)
+            ? tint(0.8, theme.colors.primaryText)
             : shade(0.25, theme.colors.tertiary),
         border: 'none',
         boxShadow: 'none',
-        borderColor: tint(0.8, theme.colors.defaultText),
+        borderColor: tint(0.8, theme.colors.primaryText),
       };
     },
   };

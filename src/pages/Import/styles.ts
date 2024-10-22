@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { shade } from 'polished';
-import * as Constants from '../../constants';
 
 export const Container = styled.div`
   width: 100%;
@@ -15,13 +14,13 @@ export const Title = styled.h1`
   color: ${props => props.theme.colors.primaryText};
   text-align: center;
 
-  font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+  font-size: ${({ theme }) => theme.fontSize.desktop.XL};
 
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+    font-size: ${({ theme }) => theme.fontSize.tablet.XL};
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-    font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+    font-size: ${({ theme }) => theme.fontSize.mobile.XL};
   }
 `;
 
@@ -42,14 +41,14 @@ export const Footer = styled.section`
     display: flex;
     align-items: center;
     line-height: 18px;
-    color: ${props => props.theme.colors.defaultText};
+    color: ${props => props.theme.colors.primaryText};
 
-    font-size: ${Constants.FONT_SIZE.desktop.xsmall};
+    font-size: ${({ theme }) => theme.fontSize.desktop.XS};
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      font-size: ${Constants.FONT_SIZE.tablet.xsmall};
+      font-size: ${({ theme }) => theme.fontSize.tablet.XS};
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      font-size: ${Constants.FONT_SIZE.mobile.xsmall};
+      font-size: ${({ theme }) => theme.fontSize.mobile.XS};
     }
 
     img {

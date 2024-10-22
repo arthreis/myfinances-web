@@ -14,20 +14,21 @@ import {
   PaginationChange,
   Sort,
   Transaction,
+  type RowsByPageOption,
 } from '../../../services/interfaces';
 
 import {
   TableContainer,
   TableBodyColumn,
-  Delete,
   PaginationContainer,
   RowsByPageContainer,
 } from './styles';
 import { Actions } from '../../Config/styles';
 import Modal from '../../../components/Modal';
-import FormTransaction from '../../FormTransaction';
+import FormTransaction from '../FormTransaction';
 import SelectSimple from '../../../components/SelectSimple';
 import { Typography } from '../../../components/Typograph';
+import { Tooltip } from '../../../components';
 
 interface DashboardTableViewProps {
   onTransactionDeleted(): void;
@@ -41,17 +42,20 @@ function DashboardTableView({
   const { theme } = useTheme();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
-  const [rowsByPage] = useState<{ value: number; label: number }[]>([
+
+  const [rowsByPage] = useState<RowsByPageOption[]>([
     { value: 5, label: 5 },
     { value: 10, label: 10 },
     { value: 20, label: 20 },
   ]);
+
   const [sortData, setSortData] = useState<Sort>(() => {
     return {
       sort: 'created_at',
       direction: 'DESC',
     };
   });
+
   const [pagination, setPagination] = useState<Pagination>(() => {
     return {
       page: 1,
@@ -203,16 +207,18 @@ function DashboardTableView({
                   </TableBodyColumn>
                   <TableBodyColumn>
                     <Actions>
-                      <Icons.FiEdit
-                        size={20}
-                        onClick={() => handleOpenModalEdit(transaction)}
-                      />
-                      <Delete title="Apagar transação">
+                      <Tooltip variant="secondary" title="Editar transação">
+                        <Icons.FiEdit
+                          size={20}
+                          onClick={() => handleOpenModalEdit(transaction)}
+                        />
+                      </Tooltip>
+                      <Tooltip variant="danger" title="Apagar transação">
                         <Icons.FiTrash
                           size={20}
                           onClick={() => handleDelete(transaction)}
                         />
-                      </Delete>
+                      </Tooltip>
                     </Actions>
                   </TableBodyColumn>
                 </tr>
@@ -221,6 +227,7 @@ function DashboardTableView({
           </tbody>
         </table>
       </TableContainer>
+
       <PaginationContainer className="pagination">
         <RowsByPageContainer className="rowsByPage">
           <Typography>Linhas por página:</Typography>
@@ -246,7 +253,11 @@ function DashboardTableView({
         />
       </PaginationContainer>
 
-      <Modal show={isShowingModal} onClose={handleCloseModal}>
+      <Modal
+        show={isShowingModal}
+        onClose={handleCloseModal}
+        title="Editar transação"
+      >
         <FormTransaction
           onSubmitted={handleTransactionAddedOrEdited}
           onCancel={handleCloseModal}

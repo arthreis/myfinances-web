@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { tint } from 'polished';
-import * as Constants from '../../constants';
 
 interface ContainerProps {
   size?: 'small' | 'large';
@@ -8,12 +7,11 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  background: ${props => props.theme.colors.primary};
+  background: ${props => props.theme.colors.tertiary};
   padding: 30px 0;
 
   /* @media (max-width: ${({ theme }) => theme.layout.breakpoints.mobile}) { */
-  @media (max-width: calc(${({ theme }) =>
-      theme.layout.breakpoints.tablet} - 1px)) {
+  @media (max-width: calc(${({ theme }) => theme.layout.breakpoints.tablet} - 1px)) {
     /* width: 100%; */
     /* transform: ${({ open }) =>
       open ? 'translateX(0)' : 'translateX(-100%)'}; */
@@ -44,15 +42,15 @@ export const Container = styled.div<ContainerProps>`
     }
 
     > div {
-      @media (max-width: ${({ theme }) => theme.layout.breakpoints.mobile}) {
-        /* display: flex; */
-        flex-direction: column;
-      }
-      display: flex;
-      align-items: center;
-      /* padding: 0 20px; */
-      /* padding-right: 20px; */
-      /* padding-left: 20px; */
+        @media (max-width: ${({ theme }) => theme.layout.breakpoints.mobile}) {
+          /* display: flex; */
+          flex-direction: column;
+        }
+        display: flex;
+        align-items: center;
+        /* padding: 0 20px; */
+        /* padding-right: 20px; */
+        /* padding-left: 20px; */
 
       nav {
         @media (max-width: ${({ theme }) => theme.layout.breakpoints.mobile}) {
@@ -65,30 +63,32 @@ export const Container = styled.div<ContainerProps>`
           /* padding: 20px 0px; */
         }
         a {
-          color: ${props => props.theme.colors.secondaryText};
+          cursor: pointer;
+          color: ${props => props.theme.colors.primaryText};
           text-decoration: none;
           transition: opacity 0.2s;
           padding-bottom: 10px;
 
-          font-size: ${Constants.FONT_SIZE.desktop.normal};
+          font-size: ${({ theme }) => theme.fontSize.desktop.MD};
           @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-            font-size: ${Constants.FONT_SIZE.tablet.normal};
+            font-size: ${({ theme }) => theme.fontSize.tablet.MD};
           }
           @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-            font-size: ${Constants.FONT_SIZE.mobile.xlarge};
+            font-size: ${({ theme }) => theme.fontSize.mobile.MD};
             width: 100%;
           }
 
           & + a {
             /* margin-left: 32px; */
             @media (min-width: calc(${({ theme }) =>
-                theme.layout.breakpoints.mobile} + 1px)) {
+              theme.layout.breakpoints.mobile} + 1px)) {
               margin-left: 32px;
             }
           }
 
           &.active-link {
-            border-bottom: 2px solid ${props => props.theme.colors.secondary};
+            border-bottom: 2px solid ${props => props.theme.colors.primaryText};
+            cursor: default;
           }
 
           &:hover {
@@ -107,15 +107,15 @@ export const Container = styled.div<ContainerProps>`
 
       .theme-switcher {
         @media (min-width: calc(${({ theme }) =>
-            theme.layout.breakpoints.mobile} + 1px)) {
+          theme.layout.breakpoints.mobile} + 1px)) {
           margin-left: 20px;
         }
       }
 
       > a {
         /* Botão sair */
-        background: ${props => props.theme.colors.secondary};
-        color: ${props => props.theme.colors.secondaryText};
+        background: ${props => props.theme.colors.primary};
+        color: ${props => props.theme.colors.primaryText};
         display: flex;
         align-items: center;
         justify-content: center;

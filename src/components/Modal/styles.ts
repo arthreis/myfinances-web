@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { rgba } from 'polished';
-import * as Constants from '../../constants';
+import { rgba, shade } from 'polished';
 
 export const ModalWrapper = styled.div`
   bottom: 0;
@@ -12,9 +11,7 @@ export const ModalWrapper = styled.div`
   z-index: 1050;
 `;
 
-export const ModalOverflow = styled.div`
-  width: 100%;
-`;
+export const Body = styled.div``;
 
 export type ModalSizeVariant = 'sm' | 'md' | 'lg';
 
@@ -29,14 +26,40 @@ const sizes: { [key in ModalSizeVariant]: string } = {
   lg: '800',
 };
 
+export const Title = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+
+  h1 {
+    font-weight: 500;
+    color: ${props => props.theme.colors.primaryText};
+
+    font-size: ${({ theme }) => theme.fontSize.desktop.LG};
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${({ theme }) => theme.fontSize.tablet.LG};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${({ theme }) => theme.fontSize.mobile.LG};
+    }
+  }
+`;
+
+export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 16px;
+`;
+
 export const ModalContent = styled.div<ModalContentProps>`
-  background: ${props => props.theme.colors.tertiary};
+  flex-direction: column;
+  padding: 16px 32px;
+  background: ${props => shade(0.1, props.theme.colors.background)};
   color: ${props => props.theme.colors.primaryText};
   display: flex;
-  /* height: 100%; */
   left: 0;
   margin: 50px auto;
-  /* max-height: ${props => (props.height ? `${props.height}px` : '80%')}; */
   position: absolute;
   right: 0;
   width: ${({ size }) => {
@@ -47,31 +70,29 @@ export const ModalContent = styled.div<ModalContentProps>`
     margin: 0;
   }
   z-index: 1;
-
-  /* height: 100vh; */
   overflow-y: auto;
 `;
 
 export const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
-  background: ${props => rgba(props.theme.colors.overlay, 0.88)};
+  background: ${props => rgba(props.theme.colors.overlay, 0.9)};
 `;
 
 export const ModalCloseButton = styled.span`
-  color: ${props => props.theme.colors.defaultText};
-  cursor: pointer;
-  padding: 10px;
   position: absolute;
   right: 0;
-  /* top: -50px; */
+  padding: 32px;
 
-  font-size: ${Constants.FONT_SIZE.desktop.xlarge};
+  color: ${props => props.theme.colors.primaryText};
+  cursor: pointer;
+
+  font-size: ${({ theme }) => theme.fontSize.desktop.XL};
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    font-size: ${Constants.FONT_SIZE.tablet.xlarge};
+    font-size: $${({ theme }) => theme.fontSize.tablet.XL};
     top: 0;
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-    font-size: ${Constants.FONT_SIZE.mobile.xlarge};
+    font-size: ${({ theme }) => theme.fontSize.mobile.XL};
   }
 `;

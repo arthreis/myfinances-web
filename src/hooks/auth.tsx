@@ -52,7 +52,10 @@ export function AuthProvider({
 
     const { user, token } = response.data;
 
-    localStorage.setItem(`${constants.NAME_KEY_STORAGE}/user`, JSON.stringify(user));
+    localStorage.setItem(
+      `${constants.NAME_KEY_STORAGE}/user`,
+      JSON.stringify(user),
+    );
     localStorage.setItem(`${constants.NAME_KEY_STORAGE}/token`, token);
 
     api.defaults.headers.authorization = `Bearer ${token}`;

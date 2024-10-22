@@ -1,6 +1,5 @@
 import styled, { ThemeProps } from 'styled-components';
 import Theme from '../../styles/themes/theme';
-import * as Constants from '../../constants';
 
 interface CardProps extends ThemeProps<Theme> {
   total?: boolean;
@@ -17,12 +16,12 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: ${Constants.FONT_SIZE.desktop.xxxlarge};
+  font-size: ${({ theme }) => theme.fontSize.desktop.XL};
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    font-size: ${Constants.FONT_SIZE.tablet.xxxlarge};
+    font-size: ${({ theme }) => theme.fontSize.tablet.XL};
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-    font-size: ${Constants.FONT_SIZE.mobile.xxxlarge};
+    font-size: ${({ theme }) => theme.fontSize.mobile.XL};
   }
   color: ${props => props.theme.colors.primaryText};
 `;
@@ -54,13 +53,13 @@ export const CardContainer = styled.section`
 `;
 
 export const Card = styled.div`
-  background: ${({ total, theme }: CardProps): string =>
-    total ? theme.colors.secondary : theme.colors.tertiary};
+  /* background: ${({ total, theme }: CardProps): string => (total ? theme.colors.secondary : theme.colors.tertiary)}; */
+  background: ${({ theme }: CardProps) => theme.colors.tertiary};
   /* padding: 22px 32px; */
   padding: 8px 16px;
   border-radius: 5px;
-  color: ${({ total, theme }: CardProps): string =>
-    total ? theme.colors.secondaryText : theme.colors.primaryText};
+  /* color: ${({ total, theme }: CardProps): string => (total ? theme.colors.white : theme.colors.primaryText)}; */
+  color: ${({ theme }: CardProps): string => theme.colors.primaryText};
   /* width: 100%; */
   display: flex;
   gap: 8px;
@@ -79,12 +78,13 @@ export const Card = styled.div`
     justify-content: space-between;
 
     p {
-      font-size: ${Constants.FONT_SIZE.desktop.large};
+      margin-left: 4px;
+      font-size: ${({ theme }) => theme.fontSize.desktop.LG};
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-        font-size: ${Constants.FONT_SIZE.tablet.large};
+        font-size: ${({ theme }) => theme.fontSize.tablet.LG};
       }
       @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-        font-size: ${Constants.FONT_SIZE.mobile.large};
+        font-size: ${({ theme }) => theme.fontSize.mobile.LG};
       }
     }
   }
@@ -92,18 +92,18 @@ export const Card = styled.div`
   h1 {
     /* margin-top: 14px; */
     margin-top: auto;
-    font-size: ${Constants.FONT_SIZE.desktop.large};
+    font-size: ${({ theme }) => theme.fontSize.desktop.LG};
     font-weight: normal;
     /* line-height: 54px; */
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
       /* margin-top: 8px; */
-      font-size: ${Constants.FONT_SIZE.tablet.large};
+      font-size: ${({ theme }) => theme.fontSize.tablet.LG};
       font-weight: normal;
       /* line-height: 44px; */
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
       /* margin-top: 8px; */
-      font-size: ${Constants.FONT_SIZE.mobile.large};
+      font-size: ${({ theme }) => theme.fontSize.mobile.LG};
       font-weight: normal;
       /* line-height: 54px; */
     }
@@ -117,10 +117,11 @@ export const Card = styled.div`
 `;
 
 export const TitleAndViewSelector = styled.section`
+  margin-bottom: 20px;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  /* flex-wrap: wrap; */
+  /* justify-content: space-between; */
   flex-direction: column;
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
     margin-top: 24px;
@@ -131,17 +132,17 @@ export const TitleAndViewSelector = styled.section`
 
     font-weight: 500;
     /* line-height: 54px; */
-    line-height: calc(${Constants.FONT_SIZE.desktop.xxlarge} * 1.5);
+    line-height: calc(${({ theme }) => theme.fontSize.desktop.XL} * 1.5);
     color: ${props => props.theme.colors.primaryText};
-    font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+    font-size: ${({ theme }) => theme.fontSize.desktop.XL};
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
       margin-right: auto;
-      font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
-      line-height: calc(${Constants.FONT_SIZE.tablet.xxlarge} * 1.5);
+      font-size: ${({ theme }) => theme.fontSize.tablet.XL};
+      line-height: calc(${({ theme }) => theme.fontSize.tablet.XL} * 1.5);
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      line-height: calc(${Constants.FONT_SIZE.mobile.xxlarge} * 1.5);
-      font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+      line-height: calc(${({ theme }) => theme.fontSize.mobile.XL} * 1.5);
+      font-size: ${({ theme }) => theme.fontSize.mobile.XL};
       /* margin-right: auto; */
     }
   }
@@ -153,7 +154,7 @@ export const TitleAndViewSelector = styled.section`
     svg {
       padding-bottom: 5px;
       border-bottom: 2px solid transparent;
-      color: ${props => props.theme.colors.defaultText};
+      color: ${props => props.theme.colors.primaryText};
 
       & + svg {
         margin-left: 5px;

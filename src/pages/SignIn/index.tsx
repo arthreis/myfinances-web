@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiMail, FiLock } from 'react-icons/fi';
 
-import logoImg from '../../assets/logo.svg';
+// import {logoImg} from '../../assets/logo.svg';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -17,6 +17,8 @@ import { Container, Content, Form } from './styles';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSignIn } from '../../services/user/sign-in';
+import * as C from '../../components';
+import { useTheme } from '../../hooks/theme';
 
 // const schema = Yup.object().shape({
 //   email: Yup.string().email('Digite um e-mail válido').required('E-mail obrigatório'),
@@ -33,24 +35,22 @@ function SignIn(): React.JSX.Element {
   const { signIn, signOut } = useAuth();
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState, reset } =
-		useForm<SignInForm>({
-			resolver: yupResolver(schema),
-		});
+  const { register, handleSubmit, formState, reset } = useForm<SignInForm>({
+    resolver: yupResolver(schema),
+  });
 
-    async function handleSignIn(data: SignInForm) {
-      await signIn({
-              email: data.email,
-              password: data.password,
-            });
+  async function handleSignIn(data: SignInForm) {
+    await signIn({
+      email: data.email,
+      password: data.password,
+    });
 
-      toast.success("Login realizado com sucesso!");
+    toast.success('Login realizado com sucesso!');
 
-      reset()
+    reset();
 
-      navigate('/dashboard');
-
-    }
+    navigate('/dashboard');
+  }
 
   // useEffect(() => {
   //   signOut();
@@ -92,17 +92,18 @@ function SignIn(): React.JSX.Element {
   //     }
   //   }
   // }
+  const { theme } = useTheme();
 
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="MyFinances" />
+        <C.Logo color={theme.colors.primary} />
 
         <Form onSubmit={handleSubmit(handleSignIn)}>
-        {/* <Form ref={formRef} onSubmit={handleSubmit}> */}
+          {/* <Form ref={formRef} onSubmit={handleSubmit}> */}
           <Input
             {...register('email')}
-            id='email'
+            id="email"
             // icon={FiMail}
             placeholder="E-mail"
           />
@@ -114,7 +115,7 @@ function SignIn(): React.JSX.Element {
 
           <Input
             {...register('password')}
-            id='password'
+            id="password"
             // icon={FiLock}
             type="password"
             placeholder="Senha"

@@ -1,4 +1,6 @@
+import type { AxiosResponse } from 'axios';
 import api from '../api';
+import type { Category } from '../interfaces';
 
 export interface CategoryFormData {
   title: string;
@@ -7,6 +9,8 @@ export interface CategoryFormData {
   background_color_light: string;
 }
 
-export const createCategory = async (data: CategoryFormData) => {
-  await api.post('/categories', data);
-}
+export const createCategory = async (
+  data: CategoryFormData,
+): Promise<AxiosResponse<Category>> => {
+  return await api.post('/categories', data);
+};

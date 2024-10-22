@@ -40,7 +40,7 @@ export default function Burger({
           className="theme-switcher"
           checkedIcon={
             <IconSwitcherContainer>
-              <FiMoon color={theme.colors.defaultText} />
+              <FiMoon color={theme.colors.primaryText} />
             </IconSwitcherContainer>
           }
           uncheckedIcon={

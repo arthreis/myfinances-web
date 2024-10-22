@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import * as Constants from '../../../constants';
 
 export const Container = styled.div`
   /* display: grid;
@@ -39,12 +38,12 @@ export const Widget = styled.div<WidgetProps>`
 
     p {
       color: ${props => props.theme.colors.primaryText};
-      font-size: ${Constants.FONT_SIZE.desktop.normal};
+      font-size: ${({ theme }) => theme.fontSize.desktop.MD};
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-        font-size: ${Constants.FONT_SIZE.tablet.normal};
+        font-size: ${({ theme }) => theme.fontSize.tablet.MD};
       }
       @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-        font-size: ${Constants.FONT_SIZE.mobile.normal};
+        font-size: ${({ theme }) => theme.fontSize.mobile.MD};
       }
     }
 
@@ -77,12 +76,12 @@ export const Widget = styled.div<WidgetProps>`
   }
 
   > span {
-    font-size: ${Constants.FONT_SIZE.desktop.xxsmall};
+    font-size: ${({ theme }) => theme.fontSize.desktop.XS};
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      font-size: ${Constants.FONT_SIZE.tablet.xxsmall};
+      font-size: ${({ theme }) => theme.fontSize.tablet.XS};
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      font-size: ${Constants.FONT_SIZE.mobile.xxsmall};
+      font-size: ${({ theme }) => theme.fontSize.mobile.XS};
     }
   }
 
@@ -90,12 +89,12 @@ export const Widget = styled.div<WidgetProps>`
     font-weight: normal;
     margin-top: 15px;
 
-    font-size: ${Constants.FONT_SIZE.desktop.large};
+    font-size: ${({ theme }) => theme.fontSize.desktop.LG};
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      font-size: ${Constants.FONT_SIZE.tablet.large};
+      font-size: ${({ theme }) => theme.fontSize.tablet.LG};
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      font-size: ${Constants.FONT_SIZE.mobile.large};
+      font-size: ${({ theme }) => theme.fontSize.mobile.LG};
     }
 
     svg {

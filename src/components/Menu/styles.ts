@@ -23,7 +23,7 @@ export const StyledMenu = styled.nav`
     padding: 2rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
-    color: ${({ theme }) => theme.colors.defaultText};
+    color: ${({ theme }) => theme.colors.primaryText};
     text-decoration: none;
     transition: color 0.3s linear;
 

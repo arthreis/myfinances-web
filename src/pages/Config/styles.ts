@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import Tooltip from '../../components/Tooltip';
 import Button from '../../components/Button';
-import * as Constants from '../../constants';
 
 export const Container = styled.div`
   width: 100%;
@@ -15,17 +14,19 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
+  margin-bottom: 20px;
+
   font-weight: 500;
   line-height: 54px;
   color: ${props => props.theme.colors.primaryText};
   text-align: center;
 
-  font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+  font-size: ${({ theme }) => theme.fontSize.desktop.XL};
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+    font-size: ${({ theme }) => theme.fontSize.tablet.XL};
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-    font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+    font-size: ${({ theme }) => theme.fontSize.mobile.XL};
   }
 `;
 
@@ -38,25 +39,24 @@ export const TableContainer = styled.section`
     border-spacing: 0 8px;
 
     th {
-      color: ${props => props.theme.colors.defaultText};
+      color: ${props => props.theme.colors.primaryText};
       font-weight: normal;
       padding: 20px 42px;
       text-align: left;
       line-height: 24px;
       height: 30px;
-      font-size: ${Constants.FONT_SIZE.desktop.normal};
+      font-size: ${({ theme }) => theme.fontSize.desktop.MD};
 
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-        font-size: ${Constants.FONT_SIZE.tablet.normal};
+        font-size: ${({ theme }) => theme.fontSize.tablet.MD};
       }
       @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-        font-size: ${Constants.FONT_SIZE.mobile.normal};
+        font-size: ${({ theme }) => theme.fontSize.mobile.MD};
         padding: 10px 21px;
       }
     }
 
-    /* @media (min-width: calc(${p =>
-      p.theme.layout.breakpoints.tablet} + 1)) { */
+    /* @media (min-width: calc(${p => p.theme.layout.breakpoints.tablet} + 1)) { */
     td:first-child {
       border-radius: 8px 0 0 8px;
     }
@@ -154,16 +154,16 @@ export const TableBodyColumn = styled.td`
   border-left-style: solid;
   border-left-color: ${props => props.theme.colors.tertiary};
   font-weight: normal;
-  color: ${props => props.theme.colors.defaultText};
+  color: ${props => props.theme.colors.primaryText};
   transition: border-left-width 0.2s ease-in;
-  font-size: ${Constants.FONT_SIZE.desktop.normal};
+  font-size: ${({ theme }) => theme.fontSize.desktop.MD};
 
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    font-size: ${Constants.FONT_SIZE.tablet.normal};
+    font-size: ${({ theme }) => theme.fontSize.tablet.MD};
     padding: 10px 16px;
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-    font-size: ${Constants.FONT_SIZE.mobile.normal};
+    font-size: ${({ theme }) => theme.fontSize.mobile.MD};
     padding: 10px 16px;
   }
 
@@ -208,46 +208,8 @@ export const ColorInfoContainer = styled.div`
   }
 `;
 
-export const CustomTooltip = styled(Tooltip)`
-  width: 20px;
-  height: 20px;
-
-  /* color: ${props => (props.className === 'delete' ? 'blue' : 'green')}; */
-
-  span {
-    background: ${props =>
-      props.className === 'delete'
-        ? props.theme.colors.danger
-        : props.theme.colors.success};
-    color: ${props =>
-      props.className === 'delete'
-        ? props.theme.colors.dangerText
-        : props.theme.colors.successText};
-
-    &::before {
-      border-color: ${props =>
-          props.className === 'delete'
-            ? props.theme.colors.danger
-            : props.theme.colors.success}
-        transparent;
-    }
-  }
-
-  svg {
-    transition: color 0.2s;
-    &:hover {
-      cursor: pointer;
-      color: ${props =>
-        props.className === 'delete'
-          ? props.theme.colors.danger
-          : props.theme.colors.success};
-    }
-  }
-`;
-
 export const NewCategoryButton = styled(Button)`
   width: 200px;
-  margin-top: 0;
 `;
 
 export const Actions = styled.div`

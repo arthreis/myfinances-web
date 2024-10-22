@@ -205,7 +205,8 @@ function DashboardGraphView({
             <Line data={lineData} options={getChartOptions(theme, 'line')} />
           </div>
           <span>
-            Obs: Transações de dias fora do mês selecionado, não são contabilizados.
+            Obs: Transações de dias fora do mês selecionado, não são
+            contabilizados.
           </span>
         </Widget>
         <Widget>

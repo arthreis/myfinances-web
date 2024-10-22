@@ -108,6 +108,6 @@ function Import(): React.JSX.Element {
       </Container>
     </>
   );
-};
+}
 
 export default Import;

@@ -1,11 +1,6 @@
-import styled, { css } from 'styled-components';
-import { tint } from 'polished';
+import styled from 'styled-components';
 
-interface SelectContainerProps {
-  hasError?: boolean;
-}
-
-export const Container = styled.div<SelectContainerProps>`
+export const Container = styled.div`
   font-weight: normal;
 
   .react-select__value-container {
@@ -13,7 +8,7 @@ export const Container = styled.div<SelectContainerProps>`
   }
 
   .react-select__single-value {
-    color: ${({ theme }) => theme.colors.defaultText};
+    /* color: ${({ theme }) => theme.colors.primaryText}; */
   }
 
   .react-select__control {

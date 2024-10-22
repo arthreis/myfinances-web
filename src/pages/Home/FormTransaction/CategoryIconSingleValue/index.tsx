@@ -2,13 +2,14 @@ import React from 'react';
 import * as Icons from 'react-icons/fi';
 import type { SingleValueProps } from 'react-select';
 
-import { useTheme } from '../../../hooks/theme';
+import { useTheme } from '../../../../hooks/theme';
 
 import { Container } from './styles';
 
-function CategoryIconSingleValue({
+export default function CategoryIconSingleValue({
   innerProps,
   data,
+  // }: any): React.JSX.Element {
 }: SingleValueProps<any>): React.JSX.Element {
   const { theme } = useTheme();
   const { icon, title, background_color_light, background_color_dark } = data;
@@ -30,5 +31,3 @@ function CategoryIconSingleValue({
     </Container>
   );
 }
-
-export default CategoryIconSingleValue;

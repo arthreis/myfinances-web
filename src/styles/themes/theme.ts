@@ -12,9 +12,10 @@ export default interface Theme {
 
     primaryText: string;
     secondaryText: string;
-    defaultText: string;
-    successText: string;
-    dangerText: string;
+    tertiaryText: string;
+
+    white: string;
+    black: string;
   };
   layout: {
     breakpoints: {
@@ -25,10 +26,16 @@ export default interface Theme {
     maxContainer: string;
   };
   fontSize: {
-    XS: string;
-    SM: string;
-    MD: string;
-    LG: string;
-    XL: string;
+    mobile: FontSizeType;
+    tablet: FontSizeType;
+    desktop: FontSizeType;
   };
 }
+
+export type FontSizeType = {
+  XS: string;
+  SM: string;
+  MD: string;
+  LG: string;
+  XL: string;
+};

@@ -1,3 +1,4 @@
+import { fontSize, layout } from '../commons';
 import Theme from './theme';
 
 const light: Theme = {
@@ -5,33 +6,22 @@ const light: Theme = {
   colors: {
     primary: '#1DB954',
     secondary: '#191414',
-    tertiary: '#fff',
+    tertiary: '#E1E1E6',
+
     background: '#F0F2F5',
-    success: '#12a454',
-    danger: '#e83f5b',
+    success: '#12A454',
+    danger: '#E83F5B',
     overlay: '#333333',
 
-    primaryText: '#363f5f',
-    secondaryText: '#fff',
-    defaultText: '#969cb3',
-    successText: '#fff',
-    dangerText: '#fff',
+    primaryText: '#121214',
+    secondaryText: '#969cb3',
+    tertiaryText: '#DDD',
+
+    white: '#FFF',
+    black: '#000',
   },
-  layout: {
-    breakpoints: {
-      mobile: '480px',
-      tablet: '768px',
-      desktop: '1024px',
-    },
-    maxContainer: '1120px',
-  },
-  fontSize: {
-    XS: '8px',
-    SM: '12px',
-    MD: '16px',
-    LG: '20px',
-    XL: '32px',
-  },
+  layout,
+  fontSize,
 };
 
 export default light;

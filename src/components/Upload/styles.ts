@@ -4,7 +4,6 @@ import styled, {
   ThemeProps,
 } from 'styled-components';
 import Theme from '../../styles/themes/theme';
-import * as Constants from '../../constants';
 
 interface UploadProps extends ThemeProps<Theme> {
   isDragActive: boolean;
@@ -25,7 +24,7 @@ const dragReject = (props: UploadProps): FlattenSimpleInterpolation => css`
 export const DropContainer = styled.div.attrs({
   className: 'dropzone',
 })`
-  border: 1.5px dashed ${props => props.theme.colors.defaultText};
+  border: 1.5px dashed ${props => props.theme.colors.primaryText};
   border-radius: 5px;
   cursor: pointer;
 
@@ -50,12 +49,12 @@ export const UploadMessage = styled.p`
   line-height: 24px;
   padding: 48px 0;
 
-  font-size: ${Constants.FONT_SIZE.desktop.normal};
+  font-size: ${({ theme }) => theme.fontSize.desktop.MD};
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    font-size: ${Constants.FONT_SIZE.tablet.normal};
+    font-size: ${({ theme }) => theme.fontSize.tablet.MD};
   }
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-    font-size: ${Constants.FONT_SIZE.mobile.normal};
+    font-size: ${({ theme }) => theme.fontSize.mobile.MD};
   }
 
   color: ${({ type, theme }: UploadProps) =>

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import * as Constants from '../../constants';
 
 export const Container = styled.ul`
   margin-top: 20px;
@@ -36,15 +35,15 @@ export const FileInfo = styled.div`
     justify-content: space-between;
 
     span {
-      color: ${props => props.theme.colors.defaultText};
+      color: ${props => props.theme.colors.primaryText};
       margin-top: 5px;
 
-      font-size: ${Constants.FONT_SIZE.desktop.xsmall};
+      font-size: ${({ theme }) => theme.fontSize.desktop.XS};
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-        font-size: ${Constants.FONT_SIZE.tablet.xsmall};
+        font-size: ${({ theme }) => theme.fontSize.tablet.XS};
       }
       @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-        font-size: ${Constants.FONT_SIZE.mobile.xsmall};
+        font-size: ${({ theme }) => theme.fontSize.mobile.XS};
       }
     }
 

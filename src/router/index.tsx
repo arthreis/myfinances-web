@@ -1,13 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import {
-  SignIn,
-  SignUp,
-  Import,
-  Config,
-  Home,
-} from '../pages';
+import { SignIn, SignUp, Import, Config, Home } from '../pages';
 import PrivateRoute from './PrivateRoute';
 
 function Router(): React.JSX.Element {

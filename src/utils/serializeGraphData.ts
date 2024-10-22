@@ -6,7 +6,11 @@ import {
   addMinutes,
   parseISO,
 } from 'date-fns';
-import { format as formatTZ, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import {
+  format as formatTZ,
+  utcToZonedTime,
+  zonedTimeToUtc,
+} from 'date-fns-tz';
 import { tint } from 'polished';
 import { GraphData, Category } from '../services/interfaces';
 import Theme from '../styles/themes/theme';

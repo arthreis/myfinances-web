@@ -4,7 +4,7 @@ import * as S from './styles';
 
 type Props = {
   bold?: boolean;
-  size?: keyof typeof light.fontSize;
+  size?: keyof typeof light.fontSize.desktop;
   color?: keyof typeof light.colors;
 };
 

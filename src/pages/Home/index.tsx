@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiPieChart, FiList } from 'react-icons/fi';
-import { toast } from 'react-toastify';
 
 import income from '../../assets/income.svg';
 import outcome from '../../assets/outcome.svg';
-import total from '../../assets/total.svg';
-
-import api from '../../services/api';
+import { ReactComponent as IconTotal } from '../../assets/total.svg';
 
 import Header from '../../components/Header';
 import DashboardTableView from './DashboardTableView';
@@ -14,44 +10,49 @@ import DashboardGraphView from './DashboardGraphView';
 
 import formatValue from '../../utils/formatValue';
 
-import { Balance, Transaction } from '../../services/interfaces';
+import { Balance } from '../../services/interfaces';
 
 import { Container, CardContainer, Card, TitleAndViewSelector } from './styles';
 import PeriodDate from '../../components/PeriodDate';
 import { format } from 'date-fns';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
-import FormTransaction from '../FormTransaction';
+import FormTransaction from './FormTransaction';
 import { useLocation } from 'react-router-dom';
 import Burger from '../../components/Burger';
+import { getBalance } from '../../services/transaction/get-balance';
+import { useTheme } from '../../hooks/theme';
 
 function Home(): React.JSX.Element {
   const [balance, setBalance] = useState<Balance>({} as Balance);
   const [view, setView] = useState<'table' | 'graph'>('table');
   const [period, setPeriod] = React.useState<Date>(new Date());
   const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
-
   const [seed, setSeed] = React.useState<number>(1);
+  const [open, setOpen] = React.useState(true);
 
+  const { theme } = useTheme();
   const location = useLocation();
 
   const reloadBalance = useCallback(async () => {
     console.log(`Carregando período de: ${format(period, "MMMM 'de' yyyy")}`);
-
-    const { data } = await api.get(`/transactions/balance`, {
-      params: {
-        period: format(period, 'yyyy-MM'),
-      },
-    });
+    const { data } = await getBalance(format(period, 'yyyy-MM'));
     setBalance(data);
   }, [period]);
+
+  const isTableViewActive = () => {
+    return view === 'table';
+  };
+
+  const isGraphViewActive = () => {
+    return view === 'graph';
+  };
 
   const handleCloseModal = useCallback(() => {
     setIsShowingModal(false);
   }, []);
 
   const handleTransactionAddedOrEdited = useCallback(() => {
-    console.log('Home');
     reloadBalance();
     resetDashboardTableView();
     handleCloseModal();
@@ -67,14 +68,12 @@ function Home(): React.JSX.Element {
     reloadBalance();
   }, [location.pathname, reloadBalance]);
 
-  const [open, setOpen] = React.useState(true);
-
   return (
     <>
       <Burger open={open} setOpen={setOpen} />
-      <Header open={open} size={view === 'graph' ? 'small' : 'small'} />
+      <Header open={open} size={isGraphViewActive() ? 'small' : 'small'} />
       <Container>
-        {view === 'table' && (
+        {isTableViewActive() && (
           <CardContainer>
             <Card>
               <header>
@@ -96,7 +95,7 @@ function Home(): React.JSX.Element {
             </Card>
             <Card total>
               <header>
-                <img src={total} alt="Total" />
+                <IconTotal color={theme.colors.primary} />
                 <p>Total</p>
               </header>
               <h1 data-testid="balance-total">{formatValue(balance?.total)}</h1>
@@ -105,15 +104,14 @@ function Home(): React.JSX.Element {
         )}
 
         <TitleAndViewSelector>
-          {view === 'table' ? <h1>Transações</h1> : <h1>Dashboard</h1>}
-
+          {isTableViewActive() ? <h1>Transações</h1> : <h1>Dashboard</h1>}
           <PeriodDate
             date={period}
             onChangePeriod={newDate => setPeriod(newDate)}
           />
         </TitleAndViewSelector>
 
-        {view === 'table' && (
+        {isTableViewActive() && (
           <>
             <Button
               style={{ width: 200 }}
@@ -129,10 +127,14 @@ function Home(): React.JSX.Element {
           </>
         )}
 
-        {view === 'graph' && <DashboardGraphView period={period} />}
+        {isGraphViewActive() && <DashboardGraphView period={period} />}
       </Container>
 
-      <Modal show={isShowingModal} onClose={handleCloseModal} height={50}>
+      <Modal
+        show={isShowingModal}
+        onClose={handleCloseModal}
+        title="Nova transação"
+      >
         <FormTransaction
           onSubmitted={handleTransactionAddedOrEdited}
           onCancel={handleCloseModal}

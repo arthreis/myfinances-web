@@ -5,7 +5,7 @@ import { shade } from 'polished';
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background: ${props => props.theme.colors.primary};
+  background:  ${props => shade(0.1, props.theme.colors.background)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,7 +19,6 @@ export const Content = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.colors.secondaryText};
 
   > a {
     color: ${props => props.theme.colors.secondaryText};
@@ -33,7 +32,6 @@ export const Content = styled.div`
 `;
 
 export const Form = styled.form`
-    background-color: aqua;
     width: 100%;
     margin: 50px 0;
     gap: 16px;

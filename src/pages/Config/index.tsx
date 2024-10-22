@@ -18,12 +18,12 @@ import {
   Title,
   Square,
   ColorInfoContainer,
-  CustomTooltip,
   NewCategoryButton,
   Actions,
 } from './styles';
-import FormAddOrEditCategory from './FormAddOrEditCategory';
+import FormCategory from './FormCategory';
 import Burguer from '../../components/Burger';
+import { Tooltip } from '../../components';
 
 const ReactSwal = withReactContent(Swal);
 
@@ -38,7 +38,6 @@ function Config(): React.JSX.Element {
       const { data } = await api.get('/categories');
       setCategories(data);
     }
-
     loadCategories();
   }, []);
 
@@ -128,9 +127,11 @@ function Config(): React.JSX.Element {
       <Header open={open} size="small" />
       <Container>
         <Title>Configurações</Title>
+
         <NewCategoryButton type="button" onClick={() => handleOpenModal()}>
           Criar categoria
         </NewCategoryButton>
+
         <TableContainer>
           <table>
             <thead>
@@ -165,24 +166,18 @@ function Config(): React.JSX.Element {
                     </TableBodyColumn>
                     <TableBodyColumn className="actions">
                       <Actions>
-                        <CustomTooltip
-                          className="edit"
-                          title="Editar categoria"
-                        >
+                        <Tooltip variant="secondary" title="Editar categoria">
                           <Icons.FiEdit
                             size={20}
                             onClick={() => handleOpenModal(category)}
                           />
-                        </CustomTooltip>
-                        <CustomTooltip
-                          className="delete"
-                          title="Apagar categoria"
-                        >
+                        </Tooltip>
+                        <Tooltip variant="danger" title="Apagar categoria">
                           <Icons.FiTrash
                             size={20}
                             onClick={() => handleDelete(category)}
                           />
-                        </CustomTooltip>
+                        </Tooltip>
                       </Actions>
                     </TableBodyColumn>
                   </tr>
@@ -192,8 +187,12 @@ function Config(): React.JSX.Element {
           </table>
         </TableContainer>
 
-        <Modal show={isShowingModal} onClose={handleCloseModal} height={650}>
-          <FormAddOrEditCategory
+        <Modal
+          show={isShowingModal}
+          onClose={handleCloseModal}
+          title={categoryEdit ? 'Editar categoria' : 'Nova categoria'}
+        >
+          <FormCategory
             onSubmitted={handleCategoryAddedOrEdited}
             onCancel={handleCloseModal}
             categoryEdit={categoryEdit}
