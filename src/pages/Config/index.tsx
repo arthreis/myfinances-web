@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-import Header from '../../components/Header';
-import Modal from '../../components/Modal';
+import Header from '@/components/Header';
+import Modal from '@/components/Modal';
 
-import api from '../../services/api';
-import { Category } from '../../services/interfaces';
-import { useTheme } from '../../hooks/theme';
+import api from '@/services/api';
+import { Category } from '@/schemas';
+import { useTheme } from '@/hooks/theme';
 
 import {
   Container,
@@ -22,8 +22,8 @@ import {
   Actions,
 } from './styles';
 import FormCategory from './FormCategory';
-import Burguer from '../../components/Burger';
-import { Tooltip } from '../../components';
+import Burguer from '@/components/Burger';
+import { Tooltip } from '@/components';
 
 const ReactSwal = withReactContent(Swal);
 

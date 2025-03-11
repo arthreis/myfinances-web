@@ -5,28 +5,25 @@ import ReactLoading from 'react-loading';
 import type { CSSProperties } from 'styled-components';
 import { toast } from 'react-toastify';
 
-import { useTheme } from '../../../hooks/theme';
-import getValidationErrors from '../../../utils/getValidationErrors';
-import { getCustomSelectOptionsModal } from '../../../utils/getCustomSelectOptions';
+import { useTheme } from '@/hooks/theme';
+import getValidationErrors from '@/utils/getValidationErrors';
+import { getCustomSelectOptionsModal } from '@/utils/getCustomSelectOptions';
 
-import type { Category } from '../../../services/interfaces';
+import type { Category } from '@/schemas';
 
-import { Container, Footer, CancelButton } from './styles';
+import { Container, Footer } from './styles';
 
-import Button from '../../../components/Button';
-import ColorPicker from '../../../components/ColorPicker';
-import Input from '../../../components/Input';
-import Select from '../../../components/Select';
+import Button from '@/components/Button';
+import ColorPicker from '@/components/ColorPicker';
+import Input from '@/components/Input';
+import Select from '@/components/Select';
 import CategoryIconOptionConfig from '../CategoryIconOptionConfig';
 import CategoryIconSingleValueConfig from '../CategoryIconSingleValueConfig';
-import {
-  createCategory,
-  type CategoryFormData,
-} from '../../../services/category/create-category';
+import { createCategory } from '@/services/category/create-category';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { editCategory } from '../../../services/category/edit-category';
-import { isValidHexColor } from '../../../utils/isValidHexColor';
+import { editCategory } from '@/services/category/edit-category';
+import { isValidHexColor } from '@/utils/isValidHexColor';
 
 interface FormCategoryProps {
   onSubmitted(category: Category): void;
@@ -78,9 +75,8 @@ function FormCategory({
       const icon = allIcons.filter(i => i.id === categoryEdit.icon);
       const data = icon.length > 0 ? icon[0] : ({} as IconProps);
       return data;
-    } else {
-      return {} as IconProps;
     }
+      return {} as IconProps;
   };
 
   const [iconValue, setIconValue] = React.useState(getIcon(categoryEdit));
@@ -136,7 +132,7 @@ function FormCategory({
     category: CategoryForm,
   ) => {
     setIsLoading(true);
-    let response;
+    let response: Category;
     try {
       if (categoryEdit) {
         response = await editingCategory(categoryEdit.id, category);

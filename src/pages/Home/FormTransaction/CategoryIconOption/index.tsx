@@ -1,10 +1,10 @@
-import React from 'react';
+import type React from 'react';
 import * as Icons from 'react-icons/fi';
 import type { OptionProps, SingleValueProps } from 'react-select';
 
-import { useTheme } from '../../../../hooks/theme';
+import { useTheme } from '@/hooks/theme';
 import { Container } from './styles';
-import type { Category } from '../../../../services/interfaces';
+import type { Category } from '@/schemas';
 
 export default function CategoryIconOption({
   innerProps,

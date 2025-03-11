@@ -4,7 +4,7 @@ import api from '../services/api';
 import { constants } from '../utils/constants';
 import { userSignIn } from '../services/user/sign-in';
 
-export interface AuthState {
+interface AuthState {
   token: string;
   user: any;
 }
@@ -21,7 +21,7 @@ interface AuthContextData {
   signOut(): void;
 }
 
-export const AuthContext = createContext<AuthContextData>(
+const AuthContext = createContext<AuthContextData>(
   {} as AuthContextData,
 );
 
@@ -46,10 +46,7 @@ export function AuthProvider({
   });
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    console.log('auth: ', email, password);
-
     const response = await userSignIn({ email, password });
-
     const { user, token } = response.data;
 
     localStorage.setItem(

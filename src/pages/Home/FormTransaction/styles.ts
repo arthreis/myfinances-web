@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormStyles } from '../../../styles/commons';
+import { FormStyles } from '@/styles/commons';
 
 export const Container = styled.div`
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {

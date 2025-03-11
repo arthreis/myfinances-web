@@ -1,11 +1,11 @@
 import type { AxiosResponse } from 'axios';
 import api from '../api';
-import type { Balance } from '../interfaces';
+import type { Balance } from '@/schemas';
 
 export const getBalance = async (
   period: string,
 ): Promise<AxiosResponse<Balance>> => {
-  return await api.get(`/transactions/balance`, {
+  return await api.get('/transactions/balance', {
     params: {
       period,
     },

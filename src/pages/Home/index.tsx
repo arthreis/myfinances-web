@@ -1,33 +1,34 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
-import income from '../../assets/income.svg';
-import outcome from '../../assets/outcome.svg';
-import { ReactComponent as IconTotal } from '../../assets/total.svg';
+import income from '@/assets/income.svg';
+import outcome from '@/assets/outcome.svg';
 
-import Header from '../../components/Header';
-import DashboardTableView from './DashboardTableView';
+import Header from '@/components/Header';
 import DashboardGraphView from './DashboardGraphView';
+import DashboardTableView from './DashboardTableView';
 
-import formatValue from '../../utils/formatValue';
+import formatValue from '@/utils/formatValue';
 
-import { Balance } from '../../services/interfaces';
+import type { Balance } from '@/schemas';
 
-import { Container, CardContainer, Card, TitleAndViewSelector } from './styles';
-import PeriodDate from '../../components/PeriodDate';
 import { format } from 'date-fns';
-import Button from '../../components/Button';
-import Modal from '../../components/Modal';
-import FormTransaction from './FormTransaction';
 import { useLocation } from 'react-router-dom';
-import Burger from '../../components/Burger';
-import { getBalance } from '../../services/transaction/get-balance';
-import { useTheme } from '../../hooks/theme';
+import * as C from '@/components';
+import Burger from '@/components/Burger';
+import Button from '@/components/Button';
+import Modal from '@/components/Modal';
+import PeriodDate from '@/components/PeriodDate';
+import { useTheme } from '@/hooks/theme';
+import { getBalance } from '@/services/transaction/get-balance';
+import FormTransaction from './FormTransaction';
+import { Card, CardContainer, Container, TitleAndViewSelector } from './styles';
+import SvgTotal from '@/assets/total.svg?react';
 
 function Home(): React.JSX.Element {
-  const [balance, setBalance] = useState<Balance>({} as Balance);
-  const [view, setView] = useState<'table' | 'graph'>('table');
+  const [balance, setBalance] = React.useState<Balance>({} as Balance);
+  const [view, setView] = React.useState<'table' | 'graph'>('table');
   const [period, setPeriod] = React.useState<Date>(new Date());
-  const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
+  const [isShowingModal, setIsShowingModal] = React.useState<boolean>(false);
   const [seed, setSeed] = React.useState<number>(1);
   const [open, setOpen] = React.useState(true);
 
@@ -95,7 +96,7 @@ function Home(): React.JSX.Element {
             </Card>
             <Card total>
               <header>
-                <IconTotal color={theme.colors.primary} />
+                <SvgTotal height={32} color={theme.colors.primary} />
                 <p>Total</p>
               </header>
               <h1 data-testid="balance-total">{formatValue(balance?.total)}</h1>

@@ -15,26 +15,26 @@ import { toast } from 'react-toastify';
 import ReactLoading from 'react-loading';
 import { Container } from './styles';
 
-import { useTheme } from '../../../hooks/theme';
+import { useTheme } from '@/hooks/theme';
 
-import { Category, Transaction } from '../../../services/interfaces';
-import getValidationErrors from '../../../utils/getValidationErrors';
-import getCustomSelectOptions from '../../../utils/getCustomSelectOptions';
+import { Category, Transaction } from '@/schemas';
+import getValidationErrors from '@/utils/getValidationErrors';
+import getCustomSelectOptions from '@/utils/getCustomSelectOptions';
 
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
-import Select from '../../../components/Select';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
+import Select from '@/components/Select';
 import CategoryIconOption from './CategoryIconOption';
 import CategoryIconSingleValue from './CategoryIconSingleValue';
 
 import { format } from 'date-fns';
-import Textarea from '../../../components/TextArea';
+import Textarea from '@/components/TextArea';
 import TransactionTypeSelector, {
   SelectedType,
-} from '../../../components/TransactionTypeSelector';
-import { getAllCategories } from '../../../services/category/get-all-categories';
-import { createTransaction } from '../../../services/transaction/create-transaction';
-import { editTransaction } from '../../../services/transaction/edit-transaction';
+} from '@/components/TransactionTypeSelector';
+import { getAllCategories } from '@/services/category/get-all-categories';
+import { createTransaction } from '@/services/transaction/create-transaction';
+import { editTransaction } from '@/services/transaction/edit-transaction';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 

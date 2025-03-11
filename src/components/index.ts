@@ -3,6 +3,7 @@ import Button from './Button';
 import ColorPicker from './ColorPicker';
 import FileList from './FileList';
 import Header from './Header';
+// import { Total } from './Images/Total';
 import Input from './Input';
 import Menu from './Menu';
 import Modal from './Modal';
@@ -14,7 +15,6 @@ import Tooltip from './Tooltip';
 import TransactionTypeSelector from './TransactionTypeSelector';
 import { Typography } from './Typograph';
 import Upload from './Upload';
-import { ReactComponent as Logo } from '../assets/logo.svg';
 
 export {
   Burger,
@@ -23,7 +23,6 @@ export {
   FileList,
   Header,
   Input,
-  Logo,
   Menu,
   Modal,
   PeriodDate,
@@ -31,6 +30,7 @@ export {
   SelectSimple,
   TextArea,
   Tooltip,
+  // Total,
   TransactionTypeSelector,
   Typography,
   Upload,

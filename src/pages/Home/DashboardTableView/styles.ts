@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { rgba, tint, shade } from 'polished';
-import Tooltip from '../../../components/Tooltip';
+import Tooltip from '@/components/Tooltip';
 
 interface TableBodyColumnProps {
   categoryBackground?: string;

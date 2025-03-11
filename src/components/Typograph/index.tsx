@@ -1,5 +1,5 @@
 import React, { type HTMLAttributes } from 'react';
-import type light from '../../styles/themes/light';
+import type light from '@/styles/themes/light';
 import * as S from './styles';
 
 type Props = {

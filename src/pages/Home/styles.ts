@@ -1,12 +1,11 @@
-import styled, { ThemeProps } from 'styled-components';
-import Theme from '../../styles/themes/theme';
+import styled, { type ThemeProps } from 'styled-components';
+import type Theme from '@/styles/themes/theme';
 
 interface CardProps extends ThemeProps<Theme> {
   total?: boolean;
 }
 
 export const Container = styled.div`
-  /* width: 100%; */
   max-width: ${p => p.theme.layout.maxContainer};
   margin: 0 auto;
   padding: 40px 20px;
@@ -62,6 +61,7 @@ export const Card = styled.div`
   color: ${({ theme }: CardProps): string => theme.colors.primaryText};
   /* width: 100%; */
   display: flex;
+  align-items: center;
   gap: 8px;
 
   @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
@@ -91,7 +91,7 @@ export const Card = styled.div`
 
   h1 {
     /* margin-top: 14px; */
-    margin-top: auto;
+    /* margin-top: auto; */
     font-size: ${({ theme }) => theme.fontSize.desktop.LG};
     font-weight: normal;
     /* line-height: 54px; */

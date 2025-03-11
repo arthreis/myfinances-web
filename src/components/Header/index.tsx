@@ -1,15 +1,12 @@
-import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { FiArrowLeft, FiSun, FiMoon } from 'react-icons/fi';
+/// <reference types="vite-plugin-svgr/client" />
+import type React from 'react';
 import { shade } from 'polished';
-
+import { FiArrowLeft, FiMoon, FiSun } from 'react-icons/fi';
+import { Link, NavLink } from 'react-router-dom';
 import ReactSwitch from 'react-switch';
-
-import { useTheme } from '../../hooks/theme';
-
+import { useTheme } from '@/hooks/theme';
+import Logo from '@/assets/logo.svg?react';
 import { Container, IconSwitcherContainer } from './styles';
-
-import { ReactComponent as LOGO } from '../../assets/logo.svg';
 
 interface HeaderProps {
   size: 'small' | 'large';
@@ -27,7 +24,7 @@ function Header({
     <Container size={size} open={open} {...props}>
       <header>
         <Link to="/home">
-          <LOGO color={theme.colors.primaryText} height={35} />
+          <Logo color={theme.colors.primaryText} height={35} />
         </Link>
         <div>
           <nav>

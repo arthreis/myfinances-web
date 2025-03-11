@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 import { tint, shade } from 'polished';
 
-import Button from '../../../components/Button';
-import { FormStyles } from '../../../styles/commons';
+import Button from '@/components/Button';
+import { FormStyles } from '@/styles/commons';
 
 export const Container = styled.div`
   form {

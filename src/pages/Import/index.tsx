@@ -4,14 +4,14 @@ import { toast } from 'react-toastify';
 
 import { filesize } from 'filesize';
 
-import Header from '../../components/Header';
-import FileList from '../../components/FileList';
-import Upload from '../../components/Upload';
+import Header from '@/components/Header';
+import FileList from '@/components/FileList';
+import Upload from '@/components/Upload';
 
 import { Container, Title, ImportFileContainer, Footer } from './styles';
 
-import alert from '../../assets/alert.svg';
-import api from '../../services/api';
+import alert from '@/assets/alert.svg';
+import api from '@/services/api';
 
 interface FileProps {
   file: File;

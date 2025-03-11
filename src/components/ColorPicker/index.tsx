@@ -1,15 +1,15 @@
 import React, {
-  InputHTMLAttributes,
   useRef,
   useCallback,
   useState,
 } from 'react';
+import type { InputHTMLAttributes } from 'react';
 
 import { rgba } from 'polished';
 
 import { BlockPicker, type ColorResult } from 'react-color';
 
-import { useTheme } from '../../hooks/theme';
+import { useTheme } from '@/hooks/theme';
 
 import {
   Container,
@@ -17,7 +17,7 @@ import {
   BlockPickerContainer,
   BlockPickerCover,
 } from './styles';
-import { isValidHexColor } from '../../utils/isValidHexColor';
+import { isValidHexColor } from '@/utils/isValidHexColor';
 
 interface ColorPickerProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;

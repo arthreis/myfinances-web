@@ -1,6 +1,6 @@
 import React, { type ComponentProps } from 'react';
-import income from '../../assets/income.svg';
-import outcome from '../../assets/outcome.svg';
+import income from '@/assets/income.svg';
+import outcome from '@/assets/outcome.svg';
 
 import { Container, TypeInput } from './styles';
 

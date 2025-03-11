@@ -12,7 +12,7 @@ import {
   zonedTimeToUtc,
 } from 'date-fns-tz';
 import { tint } from 'polished';
-import { GraphData, Category } from '../services/interfaces';
+import { GraphData, Category } from '../schemas';
 import Theme from '../styles/themes/theme';
 
 export default function serializeGraphData(

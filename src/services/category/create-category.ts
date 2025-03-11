@@ -1,6 +1,6 @@
 import type { AxiosResponse } from 'axios';
 import api from '../api';
-import type { Category } from '../interfaces';
+import type { Category } from '@/schemas';
 
 export interface CategoryFormData {
   title: string;

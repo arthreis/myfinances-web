@@ -1,21 +1,22 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import type React from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import * as Icons from 'react-icons/fi';
 
 import ReactPaginate from 'react-paginate';
-import formatValue from '../../../utils/formatValue';
-import { useTheme } from '../../../hooks/theme';
+import formatValue from '@/utils/formatValue';
+import { useTheme } from '@/hooks/theme';
 
-import api from '../../../services/api';
+import api from '@/services/api';
 
-import {
+import type {
   Pagination,
   PaginationChange,
   Sort,
   Transaction,
-  type RowsByPageOption,
-} from '../../../services/interfaces';
+  RowsByPageOption,
+} from '@/schemas';
 
 import {
   TableContainer,
@@ -23,12 +24,12 @@ import {
   PaginationContainer,
   RowsByPageContainer,
 } from './styles';
-import { Actions } from '../../Config/styles';
-import Modal from '../../../components/Modal';
+import { Actions } from '@/pages/Config/styles';
+import Modal from '@/components/Modal';
 import FormTransaction from '../FormTransaction';
-import SelectSimple from '../../../components/SelectSimple';
-import { Typography } from '../../../components/Typograph';
-import { Tooltip } from '../../../components';
+import SelectSimple from '@/components/SelectSimple';
+import { Typography } from '@/components/Typograph';
+import { Tooltip } from '@/components';
 
 interface DashboardTableViewProps {
   onTransactionDeleted(): void;

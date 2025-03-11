@@ -3,7 +3,7 @@ import styled, {
   FlattenSimpleInterpolation,
   ThemeProps,
 } from 'styled-components';
-import Theme from '../../styles/themes/theme';
+import Theme from '@/styles/themes/theme';
 
 interface UploadProps extends ThemeProps<Theme> {
   isDragActive: boolean;

@@ -5,28 +5,24 @@ import { FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { useNavigate, Link } from 'react-router-dom';
 
-import logoImg from '../../assets/logo.svg';
+import logoImg from '@/assets/logo.svg';
+import Logo from '@/assets/logo.svg?react';
 
-import getValidationErrors from '../../utils/getValidationErrors';
+import getValidationErrors from '@/utils/getValidationErrors';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { userSignUp } from '../../services/user/sign-up';
+import { userSignUp } from '@/services/user/sign-up';
 import { Container, Content } from './styles';
-import * as C from '../../components';
-import { useTheme } from '../../hooks/theme';
+import { useTheme } from '@/hooks/theme';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
-  email: Yup.string()
-    .required('E-mail é obrigatório')
-    .email('Digite um e-mail válido'),
-  password: Yup.string()
-    .min(6, 'No mínimo 6 caracters')
-    .required('Senha é obrigatória'),
+  email: Yup.string().required('E-mail é obrigatório').email('Digite um e-mail válido'),
+  password: Yup.string().min(6, 'No mínimo 6 caracters').required('Senha é obrigatória'),
 });
 
 export type SignUpForm = Yup.InferType<typeof schema>;
@@ -49,7 +45,7 @@ function SignUp(): React.JSX.Element {
 
     reset();
 
-    navigate('Login');
+    navigate('/');
   }
 
   const { theme } = useTheme();
@@ -57,7 +53,7 @@ function SignUp(): React.JSX.Element {
   return (
     <Container>
       <Content>
-        <C.Logo color={theme.colors.primary} />
+        <Logo color={theme.colors.primary} />
 
         <form onSubmit={handleSubmit(handleSignUp)}>
           <Input

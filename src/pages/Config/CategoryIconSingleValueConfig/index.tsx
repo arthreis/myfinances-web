@@ -1,7 +1,6 @@
-import React from 'react';
+import type React from 'react';
 import * as Icons from 'react-icons/fi';
 import type { OptionProps, SingleValueProps } from 'react-select';
-
 import { Container } from './styles';
 
 export default function CategoryIconOptionConfig({

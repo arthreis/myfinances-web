@@ -3,7 +3,7 @@ import ReactSelect from 'react-select';
 import type { StateManagerProps } from 'react-select/dist/declarations/src/useStateManager';
 
 import { Container } from './styles';
-import { useTheme } from '../../hooks/theme';
+import { useTheme } from '@/hooks/theme';
 
 function SelectSimple({ ...rest }: StateManagerProps): React.JSX.Element {
   const myTheme = useTheme();
