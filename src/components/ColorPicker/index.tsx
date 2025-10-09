@@ -22,16 +22,15 @@ import { isValidHexColor } from '@/utils/isValidHexColor';
 interface ColorPickerProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   containerClassName?: string;
-  onSelectColor(color: any): void;
+  onSelectColor(color: string): void;
 }
 
 function ColorPicker({
-  name,
   containerClassName,
   color = '#000',
   onSelectColor,
   ...rest
-}: ColorPickerProps): React.JSX.Element {
+}: Readonly<ColorPickerProps>): React.JSX.Element {
   const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedColor, setSelectedColor] = useState(color);

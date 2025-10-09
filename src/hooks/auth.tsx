@@ -3,10 +3,11 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 import api from '../services/api';
 import { constants } from '../utils/constants';
 import { userSignIn } from '../services/user/sign-in';
+import type { User } from '@/schemas';
 
 interface AuthState {
   token: string;
-  user: any;
+  user: User;
 }
 
 export interface SignInCredentials {
@@ -16,7 +17,7 @@ export interface SignInCredentials {
 
 interface AuthContextData {
   token: string;
-  user: any;
+  user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }

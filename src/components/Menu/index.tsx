@@ -2,7 +2,6 @@ import React from 'react';
 import { StyledMenu } from './styles';
 
 const Menu = (): React.JSX.Element => {
-  const [open, setOpen] = React.useState(false);
 
   return (
     <StyledMenu>

@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Modal from '@/components/Modal';
 
 import api from '@/services/api';
-import { Category } from '@/schemas';
+import { Category, type IconMap } from '@/schemas';
 import { useTheme } from '@/hooks/theme';
 
 import {
@@ -145,7 +145,7 @@ function Config(): React.JSX.Element {
             </thead>
             <tbody>
               {categories?.map(category => {
-                const Icon = (Icons as any)[category.icon];
+                const Icon = (Icons as IconMap)[category.icon];
                 return (
                   <tr key={category.id}>
                     <TableBodyColumn>{category.title}</TableBodyColumn>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { forwardRef, type ComponentProps } from 'react';
 import { InputCustom } from './styles';
 

@@ -10,7 +10,7 @@ import api from '@/services/api';
 import { useTheme } from '@/hooks/theme';
 import formatValue from '@/utils/formatValue';
 import getChartOptions from '@/utils/getChartOptions';
-import serializeGraphData from '@/utils/serializeGraphData';
+import {serializeDonutGraphData, serializeLineGraphData} from '@/utils/serializeGraphData';
 
 import {
   Container,
@@ -19,8 +19,9 @@ import {
   GraphGridContainer,
 } from './styles';
 
-import type { Category, GraphData } from '@/schemas';
+import type { Category, DonutGraphData, IconMap, LineGraphData } from '@/schemas';
 import { format } from 'date-fns';
+import type { IconType } from 'react-icons/lib';
 
 Chart.register(CategoryScale, LinearScale);
 
@@ -29,28 +30,27 @@ interface OverviewData {
   outcome: number;
   category?: Category;
 }
-
 interface DonutGraphFilter {
   type: 'count' | 'value';
 }
 interface LineGraphFilter {
   period: 'week' | 'month';
 }
-
 interface DashboardGraphViewProps {
-  period: Date;
+  readonly period: Date;
 }
 
-function DashboardGraphView({
+export default function DashboardGraphView({
   period,
 }: DashboardGraphViewProps): React.JSX.Element {
-  const [donutData, setDonutData] = useState<GraphData>(() => {
+
+  const [donutData, setDonutData] = useState<DonutGraphData>(() => {
     return {
       labels: [],
       datasets: [],
     };
   });
-  const [lineData, setLineData] = useState<GraphData>(() => {
+  const [lineData, setLineData] = useState<LineGraphData>(() => {
     return {
       labels: [],
       datasets: [],
@@ -67,7 +67,7 @@ function DashboardGraphView({
     period: 'week',
   });
   const [donutGraphFilters, setDonutGraphFilters] = useState<DonutGraphFilter>({
-    type: 'count',
+    type: 'value',
   });
 
   const { theme } = useTheme();
@@ -97,14 +97,9 @@ function DashboardGraphView({
       ]);
 
       const [overview, donut, line] = await promises;
-      const donutSerializedData = serializeGraphData(
-        theme,
-        donut.data,
-        'donut',
-        tooltipLabel,
-      );
 
-      const lineSerializedData = serializeGraphData(theme, line.data, 'line');
+      const donutSerializedData = serializeDonutGraphData(theme, donut.data, tooltipLabel);
+      const lineSerializedData = serializeLineGraphData(theme, line.data);
 
       setDonutData(donutSerializedData);
       setLineData(lineSerializedData);
@@ -114,10 +109,10 @@ function DashboardGraphView({
     loadData();
   }, [theme, lineFilters.period, period, donutGraphFilters.type]);
 
-  let CategoryIcon: any;
+  let CategoryIcon: IconMap[keyof IconMap] | IconType;
 
   if (overviewData.category) {
-    CategoryIcon = (Icons as any)[overviewData.category.icon];
+    CategoryIcon = (Icons as IconMap)[overviewData.category.icon] || Icons.FiTag;
   }
 
   const handleLineFilters = useCallback(
@@ -227,17 +222,6 @@ function DashboardGraphView({
             </p>
             <div className="flex">
               <span
-                className={donutGraphFilters.type === 'count' ? 'active' : undefined}
-                onClick={() => handleDonutGraphFilters('count')}
-                onKeyUp={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    handleDonutGraphFilters('count');
-                  }
-                } }
-              >
-                <Icons.FiHash size={20} />
-              </span>
-              <span
                 className={donutGraphFilters.type === 'value' ? 'active' : undefined}
                 onClick={() => handleDonutGraphFilters('value')}
                 onKeyUp={(e) => {
@@ -248,18 +232,24 @@ function DashboardGraphView({
               >
                 <Icons.FiDollarSign size={20} />
               </span>
+              <span
+                className={donutGraphFilters.type === 'count' ? 'active' : undefined}
+                onClick={() => handleDonutGraphFilters('count')}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleDonutGraphFilters('count');
+                  }
+                } }
+              >
+                <Icons.FiHash size={20} />
+              </span>
             </div>
           </header>
           <div>
-            <Doughnut
-              data={donutData}
-              options={getChartOptions(theme, 'donut')}
-            />
+            <Doughnut data={donutData} options={getChartOptions(theme, 'donut')} />
           </div>
         </Widget>
       </GraphGridContainer>
     </Container>
   );
 }
-
-export default DashboardGraphView;

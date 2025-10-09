@@ -2,13 +2,10 @@ import type React from 'react';
 import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FiMail, FiLock } from 'react-icons/fi';
 
 import Logo from '@/assets/logo.svg?react';
 
 import { useAuth } from '@/hooks/auth';
-
-import getValidationErrors from '@/utils/getValidationErrors';
 
 import Input from '@/components/Input';
 import Button from '@/components/Button';
@@ -70,7 +67,6 @@ function SignIn(): React.JSX.Element {
           <Input
             {...register('email')}
             id="email"
-            // icon={FiMail}
             placeholder="E-mail"
           />
           {formState.errors.email && (
@@ -82,7 +78,6 @@ function SignIn(): React.JSX.Element {
           <Input
             {...register('password')}
             id="password"
-            // icon={FiLock}
             type="password"
             placeholder="Senha"
           />

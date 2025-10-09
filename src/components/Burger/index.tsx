@@ -8,11 +8,16 @@ import { IconSwitcherContainer } from '../Header/styles';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { shade } from 'polished';
 
+interface BurgueProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  open: boolean;
+  setOpen(open: boolean): void;
+}
+
 export default function Burger({
   open,
   setOpen,
   ...props
-}: any): React.JSX.Element {
+}: BurgueProps): React.JSX.Element {
   const isExpanded = open;
   const { toggleTheme, theme } = useTheme();
   return (

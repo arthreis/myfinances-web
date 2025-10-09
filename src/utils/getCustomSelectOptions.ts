@@ -1,8 +1,14 @@
 import { CSSProperties } from 'styled-components';
 import { shade, tint } from 'polished';
+import { StylesConfig, GroupBase } from 'react-select';
 import Theme from '../styles/themes/theme';
+import type { Category } from '@/schemas';
 
-export default function getCustomSelectOptions(theme: Theme): any {
+type OptionType = Category;
+type IsMulti = false;
+type CustomStylesConfig = StylesConfig<OptionType, IsMulti, GroupBase<OptionType>>;
+
+export default function getCustomSelectOptions(theme: Theme): CustomStylesConfig {
   return {
     input: (provided: CSSProperties) => ({
       ...provided,
@@ -40,8 +46,8 @@ export default function getCustomSelectOptions(theme: Theme): any {
   };
 }
 
-export function getCustomSelectOptionsModal(theme: Theme): any {
-  return {
+export function getCustomSelectOptionsModal(theme: Theme): CustomStylesConfig {
+  const options = {
     ...getCustomSelectOptions(theme),
     menu: (provided: CSSProperties) => ({
       ...provided,
@@ -66,4 +72,7 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
       };
     },
   };
+  console.log(`Custom select options for modal:`, JSON.stringify(options));
+
+  return options;
 }

@@ -1,27 +1,33 @@
-import React, { useRef, useEffect, forwardRef } from 'react';
+import React from 'react';
 import ReactSelect from 'react-select';
-import type { Options, Props as SelectProps } from 'react-select';
+import type { Options, Props as SelectProp, GroupBase, SelectInstance } from 'react-select';
 import AsyncReactSelect from 'react-select/async';
 
 import { Container } from './styles';
 
-type Props = SelectProps & {
+type OptionType = unknown;
+type IsMulti = false;
+
+type RefType = SelectInstance<OptionType, IsMulti, GroupBase<OptionType>>;
+
+type Props = SelectProp<OptionType, IsMulti, GroupBase<OptionType>> & {
   name: string;
   keyField?: string;
   async?: boolean;
+
   loadOptions?: (
     inputValue: string,
-    callback: (options: Options<any>) => void,
-  ) => Promise<any> | void;
+    callback: (options: Options<OptionType>) => void,
+  ) => Promise<Options<OptionType>> | void;
 };
 
-const Select = forwardRef<any, Props>(
-  ({ name, async = false, loadOptions, ...rest }, ref) => {
+const Select = React.forwardRef<RefType, Props>(
+  ({ async = false, loadOptions, ...rest }, ref) => {
     return (
       <Container>
         {async ? (
           <AsyncReactSelect
-            loadOptions={loadOptions!}
+            loadOptions={loadOptions}
             classNamePrefix="react-select"
             placeholder="Selecione uma opção"
             ref={ref}

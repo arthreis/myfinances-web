@@ -1,15 +1,13 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import * as Yup from 'yup';
 import * as IconsFi from 'react-icons/fi';
 import ReactLoading from 'react-loading';
 import type { CSSProperties } from 'styled-components';
-import { toast } from 'react-toastify';
 
 import { useTheme } from '@/hooks/theme';
-import getValidationErrors from '@/utils/getValidationErrors';
 import { getCustomSelectOptionsModal } from '@/utils/getCustomSelectOptions';
 
-import type { Category } from '@/schemas';
+import type { Category, IconMap } from '@/schemas';
 
 import { Container, Footer } from './styles';
 
@@ -24,17 +22,17 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { editCategory } from '@/services/category/edit-category';
 import { isValidHexColor } from '@/utils/isValidHexColor';
+import type { IconType } from 'react-icons/lib';
+import type { Options } from 'react-select';
 
 interface FormCategoryProps {
-  onSubmitted(category: Category): void;
-  onCancel(): void;
-  categoryEdit?: Category;
+  readonly onSubmitted: (category: Category) => void;
+  readonly onCancel: () => void;
+  readonly categoryEdit?: Category;
 }
 
 const schema = Yup.object().shape({
   title: Yup.string().required('Titulo é obrigatório'),
-  // icon: Yup.object<IconProps>().required('Ícone é obrigatório'),
-  // icon: Yup.string().required('Ícone é obrigatório'),
   icon: Yup.object()
     .shape({
       id: Yup.string().required('Id do ícone é obrigatório'),
@@ -49,7 +47,7 @@ export type CategoryForm = Yup.InferType<typeof schema>;
 
 type IconProps = {
   id: string;
-  Component: {};
+  Component: React.ComponentType<IconType>;
 };
 
 function FormCategory({
@@ -59,7 +57,7 @@ function FormCategory({
 }: FormCategoryProps): React.JSX.Element {
   const { theme } = useTheme();
   const labelButtonSubmit = categoryEdit ? 'Editar' : 'Criar';
-  const Icons = { ...(IconsFi as any) };
+  const Icons = { ...(IconsFi as IconMap) };
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const allIcons: IconProps[] = Object.keys(Icons).map(icon => {
@@ -82,7 +80,7 @@ function FormCategory({
   const [iconValue, setIconValue] = React.useState(getIcon(categoryEdit));
 
   const loadCategoryOptions = useCallback(
-    (inputValue: string, callback: (...args: any[]) => any) => {
+    (inputValue: string, callback: (options: Options<IconProps>) => void) => {
       setTimeout(
         () =>
           callback(
@@ -110,19 +108,18 @@ function FormCategory({
   const { register, handleSubmit, control, formState, reset, setValue } =
     useForm({ resolver: yupResolver(schema) });
 
-  const onChangeIcon = (e: any): void => {
+  const onChangeIcon = (e: IconProps): void => {
     setIconValue(e);
     setValue('icon', e);
   };
 
-  const onSelectColorDark = (e: any): void => {
+  const onSelectColorDark = (e: string): void => {
     if (isValidHexColor(e)) {
-      console.log('onSelectColorDark: ', e);
       setValue('background_color_dark', e);
     }
   };
 
-  const onSelectColorLight = (e: any): void => {
+  const onSelectColorLight = (e: string): void => {
     if (isValidHexColor(e)) {
       setValue('background_color_light', e);
     }
@@ -219,7 +216,7 @@ function FormCategory({
               }}
               placeholder="Selecione um ícone"
               defaultValue={iconValue}
-              onChange={onChangeIcon}
+              onChange={() => onChangeIcon}
             />
           )}
         />

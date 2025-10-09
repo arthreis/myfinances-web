@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { format } from 'date-fns';
-import brLocale from 'date-fns/locale/pt-BR';
+import { ptBR } from 'date-fns/locale/pt-BR';
 import { Container, SelectDate } from './styles';
 
 interface InputProps {
-  date: Date;
-  onChangePeriod(period: Date): void;
+  readonly date: Date;
+  readonly onChangePeriod: (period: Date) => void;
 }
 
 export default function PeriodDate({
@@ -34,7 +34,7 @@ export default function PeriodDate({
       />
 
       <SelectDate>
-        {format(periodDate, "MMMM ',' yyyy", { locale: brLocale })}
+        {format(periodDate, "MMMM ',' yyyy", { locale: ptBR })}
       </SelectDate>
 
       <FiChevronRight

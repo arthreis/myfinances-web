@@ -9,7 +9,6 @@ interface UploadProps extends ThemeProps<Theme> {
   isDragActive: boolean;
   isDragReject: boolean;
   refKey?: string;
-  [key: string]: any;
   type?: 'error' | 'success' | 'default';
 }
 
@@ -37,7 +36,7 @@ export const DropContainer = styled.div.attrs({
     props.isDragReject && dragReject(props)}
 `;
 
-const messageColors = (theme: Theme): any => ({
+const messageColors = (theme: Theme) => ({
   default:
     theme.title === 'light' ? theme.colors.primary : theme.colors.secondary,
   error: theme.colors.danger,

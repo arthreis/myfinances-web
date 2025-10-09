@@ -65,7 +65,7 @@ export const Widget = styled.div<WidgetProps>`
         &:hover,
         &.active {
           cursor: pointer;
-          border-color: ${props => props.theme.colors.secondary};
+          border-color: ${({ theme }) => theme.colors.primaryText};
         }
       }
     }

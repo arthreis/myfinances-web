@@ -16,6 +16,7 @@ import type {
   Sort,
   Transaction,
   RowsByPageOption,
+  IconMap,
 } from '@/schemas';
 
 import {
@@ -28,12 +29,11 @@ import { Actions } from '@/pages/Config/styles';
 import Modal from '@/components/Modal';
 import FormTransaction from '../FormTransaction';
 import SelectSimple from '@/components/SelectSimple';
-import { Typography } from '@/components/Typograph';
 import { Tooltip } from '@/components';
 
 interface DashboardTableViewProps {
-  onTransactionDeleted(): void;
-  period: Date;
+  readonly onTransactionDeleted: () => void;
+  readonly period: Date;
 }
 
 function DashboardTableView({
@@ -67,7 +67,6 @@ function DashboardTableView({
   const [transactionEdit, setTransactionEdit] = useState<Transaction>();
 
   const reloadTransactions = useCallback(() => {
-    console.log('Carregando transações');
     async function loadTransactions(
       { sort, direction }: Sort,
       { page, pageSize }: Omit<Pagination, 'total'>,
@@ -147,14 +146,11 @@ function DashboardTableView({
       />
     );
 
-  const onChangePageSize = (e: any): void => {
-    // setPageSize(Number(e.value));
-    // setPageSize(Number(e.value));
+  const onChangePageSize = (pageOption: RowsByPageOption): void => {
     setPagination(oldPagination => ({
       ...oldPagination,
-      pageSize: Number(e.value),
+      pageSize: Number(pageOption.value),
     }));
-    // reloadTransactions();
   };
 
   useEffect(() => {
@@ -177,7 +173,7 @@ function DashboardTableView({
 
           <tbody>
             {transactions?.map(transaction => {
-              const CategoryIcon = (Icons as any)[transaction.category.icon];
+              const CategoryIcon = (Icons as IconMap)[transaction.category.icon];
               const categoryBackgroundKey = `background_color_${theme.title}`;
               const categoryBackground =
                 transaction.category[
@@ -231,27 +227,31 @@ function DashboardTableView({
 
       <PaginationContainer className="pagination">
         <RowsByPageContainer className="rowsByPage">
-          <Typography>Linhas por página:</Typography>
+          {/* <Typography>Linhas por página:</Typography> */}
           <SelectSimple
             options={rowsByPage}
             onChange={onChangePageSize}
             defaultValue={rowsByPage[0]}
           />
         </RowsByPageContainer>
-        <ReactPaginate
-          previousLabel={<Icons.FiChevronLeft />}
-          nextLabel={<Icons.FiChevronRight />}
-          pageCount={pagination.total}
-          onPageChange={handlePaginate}
-          forcePage={pagination.page - 1}
-          disableInitialCallback
-          marginPagesDisplayed={0}
-          pageRangeDisplayed={3}
-          containerClassName="pagination"
-          activeClassName="active_page"
-          nextClassName="next_page"
-          previousClassName="previous_page"
-        />
+        {
+          pagination.total > 0 && (
+            <ReactPaginate
+              previousLabel={<Icons.FiChevronLeft />}
+              nextLabel={<Icons.FiChevronRight />}
+              pageCount={pagination.total}
+              onPageChange={handlePaginate}
+              forcePage={pagination.page - 1}
+              disableInitialCallback
+              marginPagesDisplayed={0}
+              pageRangeDisplayed={3}
+              containerClassName="pagination"
+              activeClassName="active_page"
+              nextClassName="next_page"
+              previousClassName="previous_page"
+            />
+          )
+        }
       </PaginationContainer>
 
       <Modal

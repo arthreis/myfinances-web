@@ -1,24 +1,15 @@
 import React, {
   useCallback,
-  useRef,
   useState,
   useEffect,
-  forwardRef,
-  ForwardedRef,
-  ForwardRefExoticComponent,
-  type ReactEventHandler,
-  type SetStateAction,
-  type ChangeEvent,
 } from 'react';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
 import ReactLoading from 'react-loading';
 import { Container } from './styles';
 
 import { useTheme } from '@/hooks/theme';
 
-import { Category, Transaction } from '@/schemas';
-import getValidationErrors from '@/utils/getValidationErrors';
+import type { Category, Transaction } from '@/schemas';
 import getCustomSelectOptions from '@/utils/getCustomSelectOptions';
 
 import Input from '@/components/Input';
@@ -36,29 +27,24 @@ import { getAllCategories } from '@/services/category/get-all-categories';
 import { createTransaction } from '@/services/transaction/create-transaction';
 import { editTransaction } from '@/services/transaction/edit-transaction';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 interface FormTransactionProps {
-  onSubmitted(): void;
-  onCancel(): void;
-  transactionEdit?: Transaction;
+  readonly onSubmitted: () => void;
+  readonly onCancel: () => void;
+  readonly transactionEdit?: Transaction;
 }
 
-const schema = Yup.object().shape({
+export const transactionSchema = Yup.object().shape({
   title: Yup.string().required('Título é obrigatório'),
   type: Yup.string().required('Tipo da transação é obrigatório'),
   category: Yup.object().required('Categoria é obrigatória'),
   category_id: Yup.string().required('Id da categoria é obrigatória'),
-  // category: Yup.object().shape({
-  //   id: Yup.string().required('Id da categoria é obrigatório'),
-  //   title: Yup.string().required('Título da categoria é obrigatório'),
-  // }),
   transaction_date: Yup.string().required('Data da transação é obrigatória'),
   value: Yup.number().moreThan(0).required('Valor é obrigatório'),
   description: Yup.string().required(),
 });
 
-export type TransactionForm = Yup.InferType<typeof schema>;
+export type TransactionForm = Yup.InferType<typeof transactionSchema>;
 
 function FormTransaction({
   onSubmitted,
@@ -78,9 +64,11 @@ function FormTransaction({
     setTransactionDate(e.target.value);
   };
 
-  const onChangeCategory = (e: any): void => {
-    setValue('category', e);
-    setValue('category_id', e.id);
+  const onChangeCategory = (category: Category): void => {
+    console.log(`Categoria selecionada: ${category.title}`);
+
+    setValue('category', category);
+    setValue('category_id', category.id);
   };
 
   const handleTypeSelect = useCallback((selectedType: SelectedType) => {
@@ -89,7 +77,6 @@ function FormTransaction({
 
   const { register, handleSubmit, formState, control, reset, setValue } =
     useForm<TransactionForm>(
-      // { resolver: yupResolver(schema), }
     );
 
   const loadFormTransaction = (transactionEdit: Transaction) => {
@@ -138,6 +125,19 @@ function FormTransaction({
     }
   }, []);
 
+  const buttonText = transactionEdit ? 'Editar' : 'Criar';
+
+  const buttonLabel = isLoading ? (
+    <div>
+      <ReactLoading
+        type="spin"
+        color={theme.colors.secondaryText}
+        width={25}
+        height={25}
+      />
+    </div>
+  ) : buttonText;
+
   return (
     <Container>
       <form onSubmit={handleSubmit(handleSubmitTransaction)}>
@@ -173,14 +173,14 @@ function FormTransaction({
               {...field}
               options={categories}
               styles={getCustomSelectOptions(theme)}
-              getOptionLabel={(category: any) => category.title}
+              getOptionLabel={(category: Category) => category.title}
               components={{
                 Option: CategoryIconOption,
                 SingleValue: CategoryIconSingleValue,
               }}
               placeholder="Selecione uma categoria"
               defaultValue={transactionEdit?.category}
-              onChange={onChangeCategory}
+              onChange={(newValue) => onChangeCategory(newValue as Category)}
             />
           )}
         />
@@ -232,20 +232,7 @@ function FormTransaction({
         )}
 
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? (
-            <div>
-              <ReactLoading
-                type="spin"
-                color={theme.colors.secondaryText}
-                width={25}
-                height={25}
-              />
-            </div>
-          ) : transactionEdit ? (
-            'Editar'
-          ) : (
-            'Criar'
-          )}
+          {buttonLabel}
         </Button>
       </form>
     </Container>

@@ -1,3 +1,5 @@
+import type { IconType } from 'react-icons/lib';
+
 export interface Category {
   id: string;
   title: string;
@@ -44,10 +46,40 @@ export interface Sort {
 export interface PaginationChange {
   selected: number;
 }
-
-export interface GraphData {
+export interface LineGraphData {
   labels: string[];
-  datasets: any[];
+  datasets: LineDataset[];
+}
+export interface DonutGraphData {
+  labels: string[];
+  datasets: DonutDataset[];
+}
+
+export interface LineDataset {
+  label: string;
+  fill: boolean;
+  backgroundColor: string;
+  borderColor: string;
+  borderJoinStyle: string;
+  data: number[];
+}
+
+export interface DonutDataset {
+  label: string;
+  data: number[];
+  backgroundColor: string[];
+  borderColor: string[];
 }
 
 export type RowsByPageOption = { value: number; label: number };
+
+type IconComponentType = React.ComponentType<IconType>;
+export type IconMap = { [key: string]: IconComponentType };
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+}

@@ -1,15 +1,9 @@
 import React from 'react';
-import { useCallback } from 'react';
 import * as Yup from 'yup';
-import { FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { useNavigate, Link } from 'react-router-dom';
 
-import logoImg from '@/assets/logo.svg';
 import Logo from '@/assets/logo.svg?react';
-
-import getValidationErrors from '@/utils/getValidationErrors';
-
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 
@@ -58,7 +52,6 @@ function SignUp(): React.JSX.Element {
         <form onSubmit={handleSubmit(handleSignUp)}>
           <Input
             {...register('name')}
-            // icon={FiUser}
             name="name"
             placeholder="Nome"
           />
@@ -69,7 +62,6 @@ function SignUp(): React.JSX.Element {
           )}
           <Input
             {...register('email')}
-            // icon={FiMail}
             name="email"
             placeholder="E-mail"
           />
@@ -80,7 +72,6 @@ function SignUp(): React.JSX.Element {
           )}
           <Input
             {...register('password')}
-            // icon={FiLock}
             type="password"
             name="password"
             placeholder="Senha"

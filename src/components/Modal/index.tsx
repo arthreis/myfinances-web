@@ -13,7 +13,7 @@ import {
 
 interface ModalProps {
   show: boolean;
-  onClose: () => any;
+  onClose: () => void;
   size?: ModalSizeVariant;
   height?: number;
   children: React.ReactNode;
@@ -53,7 +53,6 @@ function Modal({
 
             <Body>{children}</Body>
 
-            {/* <h1>FOOTER</h1> */}
           </ModalContent>
           <ModalBackground onClick={() => onClose()} />
         </ModalWrapper>

@@ -1,90 +1,81 @@
 import {
   format,
-  addHours,
-  formatISO,
-  addDays,
-  addMinutes,
-  parseISO,
 } from 'date-fns';
-import {
-  format as formatTZ,
-  utcToZonedTime,
-  zonedTimeToUtc,
-} from 'date-fns-tz';
 import { tint } from 'polished';
-import { GraphData, Category } from '../schemas';
+import { Category, type DonutGraphData, type LineGraphData } from '../schemas';
 import Theme from '../styles/themes/theme';
 
-export default function serializeGraphData(
-  theme: Theme,
-  data: any,
-  type: 'donut' | 'line',
-  tooltipLabel?: string,
-): GraphData {
-  if (type === 'donut') {
-    return {
-      labels: data.map((item: Category) => item.title),
-      datasets: [
-        {
-          label: tooltipLabel ?? 'Transações por Categoria',
-          ...data.reduce(
-            (accumulator: any, current: Category) => {
-              accumulator.data.push(
-                current.transactionsCount
-                  ? current.transactionsCount
-                  : current.transactionsTotalValue,
-              );
-              accumulator.backgroundColor.push(
-                theme.title === 'dark'
-                  ? current.background_color_light
-                  : current.background_color_dark,
-              );
+interface LineData {
+  income: [number, number][];
+  outcome: [number, number][];
+}
 
-              accumulator.borderColor.push(
-                theme.title === 'dark'
-                  ? current.background_color_dark
-                  : current.background_color_light,
-              );
+type DonutData = Category & {
+  user_id: string;
+}
 
-              return accumulator;
-            },
-            {
-              data: [],
-              backgroundColor: [],
-              borderColor: [],
-            },
-          ),
-        },
-      ],
-    };
-  } else if (type === 'line') {
-    return {
-      labels: data.income.map((entry: any[]) =>
-        format(new Date(entry[0]), 'dd/MM'),
-      ),
-      datasets: [
-        {
-          label: 'Entradas',
-          fill: false,
-          backgroundColor: theme.colors.success,
-          borderColor: tint(0.1, theme.colors.success),
-          borderJoinStyle: 'miter',
-          data: data.income.map((entry: any[]) => entry[1]),
-        },
-        {
-          label: 'Saídas',
-          fill: false,
-          borderColor: tint(0.1, theme.colors.danger),
-          backgroundColor: theme.colors.danger,
-          borderJoinStyle: 'miter',
-          data: data.outcome.map((entry: any[]) => entry[1]),
-        },
-      ],
-    };
-  } else {
-    return {
-      labels: [],
-      datasets: [],
-    };
-  }
+export function serializeLineGraphData(theme: Theme, data: LineData,): LineGraphData {
+
+  const line: LineGraphData = {
+    labels: data.income.map((entry: number[]) =>
+      format(new Date(entry[0]), 'dd/MM'),
+    ),
+    datasets: [
+      {
+        label: 'Entradas',
+        fill: false,
+        backgroundColor: theme.colors.success,
+        borderColor: tint(0.1, theme.colors.success),
+        borderJoinStyle: 'miter',
+        data: data.income.map((entry: number[]) => entry[1]),
+      },
+      {
+        label: 'Saídas',
+        fill: false,
+        borderColor: tint(0.1, theme.colors.danger),
+        backgroundColor: theme.colors.danger,
+        borderJoinStyle: 'miter',
+        data: data.outcome.map((entry: number[]) => entry[1]),
+      },
+    ],
+  };
+
+  return line;
+}
+
+export function serializeDonutGraphData(theme: Theme, data: DonutData[], tooltipLabel: string): DonutGraphData {
+
+  console.log(`Donut data:`, data);
+
+  const donut: DonutGraphData = new Object() as DonutGraphData;
+  donut.labels = data.map((item: Category) => item.title);
+
+  donut.datasets = [
+    {
+      label: tooltipLabel ?? 'Transações por Categoria',
+      data: [],
+      backgroundColor: [],
+      borderColor: [],
+    },
+  ];
+
+  data.forEach((current: Category) => {
+    donut.datasets[0].data.push(
+      current.transactionsCount ?? current.transactionsTotalValue ?? 0,
+    );
+    donut.datasets[0].backgroundColor.push(
+      theme.title === 'dark'
+        ? current.background_color_light
+        : current.background_color_dark,
+    );
+
+    donut.datasets[0].borderColor.push(
+      theme.title === 'dark'
+        ? current.background_color_dark
+        : current.background_color_light,
+    );
+  });
+    console.log(`Serialized donut:`, donut);
+
+    return donut;
 }

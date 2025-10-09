@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { rgba, tint, shade } from 'polished';
-import Tooltip from '@/components/Tooltip';
 
 interface TableBodyColumnProps {
   categoryBackground?: string;
@@ -45,14 +44,6 @@ export const TableBodyColumn = styled.td<TableBodyColumnProps>`
     color: ${props => props.theme.colors.danger};
   }
 
-  /* svg {
-    transition: color 0.2s;
-    &:hover {
-      cursor: pointer;
-      color: ${props => props.theme.colors.danger};
-    }
-  } */
-
   ${props =>
     props.categoryBackground &&
     css`
@@ -63,12 +54,6 @@ export const TableBodyColumn = styled.td<TableBodyColumnProps>`
 
 export const TableContainer = styled.section`
   margin-top: 10px;
-  min-height: 455px;
-
-  /* @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) { */
-  /* overflow-x: auto; */
-  /* } */
-
   table {
     width: 100%;
     border-spacing: 0 8px;
@@ -105,8 +90,6 @@ export const TableContainer = styled.section`
     }
   }
 
-  /* @media only screen and (max-width: 760px),
-    (min-device-width: 768px) and (max-device-width: 1024px) { */
   @media only screen and (max-width: 768px) {
     /* Force table to not be like tables anymore */
     table,

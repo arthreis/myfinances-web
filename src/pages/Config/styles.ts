@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import Tooltip from '@/components/Tooltip';
 import Button from '@/components/Button';
 
 export const Container = styled.div`

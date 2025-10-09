@@ -3,17 +3,17 @@ import type { SingleValueProps } from 'react-select';
 import * as Icons from 'react-icons/fi';
 import { useTheme } from '@/hooks/theme';
 import { Container } from './styles';
+import type { Category, IconMap } from '@/schemas';
 
 export default function CategoryIconSingleValue({
-  innerProps,
   data,
-}: SingleValueProps<any>): React.JSX.Element {
+}: Readonly<SingleValueProps<Category>>): React.JSX.Element {
   const { theme } = useTheme();
   const { icon, title, background_color_light, background_color_dark } = data;
-  const Icon = (Icons as any)[icon];
+  const Icon = (Icons as IconMap)[icon];
 
   return (
-    <Container {...innerProps}>
+    <Container>
       <Icon
         size={20}
         color={

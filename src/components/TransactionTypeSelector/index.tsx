@@ -58,4 +58,6 @@ const TransactionTypeSelector = React.forwardRef<
   );
 });
 
+TransactionTypeSelector.displayName = 'TransactionTypeSelector';
+
 export default TransactionTypeSelector;

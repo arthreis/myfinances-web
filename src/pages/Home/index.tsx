@@ -13,7 +13,6 @@ import type { Balance } from '@/schemas';
 
 import { format } from 'date-fns';
 import { useLocation } from 'react-router-dom';
-import * as C from '@/components';
 import Burger from '@/components/Burger';
 import Button from '@/components/Button';
 import Modal from '@/components/Modal';
@@ -36,7 +35,6 @@ function Home(): React.JSX.Element {
   const location = useLocation();
 
   const reloadBalance = useCallback(async () => {
-    console.log(`Carregando período de: ${format(period, "MMMM 'de' yyyy")}`);
     const { data } = await getBalance(format(period, 'yyyy-MM'));
     setBalance(data);
   }, [period]);
@@ -64,7 +62,11 @@ function Home(): React.JSX.Element {
   };
 
   useEffect(() => {
-    location.pathname.includes('home') ? setView('table') : setView('graph');
+    if (location.pathname.includes('home')) {
+      setView('table')
+    } else {
+      setView('graph');
+    }
     setOpen(false);
     reloadBalance();
   }, [location.pathname, reloadBalance]);
@@ -72,7 +74,7 @@ function Home(): React.JSX.Element {
   return (
     <>
       <Burger open={open} setOpen={setOpen} />
-      <Header open={open} size={isGraphViewActive() ? 'small' : 'small'} />
+      <Header open={open} size='small' />
       <Container>
         {isTableViewActive() && (
           <CardContainer>
@@ -114,10 +116,7 @@ function Home(): React.JSX.Element {
 
         {isTableViewActive() && (
           <>
-            <Button
-              style={{ width: 200 }}
-              onClick={() => setIsShowingModal(true)}
-            >
+            <Button style={{ width: 200 }} onClick={() => setIsShowingModal(true)}>
               Nova transação
             </Button>
             <DashboardTableView
