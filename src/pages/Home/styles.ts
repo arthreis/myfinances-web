@@ -1,4 +1,4 @@
-import styled, { type ThemeProps } from 'styled-components';
+import styled, { css, type ThemeProps } from 'styled-components';
 import type Theme from '@/styles/themes/theme';
 
 interface CardProps extends ThemeProps<Theme> {
@@ -26,40 +26,23 @@ export const Title = styled.h1`
 `;
 
 export const CardContainer = styled.section`
-  /* display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 28px;
-  margin-top: -150px;
-  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-    grid-gap: 8px;
-  } */
   @media (min-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    /* margin-top: 0px; */
-    /* margin-top: -100px; */
     margin-bottom: 20px;
   }
   @media (max-width: calc(${p => p.theme.layout.breakpoints.tablet} - 1px)) {
     margin-top: 0px;
     flex-direction: column;
     row-gap: 16px;
-    /* padding: 12px 22px; */
   }
-  /* margin-top: -150px; */
-  /* margin-top: 30px; */
   display: flex;
   justify-content: space-between;
-  /* flex-wrap: wrap; */
 `;
 
 export const Card = styled.div`
-  /* background: ${({ total, theme }: CardProps): string => (total ? theme.colors.secondary : theme.colors.tertiary)}; */
   background: ${({ theme }: CardProps) => theme.colors.tertiary};
-  /* padding: 22px 32px; */
   padding: 8px 16px;
   border-radius: 5px;
-  /* color: ${({ total, theme }: CardProps): string => (total ? theme.colors.white : theme.colors.primaryText)}; */
   color: ${({ theme }: CardProps): string => theme.colors.primaryText};
-  /* width: 100%; */
   display: flex;
   align-items: center;
   gap: 8px;
@@ -72,7 +55,7 @@ export const Card = styled.div`
     flex-direction: column;
   }
 
-  header {
+  div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -89,26 +72,6 @@ export const Card = styled.div`
     }
   }
 
-  h1 {
-    /* margin-top: 14px; */
-    /* margin-top: auto; */
-    font-size: ${({ theme }) => theme.fontSize.desktop.LG};
-    font-weight: normal;
-    /* line-height: 54px; */
-    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      /* margin-top: 8px; */
-      font-size: ${({ theme }) => theme.fontSize.tablet.LG};
-      font-weight: normal;
-      /* line-height: 44px; */
-    }
-    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      /* margin-top: 8px; */
-      font-size: ${({ theme }) => theme.fontSize.mobile.LG};
-      font-weight: normal;
-      /* line-height: 54px; */
-    }
-  }
-
   transition: transform 0.2s ease-in;
 
   &:hover {
@@ -121,17 +84,14 @@ export const TitleAndViewSelector = styled.section`
 
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   flex-direction: column;
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
     margin-top: 24px;
-    /* flex-direction: column; */
   }
   h1 {
     margin-right: auto;
 
     font-weight: 500;
-    /* line-height: 54px; */
     line-height: calc(${({ theme }) => theme.fontSize.desktop.XL} * 1.5);
     color: ${props => props.theme.colors.primaryText};
     font-size: ${({ theme }) => theme.fontSize.desktop.XL};
@@ -143,7 +103,6 @@ export const TitleAndViewSelector = styled.section`
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
       line-height: calc(${({ theme }) => theme.fontSize.mobile.XL} * 1.5);
       font-size: ${({ theme }) => theme.fontSize.mobile.XL};
-      /* margin-right: auto; */
     }
   }
 
@@ -173,3 +132,22 @@ export const TitleAndViewSelector = styled.section`
     }
   }
 `;
+
+export const Balance = styled.span<{ isPositive?: boolean }>`
+
+  ${({ theme, isPositive }) => isPositive !== undefined &&
+    css`
+      color: ${(isPositive ? theme.colors.success : theme.colors.danger)};
+  `};
+
+  font-size: ${({ theme }) => theme.fontSize.desktop.LG};
+  font-weight: normal;
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.fontSize.tablet.LG};
+    font-weight: normal;
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSize.mobile.LG};
+    font-weight: normal;
+  }
+`

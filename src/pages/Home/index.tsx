@@ -20,7 +20,7 @@ import PeriodDate from '@/components/PeriodDate';
 import { useTheme } from '@/hooks/theme';
 import { getBalance } from '@/services/transaction/get-balance';
 import FormTransaction from './FormTransaction';
-import { Card, CardContainer, Container, TitleAndViewSelector } from './styles';
+import { Balance as BalanceValue, Card, CardContainer, Container, TitleAndViewSelector } from './styles';
 import SvgTotal from '@/assets/total.svg?react';
 
 function Home(): React.JSX.Element {
@@ -79,29 +79,29 @@ function Home(): React.JSX.Element {
         {isTableViewActive() && (
           <CardContainer>
             <Card>
-              <header>
+              <div>
                 <img src={income} alt="Income" />
                 <p>Entradas</p>
-              </header>
-              <h1 data-testid="balance-income">
+              </div>
+              <BalanceValue data-testid="balance-income">
                 {formatValue(balance?.income)}
-              </h1>
+              </BalanceValue>
             </Card>
             <Card>
-              <header>
+              <div>
                 <img src={outcome} alt="Outcome" />
                 <p>Saídas</p>
-              </header>
-              <h1 data-testid="balance-outcome">
+              </div>
+              <BalanceValue data-testid="balance-outcome">
                 {formatValue(balance?.outcome)}
-              </h1>
+              </BalanceValue>
             </Card>
-            <Card total>
-              <header>
+            <Card>
+              <div>
                 <SvgTotal height={32} color={theme.colors.primary} />
                 <p>Total</p>
-              </header>
-              <h1 data-testid="balance-total">{formatValue(balance?.total)}</h1>
+              </div>
+              <BalanceValue data-testid="balance-total" isPositive={balance?.total >= 0}>{formatValue(balance?.total)}</BalanceValue>
             </Card>
           </CardContainer>
         )}
@@ -116,7 +116,7 @@ function Home(): React.JSX.Element {
 
         {isTableViewActive() && (
           <>
-            <Button style={{ width: 200 }} onClick={() => setIsShowingModal(true)}>
+            <Button onClick={() => setIsShowingModal(true)}>
               Nova transação
             </Button>
             <DashboardTableView
