@@ -10,12 +10,10 @@ export default function CategoryIconOptionConfig({
   const { id } = data;
   const Icon = (Icons as IconMap)[id];
 
-  console.log(`CategoryIconOptionConfig data -> `, data);
-
   return (
     <Container>
       {Icon && <Icon size={20} />}
-      {id.split('Fi')[1]}
+      {id?.split('Fi')[1]}
     </Container>
   );
 }

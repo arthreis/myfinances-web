@@ -162,8 +162,6 @@ function FormCategory({
       background_color_dark: category.background_color_dark,
       background_color_light: category.background_color_light,
     });
-
-    console.log('DATA: ', data);
     return data;
   };
 
@@ -214,7 +212,7 @@ function FormCategory({
               }}
               placeholder="Selecione um ícone"
               defaultValue={iconValue}
-              onChange={() => onChangeIcon}
+              onChange={onChangeIcon}
             />
           )}
         />

@@ -38,9 +38,9 @@ function Import(): React.JSX.Element {
     } catch (err) {
       if (err && (err as AxiosError).response) {
         const axiosError = err as AxiosError;
-        console.log(axiosError.response?.data);
+        console.error(axiosError.response?.data);
       } else {
-        console.log(err);
+        console.error(err);
       }
       toast.error(
         'Ocorreu um erro ao realizar a importação, verique os dados e tente novamente.',
