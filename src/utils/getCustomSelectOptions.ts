@@ -72,7 +72,6 @@ export function getCustomSelectOptionsModal(theme: Theme): CustomStylesConfig {
       };
     },
   };
-  console.log(`Custom select options for modal:`, JSON.stringify(options));
 
   return options;
 }

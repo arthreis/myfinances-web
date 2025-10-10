@@ -58,15 +58,11 @@ function FormTransaction({
     format(new Date(), 'yyyy-MM-dd'),
   );
 
-  const onChangeTransactionDate = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
+  const onChangeTransactionDate = (e: React.ChangeEvent<HTMLInputElement>,): void => {
     setTransactionDate(e.target.value);
   };
 
   const onChangeCategory = (category: Category): void => {
-    console.log(`Categoria selecionada: ${category.title}`);
-
     setValue('category', category);
     setValue('category_id', category.id);
   };
@@ -75,15 +71,9 @@ function FormTransaction({
     setValue('type', selectedType);
   }, []);
 
-  const { register, handleSubmit, formState, control, reset, setValue } =
-    useForm<TransactionForm>(
-    );
+  const { register, handleSubmit, formState, control, reset, setValue } = useForm<TransactionForm>();
 
   const loadFormTransaction = (transactionEdit: Transaction) => {
-    console.log(
-      `Carregando formulário com a transação escolhida: ${JSON.stringify(transactionEdit)}`,
-    );
-
     const date = format(
       new Date(transactionEdit.transaction_date),
       'yyyy-MM-dd',
@@ -92,9 +82,7 @@ function FormTransaction({
     onChangeCategory(transactionEdit.category);
   };
 
-  const handleSubmitTransaction: SubmitHandler<
-    TransactionForm
-  > = async transaction => {
+  const handleSubmitTransaction: SubmitHandler<TransactionForm> = async transaction => {
     setIsLoading(true);
     try {
       if (transactionEdit) {
@@ -120,22 +108,18 @@ function FormTransaction({
 
     if (transactionEdit) {
       loadFormTransaction(transactionEdit);
-    } else {
-      console.log('Criando transação');
     }
   }, []);
 
   const buttonText = transactionEdit ? 'Editar' : 'Criar';
 
   const buttonLabel = isLoading ? (
-    <div>
-      <ReactLoading
-        type="spin"
-        color={theme.colors.secondaryText}
-        width={25}
-        height={25}
-      />
-    </div>
+    <ReactLoading
+      type="spin"
+      color={theme.colors.secondaryText}
+      width={25}
+      height={25}
+    />
   ) : buttonText;
 
   return (

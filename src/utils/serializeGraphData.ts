@@ -45,8 +45,6 @@ export function serializeLineGraphData(theme: Theme, data: LineData,): LineGraph
 
 export function serializeDonutGraphData(theme: Theme, data: DonutData[], tooltipLabel: string): DonutGraphData {
 
-  console.log(`Donut data:`, data);
-
   const donut: DonutGraphData = new Object() as DonutGraphData;
   donut.labels = data.map((item: Category) => item.title);
 
@@ -75,7 +73,5 @@ export function serializeDonutGraphData(theme: Theme, data: DonutData[], tooltip
         : current.background_color_light,
     );
   });
-    console.log(`Serialized donut:`, donut);
-
     return donut;
 }

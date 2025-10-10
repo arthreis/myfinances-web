@@ -123,7 +123,6 @@ function DashboardTableView({
   }, []);
 
   const handleTransactionAddedOrEdited = useCallback(() => {
-    console.log('DashboardTableView');
     reloadTransactions();
     handleCloseModal();
   }, [handleCloseModal, reloadTransactions]);

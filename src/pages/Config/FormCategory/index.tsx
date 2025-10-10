@@ -170,8 +170,6 @@ function FormCategory({
   React.useEffect(() => {
     if (categoryEdit) {
       onChangeIcon(iconValue);
-    } else {
-      console.log('Criando categoria');
     }
   }, []);
 
@@ -194,7 +192,7 @@ function FormCategory({
           name="icon"
           control={control}
           render={({ field }) => (
-            <Select
+            <Select<IconProps>
               {...field}
               async
               options={allIcons}

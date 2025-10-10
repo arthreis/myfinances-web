@@ -5,18 +5,17 @@ import { Container } from './styles';
 import type { Category, IconMap } from '@/schemas';
 
 export default function CategoryIconOptionConfig({
-  innerProps,
   data,
 }: OptionProps<Category> | SingleValueProps<Category>): React.JSX.Element {
   const { id } = data;
   const Icon = (Icons as IconMap)[id];
 
-  console.log(`CategoryIconOptionConfig -> `, innerProps);
+  console.log(`CategoryIconOptionConfig data -> `, data);
 
   return (
-    <Container {...innerProps}>
+    <Container>
       {Icon && <Icon size={20} />}
-      {id}
+      {id.split('Fi')[1]}
     </Container>
   );
 }

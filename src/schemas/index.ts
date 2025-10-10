@@ -1,4 +1,4 @@
-import type { IconType } from 'react-icons/lib';
+import type { IconType } from 'react-icons';
 
 export interface Category {
   id: string;

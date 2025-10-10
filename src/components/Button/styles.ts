@@ -10,6 +10,10 @@ export const ButtonStyles = styled.button<ButtonProps>`
   width: 100%;
   transition: background-color 0.2s;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   ${({ theme, variant, outlined }) =>
     outlined &&
     css`
