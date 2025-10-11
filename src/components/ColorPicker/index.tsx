@@ -1,8 +1,4 @@
-import React, {
-  useRef,
-  useCallback,
-  useState,
-} from 'react';
+import React from 'react';
 import type { InputHTMLAttributes } from 'react';
 
 import { rgba } from 'polished';
@@ -31,22 +27,23 @@ function ColorPicker({
   onSelectColor,
   ...rest
 }: Readonly<ColorPickerProps>): React.JSX.Element {
-  const { theme } = useTheme();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedColor, setSelectedColor] = useState(color);
-  const [isFilled, setIsFilled] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
-  const handleInputFocus = useCallback(() => {
+  const { theme } = useTheme();
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [selectedColor, setSelectedColor] = React.useState(color);
+  const [isFilled, setIsFilled] = React.useState(false);
+  const [isFocused, setIsFocused] = React.useState(false);
+
+  const handleInputFocus = React.useCallback(() => {
     setIsFocused(true);
   }, []);
 
-  const handleInputBlur = useCallback(() => {
+  const handleInputBlur = React.useCallback(() => {
     setIsFocused(false);
     setIsFilled(!!inputRef.current?.value);
   }, []);
 
-  const handleColorChange = useCallback(
+  const handleColorChange = React.useCallback(
     (colorHex: string) => {
       setSelectedColor(colorHex);
       onSelectColor(colorHex);
@@ -54,7 +51,7 @@ function ColorPicker({
         inputRef.current.value = colorHex;
       }
     },
-    [inputRef],
+    [onSelectColor],
   );
 
   React.useEffect(() => {
@@ -62,7 +59,7 @@ function ColorPicker({
       setSelectedColor(color);
       onSelectColor(color);
     }
-  }, []);
+  }, [color, onSelectColor]);
 
   return (
     <Container

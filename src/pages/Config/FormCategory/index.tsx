@@ -7,7 +7,7 @@ import type { CSSProperties } from 'styled-components';
 import { useTheme } from '@/hooks/theme';
 import { getCustomSelectOptionsModal } from '@/utils/getCustomSelectOptions';
 
-import type { Category, IconMap } from '@/schemas';
+import type { Category, IconMap, IconProps } from '@/schemas';
 
 import { Container, Footer } from './styles';
 
@@ -22,7 +22,6 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { editCategory } from '@/services/category/edit-category';
 import { isValidHexColor } from '@/utils/isValidHexColor';
-import type { IconType } from 'react-icons/lib';
 import type { Options } from 'react-select';
 
 interface FormCategoryProps {
@@ -45,10 +44,7 @@ const schema = Yup.object().shape({
 
 export type CategoryForm = Yup.InferType<typeof schema>;
 
-type IconProps = {
-  id: string;
-  Component: React.ComponentType<IconType>;
-};
+
 
 function FormCategory({
   onSubmitted,

@@ -1,4 +1,4 @@
-import type { IconType } from 'react-icons';
+import type { IconType } from 'react-icons/lib';
 
 export interface Category {
   id: string;
@@ -73,8 +73,13 @@ export interface DonutDataset {
 
 export type RowsByPageOption = { value: number; label: number };
 
-type IconComponentType = React.ComponentType<IconType>;
+type IconComponentType = { size?: number } & IconType;
 export type IconMap = { [key: string]: IconComponentType };
+
+export type IconProps = {
+  id: string;
+  Component: React.ComponentType<IconComponentType>;
+};
 
 export type User = {
   id: string;

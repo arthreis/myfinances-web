@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import * as Icons from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Modal from '@/components/Modal';
 
 import api from '@/services/api';
-import { Category, type IconMap } from '@/schemas';
+import type { Category, IconMap } from '@/schemas';
 import { useTheme } from '@/hooks/theme';
 
 import {
@@ -29,11 +29,12 @@ const ReactSwal = withReactContent(Swal);
 
 function Config(): React.JSX.Element {
   const { theme } = useTheme();
-  const [categoryEdit, setCategoryEdit] = useState<Category>();
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
+  const [categoryEdit, setCategoryEdit] = React.useState<Category>();
+  const [categories, setCategories] = React.useState<Category[]>([]);
+  const [isShowingModal, setIsShowingModal] = React.useState<boolean>(false);
+  const [open, setOpen] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     async function loadCategories(): Promise<void> {
       const { data } = await api.get('/categories');
       setCategories(data);
@@ -41,85 +42,74 @@ function Config(): React.JSX.Element {
     loadCategories();
   }, []);
 
-  const handleCloseModal = useCallback(() => {
+  const handleCloseModal = React.useCallback(() => {
     setIsShowingModal(false);
   }, []);
 
-  const handleOpenModal = useCallback((category?: Category) => {
+  const handleOpenModal = React.useCallback((category?: Category) => {
     setCategoryEdit(category);
     setIsShowingModal(true);
   }, []);
 
-  const handleCategoryAddedOrEdited = useCallback(
-    (categoryAddedOrEdited: Category) => {
-      let isEdited = false;
-      const newState = categories.map(c => {
-        if (c.id === categoryAddedOrEdited.id) {
-          isEdited = true;
-          return categoryAddedOrEdited;
-        }
-        return c;
+  const handleCategoryAddedOrEdited = React.useCallback((categoryAddedOrEdited: Category) => {
+    let isEdited = false;
+    const newCategory = categories.map(category => {
+      if (category.id === categoryAddedOrEdited.id) {
+        isEdited = true;
+        return categoryAddedOrEdited;
+      }
+      return category;
+    });
+
+    setCategories(isEdited ? newCategory : [...newCategory, categoryAddedOrEdited]);
+
+    toast.success(
+      `Categoria ${isEdited ? 'editada' : 'adicionada'} com sucesso!`,
+    );
+
+    handleCloseModal();
+  },[categories, handleCloseModal],);
+
+  const filterAndSetCategories = React.useCallback((categoryToDelete: Category) => {
+    const newCategories = categories.filter(
+      category => category.id !== categoryToDelete.id,
+    );
+    setCategories([...newCategories]);
+  },[categories],);
+
+  const handleDelete = React.useCallback(async (categoryToDelete: Category) => {
+    const { data, status } = await api.delete(
+      `/categories/${categoryToDelete.id}`,
+    );
+
+    if (status === 200 && data.status === 'confirm') {
+      const { value: isConfirmed } = await ReactSwal.fire({
+        title: 'Aviso!',
+        text: data.message,
+        confirmButtonText: 'Sim',
+        denyButtonText: 'Não',
+        showDenyButton: true,
+        confirmButtonColor: theme.colors.success,
+        denyButtonColor: theme.colors.danger,
+        background: theme.colors.background,
+        customClass: {
+          title: 'themed-swal-text',
+        },
       });
-      setCategories(isEdited ? newState : [...newState, categoryAddedOrEdited]);
 
-      toast.success(
-        `Categoria ${isEdited ? 'editada' : 'adicionada'} com sucesso!`,
-      );
+      if (isConfirmed) {
+        await api.delete(
+          `/categories/${categoryToDelete.id}?isConfirmed=${isConfirmed}`,
+        );
 
-      handleCloseModal();
-    },
-    [categories, handleCloseModal],
-  );
-
-  const filterAndSetCategories = useCallback(
-    (categoryToDelete: Category) => {
-      const newCategories = categories.filter(
-        category => category.id !== categoryToDelete.id,
-      );
-      setCategories([...newCategories]);
-    },
-    [categories],
-  );
-
-  const handleDelete = useCallback(
-    async (categoryToDelete: Category) => {
-      const { data, status } = await api.delete(
-        `/categories/${categoryToDelete.id}`,
-      );
-
-      if (status === 200 && data.status === 'confirm') {
-        const { value: isConfirmed } = await ReactSwal.fire({
-          title: 'Aviso!',
-          text: data.message,
-          confirmButtonText: 'Sim',
-          denyButtonText: 'Não',
-          showDenyButton: true,
-          confirmButtonColor: theme.colors.success,
-          denyButtonColor: theme.colors.danger,
-          background: theme.colors.background,
-          customClass: {
-            title: 'themed-swal-text',
-            // content: 'themed-swal-text',
-          },
-        });
-
-        if (isConfirmed) {
-          await api.delete(
-            `/categories/${categoryToDelete.id}?isConfirmed=${isConfirmed}`,
-          );
-
-          filterAndSetCategories(categoryToDelete);
-          toast.success('Categoria deletada com sucesso!');
-        }
-      } else {
         filterAndSetCategories(categoryToDelete);
         toast.success('Categoria deletada com sucesso!');
       }
-    },
-    [theme, filterAndSetCategories],
-  );
-
-  const [open, setOpen] = React.useState(false);
+    } else {
+      filterAndSetCategories(categoryToDelete);
+      toast.success('Categoria deletada com sucesso!');
+    }
+  },[theme, filterAndSetCategories],);
 
   return (
     <>
