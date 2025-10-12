@@ -1,29 +1,27 @@
-import Theme from './theme';
+import { fontSize, layout } from '../commons';
+import type Theme from './theme';
 
 const light: Theme = {
   title: 'light',
   colors: {
-    primary: '#5636d3',
-    secondary: '#ff872c',
-    default: '#fff',
+    primary: '#1DB954',
+    secondary: '#191414',
+    tertiary: '#E1E1E6',
+
     background: '#F0F2F5',
-    success: '#12a454',
-    danger: '#e83f5b',
+    success: '#12A454',
+    danger: '#E83F5B',
     overlay: '#333333',
 
-    primaryText: '#363f5f',
-    secondaryText: '#fff',
-    defaultText: '#969cb3',
-    successText: '#fff',
-    dangerText: '#fff',
+    primaryText: '#121214',
+    secondaryText: '#969cb3',
+    tertiaryText: '#DDD',
+
+    white: '#FFF',
+    black: '#000',
   },
-  layout: {
-    breakpoints: {
-      mobile: '480px',
-      tablet: '768px',
-      desktop: '1024px',
-    },
-  },
+  layout,
+  fontSize,
 };
 
 export default light;

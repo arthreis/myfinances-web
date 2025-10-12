@@ -1,18 +1,19 @@
-import React from 'react';
+import type React from 'react';
 import * as Icons from 'react-icons/fi';
-import { OptionProps, SingleValueProps } from 'react-select';
-
+import type { OptionProps, SingleValueProps } from 'react-select';
 import { Container } from './styles';
+import type { Category, IconMap } from '@/schemas';
 
 export default function CategoryIconOptionConfig({
-  innerProps,
   data,
-}: OptionProps<any> | SingleValueProps<any>): React.JSX.Element {
+}: OptionProps<Category> | SingleValueProps<Category>): React.JSX.Element {
   const { id } = data;
-  const Icon = (Icons as any)[id];
+  const Icon = (Icons as IconMap)[id];
+
   return (
-    <Container {...innerProps}>
-      <Icon size={20} /> {id}
+    <Container>
+      {Icon && <Icon size={20} />}
+      {id?.split('Fi')[1]}
     </Container>
   );
 }

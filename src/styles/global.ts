@@ -11,11 +11,17 @@ export default createGlobalStyle`
 
   body {
     background: ${props => props.theme.colors.background} ;
-    -webkit-font-smoothing: antialiased
+    -webkit-font-smoothing: antialiased;
   }
 
   body, input, button, textarea {
     font: 16px "Poppins", sans-serif;
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${({ theme }) => theme.fontSize.tablet.MD};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${({ theme }) => theme.fontSize.mobile.MD};
+    }
   }
 
   button {

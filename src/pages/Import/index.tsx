@@ -4,19 +4,20 @@ import { toast } from 'react-toastify';
 
 import { filesize } from 'filesize';
 
-import Header from '../../components/Header';
-import FileList from '../../components/FileList';
-import Upload from '../../components/Upload';
+import Header from '@/components/Header';
+import FileList from '@/components/FileList';
+import Upload from '@/components/Upload';
 
 import { Container, Title, ImportFileContainer, Footer } from './styles';
 
-import alert from '../../assets/alert.svg';
-import api from '../../services/api';
+import alert from '@/assets/alert.svg';
+import api from '@/services/api';
+import type { AxiosError } from 'axios';
 
 interface FileProps {
   file: File;
   name: string;
-  readableSize: any;
+  readableSize: string;
 }
 
 function Import(): React.JSX.Element {
@@ -34,8 +35,13 @@ function Import(): React.JSX.Element {
       await api.post('/transactions/import', data);
       toast.success('Transações importadas com sucesso!');
       navigate('/dashboard');
-    } catch (err: any) {
-      console.log(err.response.error);
+    } catch (err) {
+      if (err && (err as AxiosError).response) {
+        const axiosError = err as AxiosError;
+        console.error(axiosError.response?.data);
+      } else {
+        console.error(err);
+      }
       toast.error(
         'Ocorreu um erro ao realizar a importação, verique os dados e tente novamente.',
       );
@@ -86,7 +92,7 @@ function Import(): React.JSX.Element {
 
   return (
     <>
-      <Header size="small" />
+      <Header size="small" open />
       <Container>
         <Title>Importar uma transação</Title>
         <ImportFileContainer>
@@ -108,6 +114,6 @@ function Import(): React.JSX.Element {
       </Container>
     </>
   );
-};
+}
 
 export default Import;

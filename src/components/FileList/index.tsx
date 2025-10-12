@@ -10,7 +10,7 @@ interface FileProps {
 
 interface FileListProps {
   files: FileProps[];
-  onDelete?: (props: any) => void;
+  onDelete?: (props: FileProps) => void;
 }
 
 function FileList({ files, onDelete }: FileListProps): React.JSX.Element {

@@ -1,80 +1,74 @@
-import styled, { ThemeProps } from 'styled-components';
-import Theme from '../../styles/themes/theme';
-import * as Constants from '../../constants';
+import styled, { css, type ThemeProps } from 'styled-components';
+import type Theme from '@/styles/themes/theme';
 
 interface CardProps extends ThemeProps<Theme> {
   total?: boolean;
 }
 
 export const Container = styled.div`
-  width: 100%;
-  max-width: 960px;
+  max-width: ${p => p.theme.layout.maxContainer};
   margin: 0 auto;
   padding: 40px 20px;
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    padding: 20px 20px;
+  }
 `;
 
 export const Title = styled.h1`
-  font-size: ${Constants.FONT_SIZE.desktop.xxxlarge};
+  font-size: ${({ theme }) => theme.fontSize.desktop.XL};
   @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    font-size: ${Constants.FONT_SIZE.tablet.xxxlarge};
+    font-size: ${({ theme }) => theme.fontSize.tablet.XL};
   }
-  @media (max-width: 480px) {
-    font-size: ${Constants.FONT_SIZE.mobile.xxxlarge};
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSize.mobile.XL};
   }
   color: ${props => props.theme.colors.primaryText};
 `;
 
 export const CardContainer = styled.section`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 28px;
-  margin-top: -150px;
-  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-    /* margin-top: -120px; */
+  @media (min-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    margin-bottom: 20px;
   }
+  @media (max-width: calc(${p => p.theme.layout.breakpoints.tablet} - 1px)) {
+    margin-top: 0px;
+    flex-direction: column;
+    row-gap: 16px;
+  }
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const Card = styled.div`
-  background: ${({ total, theme }: CardProps): string =>
-    total ? theme.colors.secondary : theme.colors.default};
-  padding: 22px 32px;
+  background: ${({ theme }: CardProps) => theme.colors.tertiary};
+  padding: 8px 16px;
   border-radius: 5px;
-  color: ${({ total, theme }: CardProps): string =>
-    total ? theme.colors.secondaryText : theme.colors.primaryText};
-  width: 100%;
+  color: ${({ theme }: CardProps): string => theme.colors.primaryText};
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-  header {
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    padding: 12px 22px;
+  }
+
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    flex-direction: column;
+  }
+
+  div {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     p {
-      font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+      margin-left: 4px;
+      font-size: ${({ theme }) => theme.fontSize.desktop.LG};
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-        font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+        font-size: ${({ theme }) => theme.fontSize.tablet.LG};
       }
       @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-        font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+        font-size: ${({ theme }) => theme.fontSize.mobile.LG};
       }
-    }
-  }
-
-  h1 {
-    margin-top: 14px;
-    font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
-    font-weight: normal;
-    line-height: 54px;
-    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      margin-top: 8px;
-      font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
-      font-weight: normal;
-      line-height: 44px;
-    }
-    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      margin-top: 8px;
-      font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
-      font-weight: normal;
-      line-height: 54px;
     }
   }
 
@@ -86,21 +80,29 @@ export const Card = styled.div`
 `;
 
 export const TitleAndViewSelector = styled.section`
-  margin-top: 64px;
+  margin-bottom: 20px;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
+  flex-direction: column;
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    margin-top: 24px;
+  }
   h1 {
+    margin-right: auto;
+
     font-weight: 500;
-    line-height: 54px;
+    line-height: calc(${({ theme }) => theme.fontSize.desktop.XL} * 1.5);
     color: ${props => props.theme.colors.primaryText};
-    font-size: ${Constants.FONT_SIZE.desktop.xxlarge};
+    font-size: ${({ theme }) => theme.fontSize.desktop.XL};
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      font-size: ${Constants.FONT_SIZE.tablet.xxlarge};
+      margin-right: auto;
+      font-size: ${({ theme }) => theme.fontSize.tablet.XL};
+      line-height: calc(${({ theme }) => theme.fontSize.tablet.XL} * 1.5);
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      font-size: ${Constants.FONT_SIZE.mobile.xxlarge};
+      line-height: calc(${({ theme }) => theme.fontSize.mobile.XL} * 1.5);
+      font-size: ${({ theme }) => theme.fontSize.mobile.XL};
     }
   }
 
@@ -111,7 +113,7 @@ export const TitleAndViewSelector = styled.section`
     svg {
       padding-bottom: 5px;
       border-bottom: 2px solid transparent;
-      color: ${props => props.theme.colors.defaultText};
+      color: ${props => props.theme.colors.primaryText};
 
       & + svg {
         margin-left: 5px;
@@ -130,3 +132,22 @@ export const TitleAndViewSelector = styled.section`
     }
   }
 `;
+
+export const Balance = styled.span<{ isPositive?: boolean }>`
+
+  ${({ theme, isPositive }) => isPositive !== undefined &&
+    css`
+      color: ${(isPositive ? theme.colors.success : theme.colors.danger)};
+  `};
+
+  font-size: ${({ theme }) => theme.fontSize.desktop.LG};
+  font-weight: normal;
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.fontSize.tablet.LG};
+    font-weight: normal;
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSize.mobile.LG};
+    font-weight: normal;
+  }
+`

@@ -1,12 +1,18 @@
 import styled, { css } from 'styled-components';
-import * as Constants from '../../../constants';
 
 export const Container = styled.div`
-  display: grid;
+  /* display: grid;
   grid-template-rows: 100px 1fr;
   gap: 20px;
   margin-top: 40px;
-  min-height: 455px;
+  min-height: 455px; */
+
+  display: flex;
+  flex-direction: column;
+  /* grid-template-rows: 100px 1fr; */
+  gap: 20px;
+  margin-top: 20px;
+  /* min-height: 455px; */
 `;
 
 interface WidgetProps {
@@ -16,8 +22,8 @@ interface WidgetProps {
 export const Widget = styled.div<WidgetProps>`
   padding: 15px 20px;
   border-radius: 5px;
-  border-left: 5px solid ${props => props.theme.colors.default};
-  background-color: ${props => props.theme.colors.default};
+  border-left: 5px solid ${props => props.theme.colors.tertiary};
+  background-color: ${props => props.theme.colors.tertiary};
   color: ${props => props.theme.colors.primaryText};
 
   ${props =>
@@ -31,13 +37,13 @@ export const Widget = styled.div<WidgetProps>`
     justify-content: space-between;
 
     p {
-      color: ${props => props.theme.colors.defaultText};
-      font-size: ${Constants.FONT_SIZE.desktop.normal};
+      color: ${props => props.theme.colors.primaryText};
+      font-size: ${({ theme }) => theme.fontSize.desktop.MD};
       @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-        font-size: ${Constants.FONT_SIZE.tablet.normal};
+        font-size: ${({ theme }) => theme.fontSize.tablet.MD};
       }
       @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-        font-size: ${Constants.FONT_SIZE.mobile.normal};
+        font-size: ${({ theme }) => theme.fontSize.mobile.MD};
       }
     }
 
@@ -59,7 +65,7 @@ export const Widget = styled.div<WidgetProps>`
         &:hover,
         &.active {
           cursor: pointer;
-          border-color: ${props => props.theme.colors.secondary};
+          border-color: ${({ theme }) => theme.colors.primaryText};
         }
       }
     }
@@ -70,12 +76,12 @@ export const Widget = styled.div<WidgetProps>`
   }
 
   > span {
-    font-size: ${Constants.FONT_SIZE.desktop.xxsmall};
+    font-size: ${({ theme }) => theme.fontSize.desktop.XS};
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      font-size: ${Constants.FONT_SIZE.tablet.xxsmall};
+      font-size: ${({ theme }) => theme.fontSize.tablet.XS};
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      font-size: ${Constants.FONT_SIZE.mobile.xxsmall};
+      font-size: ${({ theme }) => theme.fontSize.mobile.XS};
     }
   }
 
@@ -83,12 +89,12 @@ export const Widget = styled.div<WidgetProps>`
     font-weight: normal;
     margin-top: 15px;
 
-    font-size: ${Constants.FONT_SIZE.desktop.large};
+    font-size: ${({ theme }) => theme.fontSize.desktop.LG};
     @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
-      font-size: ${Constants.FONT_SIZE.tablet.large};
+      font-size: ${({ theme }) => theme.fontSize.tablet.LG};
     }
     @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
-      font-size: ${Constants.FONT_SIZE.mobile.large};
+      font-size: ${({ theme }) => theme.fontSize.mobile.LG};
     }
 
     svg {
@@ -103,13 +109,28 @@ export const Widget = styled.div<WidgetProps>`
 `;
 
 export const OverviewGridContainer = styled.div`
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
   > ${Widget} {
     flex: 1;
     & + ${Widget} {
       margin-left: 20px;
     }
+  } */
+
+  display: flex;
+  /* justify-content: space-between; */
+  /* flex-wrap: wrap; */
+  gap: 24px;
+  > ${Widget} {
+    flex: 1;
+    & + ${Widget} {
+      /* margin-left: 20px; */
+    }
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    flex-direction: column;
+    gap: 16px;
   }
 `;
 

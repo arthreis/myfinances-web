@@ -1,60 +1,72 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import type React from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import * as Icons from 'react-icons/fi';
 
 import ReactPaginate from 'react-paginate';
-import formatValue from '../../../utils/formatValue';
-import { useTheme } from '../../../hooks/theme';
+import formatValue from '@/utils/formatValue';
+import { useTheme } from '@/hooks/theme';
 
-import api from '../../../services/api';
+import api from '@/services/api';
 
-import {
+import type {
   Pagination,
   PaginationChange,
   Sort,
   Transaction,
-} from '../../../services/interfaces';
+  RowsByPageOption,
+  IconMap,
+} from '@/schemas';
 
 import {
   TableContainer,
   TableBodyColumn,
-  Delete,
   PaginationContainer,
+  RowsByPageContainer,
 } from './styles';
-import { Actions } from '../../Config/styles';
-import Modal from '../../../components/Modal';
-import FormTransaction from '../../FormTransaction';
+import { Actions } from '@/pages/Config/styles';
+import Modal from '@/components/Modal';
+import FormTransaction from '../FormTransaction';
+import SelectSimple from '@/components/SelectSimple';
+import { Tooltip } from '@/components';
 
-interface DashboardTablewViewProps {
-  onTransactionDeleted(): void;
-  period: Date;
+interface DashboardTableViewProps {
+  readonly onTransactionDeleted: () => void;
+  readonly period: Date;
 }
 
 function DashboardTableView({
   onTransactionDeleted,
   period,
-}: DashboardTablewViewProps): React.JSX.Element {
+}: DashboardTableViewProps): React.JSX.Element {
   const { theme } = useTheme();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isShowingModal, setIsShowingModal] = useState<boolean>(false);
+
+  const [rowsByPage] = useState<RowsByPageOption[]>([
+    { value: 5, label: 5 },
+    { value: 10, label: 10 },
+    { value: 20, label: 20 },
+  ]);
+
   const [sortData, setSortData] = useState<Sort>(() => {
     return {
       sort: 'created_at',
       direction: 'DESC',
     };
   });
+
   const [pagination, setPagination] = useState<Pagination>(() => {
     return {
       page: 1,
-      pageSize: 5,
+      pageSize: rowsByPage[0].value,
       total: 0,
     };
   });
   const [transactionEdit, setTransactionEdit] = useState<Transaction>();
 
   const reloadTransactions = useCallback(() => {
-    console.log('Carregando transações');
     async function loadTransactions(
       { sort, direction }: Sort,
       { page, pageSize }: Omit<Pagination, 'total'>,
@@ -111,7 +123,6 @@ function DashboardTableView({
   }, []);
 
   const handleTransactionAddedOrEdited = useCallback(() => {
-    console.log('DashboardTableView');
     reloadTransactions();
     handleCloseModal();
   }, [handleCloseModal, reloadTransactions]);
@@ -134,6 +145,13 @@ function DashboardTableView({
       />
     );
 
+  const onChangePageSize = (pageOption: RowsByPageOption): void => {
+    setPagination(oldPagination => ({
+      ...oldPagination,
+      pageSize: Number(pageOption.value),
+    }));
+  };
+
   useEffect(() => {
     reloadTransactions();
   }, [reloadTransactions]);
@@ -154,7 +172,7 @@ function DashboardTableView({
 
           <tbody>
             {transactions?.map(transaction => {
-              const CategoryIcon = (Icons as any)[transaction.category.icon];
+              const CategoryIcon = (Icons as IconMap)[transaction.category.icon];
               const categoryBackgroundKey = `background_color_${theme.title}`;
               const categoryBackground =
                 transaction.category[
@@ -185,16 +203,18 @@ function DashboardTableView({
                   </TableBodyColumn>
                   <TableBodyColumn>
                     <Actions>
-                      <Icons.FiEdit
-                        size={20}
-                        onClick={() => handleOpenModalEdit(transaction)}
-                      />
-                      <Delete title="Apagar transação">
+                      <Tooltip variant="secondary" title="Editar transação">
+                        <Icons.FiEdit
+                          size={20}
+                          onClick={() => handleOpenModalEdit(transaction)}
+                        />
+                      </Tooltip>
+                      <Tooltip variant="danger" title="Apagar transação">
                         <Icons.FiTrash
                           size={20}
                           onClick={() => handleDelete(transaction)}
                         />
-                      </Delete>
+                      </Tooltip>
                     </Actions>
                   </TableBodyColumn>
                 </tr>
@@ -203,24 +223,41 @@ function DashboardTableView({
           </tbody>
         </table>
       </TableContainer>
+
       <PaginationContainer className="pagination">
-        <ReactPaginate
-          previousLabel={<Icons.FiChevronLeft />}
-          nextLabel={<Icons.FiChevronRight />}
-          pageCount={pagination.total}
-          onPageChange={handlePaginate}
-          forcePage={pagination.page - 1}
-          disableInitialCallback
-          marginPagesDisplayed={0}
-          pageRangeDisplayed={3}
-          containerClassName="pagination"
-          activeClassName="active_page"
-          nextClassName="next_page"
-          previousClassName="previous_page"
-        />
+        <RowsByPageContainer className="rowsByPage">
+          {/* <Typography>Linhas por página:</Typography> */}
+          <SelectSimple
+            options={rowsByPage}
+            onChange={onChangePageSize}
+            defaultValue={rowsByPage[0]}
+          />
+        </RowsByPageContainer>
+        {
+          pagination.total > 0 && (
+            <ReactPaginate
+              previousLabel={<Icons.FiChevronLeft />}
+              nextLabel={<Icons.FiChevronRight />}
+              pageCount={pagination.total}
+              onPageChange={handlePaginate}
+              forcePage={pagination.page - 1}
+              disableInitialCallback
+              marginPagesDisplayed={0}
+              pageRangeDisplayed={3}
+              containerClassName="pagination"
+              activeClassName="active_page"
+              nextClassName="next_page"
+              previousClassName="previous_page"
+            />
+          )
+        }
       </PaginationContainer>
 
-      <Modal show={isShowingModal} onClose={handleCloseModal}>
+      <Modal
+        show={isShowingModal}
+        onClose={handleCloseModal}
+        title="Editar transação"
+      >
         <FormTransaction
           onSubmitted={handleTransactionAddedOrEdited}
           onCancel={handleCloseModal}

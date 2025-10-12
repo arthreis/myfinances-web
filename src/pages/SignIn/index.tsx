@@ -1,61 +1,47 @@
-import React, { useRef, useEffect } from 'react';
-import { AxiosError } from 'axios';
+import type React from 'react';
 import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import { FiMail, FiLock } from 'react-icons/fi';
 
-import logoImg from '../../assets/logo.svg';
+import Logo from '@/assets/logo.svg?react';
 
-import { useAuth } from '../../hooks/auth';
+import { useAuth } from '@/hooks/auth';
 
-import getValidationErrors from '../../utils/getValidationErrors';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import { Container, Content, Form } from './styles';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useTheme } from '@/hooks/theme';
+import { AxiosError } from 'axios';
 
-import { Container, Content } from './styles';
+const schema = Yup.object().shape({
+  email: Yup.string().email('Digite um e-mail válido').required('E-mail obrigatório'),
+  password: Yup.string().min(6, 'No mínimo 6 dígitos').required(),
+});
 
-interface SignInFormData {
-  email: string;
-  password: string;
-}
+type SignInForm = Yup.InferType<typeof schema>;
 
 function SignIn(): React.JSX.Element {
-  const { signIn, signOut } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
-  const formRef = useRef<FormHandles>(null);
 
-  useEffect(() => {
-    signOut();
-  }, [signOut]);
+  const { register, handleSubmit, formState, reset } = useForm<SignInForm>({
+    resolver: yupResolver(schema),
+  });
 
-  async function handleSubmit(formData: SignInFormData): Promise<void> {
+  async function handleSignIn(data: SignInForm): Promise<void> {
     try {
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .email('Digite um e-mail válido')
-          .required('E-mail obrigatório'),
-        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
-      });
-
-      await schema.validate(formData, {
-        abortEarly: false,
-      });
-
       await signIn({
-        email: formData.email,
-        password: formData.password,
+        email: data.email,
+        password: data.password,
       });
-
+      toast.success('Login realizado com sucesso!');
+      reset();
       navigate('/dashboard');
-    } catch (err: any) {
-      if (err instanceof Yup.ValidationError) {
-        const validationErrors = getValidationErrors(err);
-        formRef?.current?.setErrors(validationErrors);
-      } else if (err instanceof AxiosError) {
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
         if (err.response) {
           if (err.response.status === 401) {
             toast.error('Usuário e/ou senha inválidos');
@@ -65,23 +51,41 @@ function SignIn(): React.JSX.Element {
           toast.error(err.message);
           console.error('Error: ', err.message);
         }
+      } else {
+        console.error('Something is wrong!');
       }
     }
   }
+  const { theme } = useTheme();
 
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="GoFinances" />
+        <Logo color={theme.colors.primary} />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input icon={FiMail} name="email" placeholder="E-mail" />
+        <Form onSubmit={handleSubmit(handleSignIn)}>
           <Input
-            icon={FiLock}
+            {...register('email')}
+            id="email"
+            placeholder="E-mail"
+          />
+          {formState.errors.email && (
+            <p className="text-red-400 text-sm">
+              {formState.errors.email?.message}
+            </p>
+          )}
+
+          <Input
+            {...register('password')}
+            id="password"
             type="password"
-            name="password"
             placeholder="Senha"
           />
+          {formState.errors.password && (
+            <p className="text-red-400 text-sm">
+              {formState.errors.password.message}
+            </p>
+          )}
 
           <Button type="submit">Entrar</Button>
         </Form>

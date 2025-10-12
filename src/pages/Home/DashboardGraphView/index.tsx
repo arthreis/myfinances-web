@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import type React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import * as Icons from 'react-icons/fi';
 import * as IconsBi from 'react-icons/bi';
 import Chart, { CategoryScale, LinearScale } from 'chart.js/auto';
 import { Line, Doughnut } from 'react-chartjs-2';
 
-import api from '../../../services/api';
+import api from '@/services/api';
 
-import { useTheme } from '../../../hooks/theme';
-import formatValue from '../../../utils/formatValue';
-import getChartOptions from '../../../utils/getChartOptions';
-import serializeGraphData from '../../../utils/serializeGraphData';
+import { useTheme } from '@/hooks/theme';
+import formatValue from '@/utils/formatValue';
+import getChartOptions from '@/utils/getChartOptions';
+import {serializeDonutGraphData, serializeLineGraphData} from '@/utils/serializeGraphData';
 
 import {
   Container,
@@ -18,38 +19,38 @@ import {
   GraphGridContainer,
 } from './styles';
 
-import { Category, GraphData } from '../../../services/interfaces';
+import type { Category, DonutGraphData, IconMap, LineGraphData } from '@/schemas';
 import { format } from 'date-fns';
+import type { IconType } from 'react-icons/lib';
 
 Chart.register(CategoryScale, LinearScale);
 
 interface OverviewData {
-  income: string;
-  outcome: string;
+  income: number;
+  outcome: number;
   category?: Category;
 }
-
 interface DonutGraphFilter {
   type: 'count' | 'value';
 }
 interface LineGraphFilter {
   period: 'week' | 'month';
 }
-
 interface DashboardGraphViewProps {
-  period: Date;
+  readonly period: Date;
 }
 
-function DashboardGraphView({
+export default function DashboardGraphView({
   period,
 }: DashboardGraphViewProps): React.JSX.Element {
-  const [donutData, setDonutData] = useState<GraphData>(() => {
+
+  const [donutData, setDonutData] = useState<DonutGraphData>(() => {
     return {
       labels: [],
       datasets: [],
     };
   });
-  const [lineData, setLineData] = useState<GraphData>(() => {
+  const [lineData, setLineData] = useState<LineGraphData>(() => {
     return {
       labels: [],
       datasets: [],
@@ -57,8 +58,8 @@ function DashboardGraphView({
   });
   const [overviewData, setOverviewData] = useState<OverviewData>(() => {
     return {
-      income: '0',
-      outcome: '0',
+      income: 0,
+      outcome: 0,
       category: undefined,
     };
   });
@@ -66,7 +67,7 @@ function DashboardGraphView({
     period: 'week',
   });
   const [donutGraphFilters, setDonutGraphFilters] = useState<DonutGraphFilter>({
-    type: 'count',
+    type: 'value',
   });
 
   const { theme } = useTheme();
@@ -96,14 +97,9 @@ function DashboardGraphView({
       ]);
 
       const [overview, donut, line] = await promises;
-      const donutSerializedData = serializeGraphData(
-        theme,
-        donut.data,
-        'donut',
-        tooltipLabel,
-      );
 
-      const lineSerializedData = serializeGraphData(theme, line.data, 'line');
+      const donutSerializedData = serializeDonutGraphData(theme, donut.data, tooltipLabel);
+      const lineSerializedData = serializeLineGraphData(theme, line.data);
 
       setDonutData(donutSerializedData);
       setLineData(lineSerializedData);
@@ -113,10 +109,10 @@ function DashboardGraphView({
     loadData();
   }, [theme, lineFilters.period, period, donutGraphFilters.type]);
 
-  let CategoryIcon: any;
+  let CategoryIcon: IconMap[keyof IconMap] | IconType;
 
   if (overviewData.category) {
-    CategoryIcon = (Icons as any)[overviewData.category.icon];
+    CategoryIcon = (Icons as IconMap)[overviewData.category.icon] || Icons.FiTag;
   }
 
   const handleLineFilters = useCallback(
@@ -148,13 +144,13 @@ function DashboardGraphView({
           <header>
             <p>Maior entrada</p>
           </header>
-          <h2>{formatValue(parseFloat(overviewData.income))}</h2>
+          <h2>{formatValue(overviewData.income)}</h2>
         </Widget>
         <Widget borderLeftColor={theme.colors.danger}>
           <header>
             <p>Maior saida</p>
           </header>
-          <h2>{formatValue(parseFloat(overviewData.outcome))}</h2>
+          <h2>{formatValue(overviewData.outcome)}</h2>
         </Widget>
         <Widget borderLeftColor={theme.colors.secondary}>
           <header>
@@ -187,14 +183,22 @@ function DashboardGraphView({
               <span
                 className={lineFilters.period === 'week' ? 'active' : undefined}
                 onClick={() => handleLineFilters('week')}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleLineFilters('week');
+                  }
+                }}
               >
                 <IconsBi.BiCalendar size={20} />
               </span>
               <span
-                className={
-                  lineFilters.period === 'month' ? 'active' : undefined
-                }
+                className={lineFilters.period === 'month' ? 'active' : undefined}
                 onClick={() => handleLineFilters('month')}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                  handleLineFilters('month')
+                  }
+                }}
               >
                 <IconsBi.BiCalendarWeek size={20} />
               </span>
@@ -205,7 +209,8 @@ function DashboardGraphView({
             <Line data={lineData} options={getChartOptions(theme, 'line')} />
           </div>
           <span>
-            Obs: Transações de dias fora do mês atual não são contabilizados.
+            Obs: Transações de dias fora do mês selecionado, não são
+            contabilizados.
           </span>
         </Widget>
         <Widget>
@@ -217,33 +222,34 @@ function DashboardGraphView({
             </p>
             <div className="flex">
               <span
-                className={
-                  donutGraphFilters.type === 'count' ? 'active' : undefined
-                }
-                onClick={() => handleDonutGraphFilters('count')}
-              >
-                <Icons.FiHash size={20} />
-              </span>
-              <span
-                className={
-                  donutGraphFilters.type === 'value' ? 'active' : undefined
-                }
+                className={donutGraphFilters.type === 'value' ? 'active' : undefined}
                 onClick={() => handleDonutGraphFilters('value')}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleDonutGraphFilters('value');
+                  }
+                }}
               >
                 <Icons.FiDollarSign size={20} />
+              </span>
+              <span
+                className={donutGraphFilters.type === 'count' ? 'active' : undefined}
+                onClick={() => handleDonutGraphFilters('count')}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleDonutGraphFilters('count');
+                  }
+                } }
+              >
+                <Icons.FiHash size={20} />
               </span>
             </div>
           </header>
           <div>
-            <Doughnut
-              data={donutData}
-              options={getChartOptions(theme, 'donut')}
-            />
+            <Doughnut data={donutData} options={getChartOptions(theme, 'donut')} />
           </div>
         </Widget>
       </GraphGridContainer>
     </Container>
   );
 }
-
-export default DashboardGraphView;

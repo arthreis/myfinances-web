@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import Tooltip from '../Tooltip';
+import { InputCssBackground, InputCssCommom } from '../Input/styles';
 
 interface ContainerProps {
   isFocused: boolean;
@@ -37,55 +37,18 @@ export const BlockPickerContainer = styled.div`
 `;
 
 export const Container = styled.div<ContainerProps>`
-  background: ${props => props.theme.colors.background};
-  border-radius: 10px;
-  padding: 16px;
-  border: 2px solid ${props => props.theme.colors.primary};
-  color: ${props => props.theme.colors.defaultText};
-  width: 100%;
-
+  ${InputCssCommom}
   display: flex;
   align-items: center;
 
   position: relative;
 
-  input {
-    border: 0;
-    flex: 1;
-    background: transparent;
-    color: ${props => props.theme.colors.primaryText};
-
-    &::placeholder {
-      color: ${props => props.theme.colors.defaultText};
+    input {
+      ${InputCssBackground}
+      color: ${props => props.theme.colors.primaryText};
     }
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
 
   > ${ColorSquare} {
     margin-right: 16px;
-  }
-`;
-
-export const Error = styled(Tooltip)`
-  height: 20px;
-  margin-left: 16px;
-  color: ${props => props.theme.colors.danger};
-
-  svg {
-    margin: 0;
-  }
-
-  span {
-    background: ${props => props.theme.colors.danger};
-    color: ${props => props.theme.colors.dangerText};
-
-    &::before {
-      border-color: ${props => props.theme.colors.danger} transparent;
-    }
   }
 `;
