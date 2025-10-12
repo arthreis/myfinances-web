@@ -123,8 +123,6 @@ export const TableContainer = styled.section`
     }
 
     td::before {
-      /* background-color: red; */
-      /* text-align: center; */
       padding-left: 16px;
       color: ${p => p.theme.colors.primaryText};
     }
@@ -132,7 +130,7 @@ export const TableContainer = styled.section`
     td {
       /* Behave  like a "row" */
       border: none;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid ${p => p.theme.colors.background};
       position: relative;
       padding-left: 50%;
     }

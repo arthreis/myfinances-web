@@ -165,7 +165,7 @@ function FormCategory({
     if (categoryEdit) {
       onChangeIcon(iconValue);
     }
-  }, []);
+  }, [categoryEdit]);
 
   return (
     <Container>

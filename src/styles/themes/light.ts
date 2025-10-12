@@ -1,5 +1,5 @@
 import { fontSize, layout } from '../commons';
-import Theme from './theme';
+import type Theme from './theme';
 
 const light: Theme = {
   title: 'light',

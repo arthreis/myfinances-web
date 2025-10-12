@@ -21,12 +21,12 @@ interface ColorPickerProps extends InputHTMLAttributes<HTMLInputElement> {
   onSelectColor(color: string): void;
 }
 
-function ColorPicker({
+const ColorPicker = ({
   containerClassName,
   color = '#000',
   onSelectColor,
   ...rest
-}: Readonly<ColorPickerProps>): React.JSX.Element {
+}: Readonly<ColorPickerProps>): React.JSX.Element => {
 
   const { theme } = useTheme();
   const inputRef = React.useRef<HTMLInputElement>(null);

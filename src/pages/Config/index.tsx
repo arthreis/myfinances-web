@@ -18,12 +18,11 @@ import {
   Title,
   Square,
   ColorInfoContainer,
-  NewCategoryButton,
   Actions,
 } from './styles';
 import FormCategory from './FormCategory';
 import Burguer from '@/components/Burger';
-import { Tooltip } from '@/components';
+import { Button, Tooltip } from '@/components';
 
 const ReactSwal = withReactContent(Swal);
 
@@ -118,9 +117,9 @@ function Config(): React.JSX.Element {
       <Container>
         <Title>Configurações</Title>
 
-        <NewCategoryButton type="button" onClick={() => handleOpenModal()}>
+        <Button onClick={() => handleOpenModal()}>
           Criar categoria
-        </NewCategoryButton>
+        </Button>
 
         <TableContainer>
           <table>

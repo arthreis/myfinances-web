@@ -86,7 +86,6 @@ export const TableContainer = styled.section`
     }
 
     tr {
-      /* border: 1px solid #ccc; */
       border-radius: 8px;
       margin: 16px 0px;
     }
@@ -100,15 +99,13 @@ export const TableContainer = styled.section`
     }
 
     td::before {
-      /* background-color: red; */
-      /* text-align: center; */
       padding-left: 16px;
     }
 
     td {
       /* Behave  like a "row" */
       border: none;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid ${({ theme }) => theme.colors.background};;
       position: relative;
       padding-left: 50%;
     }
@@ -205,10 +202,6 @@ export const ColorInfoContainer = styled.div`
   span {
     margin-left: 10px;
   }
-`;
-
-export const NewCategoryButton = styled(Button)`
-  width: 200px;
 `;
 
 export const Actions = styled.div`
