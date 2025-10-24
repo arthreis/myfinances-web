@@ -1,9 +1,7 @@
-import {
-  format,
-} from 'date-fns';
 import { tint } from 'polished';
 import { Category, type DonutGraphData, type LineGraphData } from '../schemas';
 import Theme from '../styles/themes/theme';
+import { formatUTCDate } from './dates';
 
 interface LineData {
   income: [number, number][];
@@ -18,7 +16,7 @@ export function serializeLineGraphData(theme: Theme, data: LineData,): LineGraph
 
   const line: LineGraphData = {
     labels: data.income.map((entry: number[]) =>
-      format(new Date(entry[0]), 'dd/MM'),
+      formatUTCDate(entry[0], 'dd/MM'),
     ),
     datasets: [
       {
@@ -39,7 +37,6 @@ export function serializeLineGraphData(theme: Theme, data: LineData,): LineGraph
       },
     ],
   };
-
   return line;
 }
 

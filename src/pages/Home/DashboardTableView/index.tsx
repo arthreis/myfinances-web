@@ -30,6 +30,7 @@ import Modal from '@/components/Modal';
 import FormTransaction from '../FormTransaction';
 import SelectSimple from '@/components/SelectSimple';
 import { Tooltip } from '@/components';
+import { formatUTCDate } from '@/utils/dates';
 
 interface DashboardTableViewProps {
   readonly onTransactionDeleted: () => void;
@@ -52,7 +53,7 @@ function DashboardTableView({
 
   const [sortData, setSortData] = useState<Sort>(() => {
     return {
-      sort: 'created_at',
+      sort: 'transaction_date',
       direction: 'DESC',
     };
   });
@@ -136,12 +137,12 @@ function DashboardTableView({
     sortData.direction === 'DESC' ? (
       <Icons.FiChevronDown
         size={20}
-        onClick={() => handleSort('created_at', 'ASC')}
+        onClick={() => handleSort('transaction_date', 'ASC')}
       />
     ) : (
       <Icons.FiChevronUp
         size={20}
-        onClick={() => handleSort('created_at', 'DESC')}
+        onClick={() => handleSort('transaction_date', 'DESC')}
       />
     );
 
@@ -196,8 +197,8 @@ function DashboardTableView({
                     {transaction.category.title}
                   </TableBodyColumn>
                   <TableBodyColumn>
-                    {format(
-                      new Date(transaction.transaction_date),
+                    {formatUTCDate(
+                      transaction.transaction_date,
                       'dd/MM/yyyy',
                     )}
                   </TableBodyColumn>

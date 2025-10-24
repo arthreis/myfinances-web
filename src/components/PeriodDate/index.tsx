@@ -34,7 +34,7 @@ export default function PeriodDate({
       />
 
       <SelectDate>
-        {format(periodDate, "MMMM ',' yyyy", { locale: ptBR })}
+        {format(periodDate, "MMMM',' yyyy", { locale: ptBR })}
       </SelectDate>
 
       <FiChevronRight
