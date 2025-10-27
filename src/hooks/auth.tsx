@@ -68,6 +68,25 @@ export function AuthProvider({
     setData({} as AuthState);
   }, []);
 
+  React.useEffect(() => {
+    const interceptor = api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        const status = error?.response?.status;
+        const requestUrl = error?.config?.url ?? '';
+
+        if (status === 401 && !requestUrl.includes('/sign-in')) {
+          signOut();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    () => {
+      api.interceptors.response.eject(interceptor);
+    };
+  }, [signOut]);
+
   const userProvider = React.useMemo(
     () => ({ user: data.user, signIn, signOut, token: data.token }),
     [data.user, signIn, signOut, data.token],
