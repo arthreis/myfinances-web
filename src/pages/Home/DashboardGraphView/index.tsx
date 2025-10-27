@@ -34,7 +34,7 @@ interface DonutGraphFilter {
   type: 'count' | 'value';
 }
 interface LineGraphFilter {
-  period: 'week' | 'month';
+  period: 'week' | 'day';
 }
 interface DashboardGraphViewProps {
   readonly period: Date;
@@ -116,7 +116,7 @@ export default function DashboardGraphView({
   }
 
   const handleLineFilters = useCallback(
-    (period: 'week' | 'month') => {
+    (period: 'week' | 'day') => {
       const newLineFilters = {
         ...lineFilters,
         period,
@@ -174,29 +174,29 @@ export default function DashboardGraphView({
         <Widget>
           <header>
             <p>
-              {lineFilters.period === 'week'
+              {lineFilters.period === 'day'
                 ? 'Acúmulo diário'
                 : 'Acúmulo semanal'}
             </p>
 
             <div className="flex">
               <span
-                className={lineFilters.period === 'week' ? 'active' : undefined}
-                onClick={() => handleLineFilters('week')}
+                className={lineFilters.period === 'day' ? 'active' : undefined}
+                onClick={() => handleLineFilters('day')}
                 onKeyUp={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
-                    handleLineFilters('week');
+                    handleLineFilters('day');
                   }
                 }}
               >
                 <IconsBi.BiCalendar size={20} />
               </span>
               <span
-                className={lineFilters.period === 'month' ? 'active' : undefined}
-                onClick={() => handleLineFilters('month')}
+                className={lineFilters.period === 'week' ? 'active' : undefined}
+                onClick={() => handleLineFilters('week')}
                 onKeyUp={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
-                  handleLineFilters('month')
+                  handleLineFilters('week')
                   }
                 }}
               >
