@@ -174,13 +174,7 @@ function DashboardTableView({
           <tbody>
             {transactions?.map(transaction => {
               const CategoryIcon = (Icons as IconMap)[transaction.category.icon];
-              const categoryBackgroundKey = `background_color_${theme.title}`;
-              const categoryBackground =
-                transaction.category[
-                  categoryBackgroundKey as
-                    | 'background_color_light'
-                    | 'background_color_dark'
-                ];
+              const categoryBackground = transaction.category.color;
               return (
                 <tr key={transaction.id}>
                   <TableBodyColumn

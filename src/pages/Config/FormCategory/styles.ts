@@ -49,9 +49,5 @@ export const CancelButton = styled(Button)`
         ? props.theme.colors.background
         : shade(0.2, props.theme.colors.background)};
     opacity: 0.5;
-    /* background: ${props =>
-      props.theme.title === 'dark'
-        ? tint(0.025, props.theme.colors.background)
-        : shade(0.12, props.theme.colors.background)}; */
   }
 `;

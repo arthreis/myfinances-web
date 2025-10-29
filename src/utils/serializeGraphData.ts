@@ -58,17 +58,8 @@ export function serializeDonutGraphData(theme: Theme, data: DonutData[], tooltip
     donut.datasets[0].data.push(
       current.transactionsCount ?? current.transactionsTotalValue ?? 0,
     );
-    donut.datasets[0].backgroundColor.push(
-      theme.title === 'dark'
-        ? current.background_color_light
-        : current.background_color_dark,
-    );
-
-    donut.datasets[0].borderColor.push(
-      theme.title === 'dark'
-        ? current.background_color_dark
-        : current.background_color_light,
-    );
+    donut.datasets[0].backgroundColor.push(current.color);
+    donut.datasets[0].borderColor.push(current.color);
   });
     return donut;
 }

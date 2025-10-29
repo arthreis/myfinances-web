@@ -38,8 +38,7 @@ const schema = Yup.object().shape({
       Component: Yup.object(),
     })
     .required('Ícone é obrigatório'),
-  background_color_dark: Yup.string().required('Cor escura é obrigatória'),
-  background_color_light: Yup.string().required('Cor clara é obrigatória'),
+  color: Yup.string().required('Cor é obrigatória'),
 });
 
 export type CategoryForm = Yup.InferType<typeof schema>;
@@ -109,15 +108,9 @@ function FormCategory({
     setValue('icon', e);
   };
 
-  const onSelectColorDark = (e: string): void => {
-    if (isValidHexColor(e)) {
-      setValue('background_color_dark', e);
-    }
-  };
-
   const onSelectColorLight = (e: string): void => {
     if (isValidHexColor(e)) {
-      setValue('background_color_light', e);
+      setValue('color', e);
     }
   };
 
@@ -145,8 +138,7 @@ function FormCategory({
     const { data } = await createCategory({
       title: category.title,
       icon: category.icon.id,
-      background_color_dark: category.background_color_dark,
-      background_color_light: category.background_color_light,
+      color: category.color,
     });
     return data;
   };
@@ -155,8 +147,7 @@ function FormCategory({
     const { data } = await editCategory(id, {
       title: category.title,
       icon: category.icon.id,
-      background_color_dark: category.background_color_dark,
-      background_color_light: category.background_color_light,
+      color: category.color,
     });
     return data;
   };
@@ -219,32 +210,17 @@ function FormCategory({
         )}
 
         <ColorPicker
-          {...register('background_color_dark')}
-          name="background_color_dark"
-          placeholder="Cor Dark"
-          color={categoryEdit?.background_color_dark}
-          defaultValue={categoryEdit?.background_color_dark}
-          onSelectColor={onSelectColorDark}
-          onChange={e => onSelectColorDark(e.target.value)}
-        />
-        {formState.errors.background_color_dark && (
-          <p className="text-red-400 text-sm">
-            {formState.errors.background_color_dark.message}
-          </p>
-        )}
-
-        <ColorPicker
-          {...register('background_color_light')}
-          name="background_color_light"
-          placeholder="Cor Light"
-          color={categoryEdit?.background_color_light}
-          defaultValue={categoryEdit?.background_color_light}
+          {...register('color')}
+          name="color"
+          placeholder="Cor"
+          color={categoryEdit?.color}
+          defaultValue={categoryEdit?.color}
           onSelectColor={onSelectColorLight}
           onChange={e => onSelectColorLight(e.target.value)}
         />
-        {formState.errors.background_color_light && (
+        {formState.errors.color && (
           <p className="text-red-400 text-sm">
-            {formState.errors.background_color_light.message}
+            {formState.errors.color.message}
           </p>
         )}
 

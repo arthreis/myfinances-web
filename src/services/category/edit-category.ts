@@ -1,13 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import api from '../api';
 import type { Category } from '@/schemas';
-
-export interface CategoryFormData {
-  title: string;
-  icon: string;
-  background_color_dark: string;
-  background_color_light: string;
-}
+import type { CategoryFormData } from './create-category';
 
 export const editCategory = async (
   id: string,

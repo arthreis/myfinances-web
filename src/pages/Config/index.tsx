@@ -127,8 +127,7 @@ function Config(): React.JSX.Element {
               <tr>
                 <th>Título</th>
                 <th>Ícone</th>
-                <th>Cor Dark</th>
-                <th>Cor Light</th>
+                <th>Cor</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -143,14 +142,8 @@ function Config(): React.JSX.Element {
                     </TableBodyColumn>
                     <TableBodyColumn>
                       <ColorInfoContainer>
-                        <Square background={category.background_color_dark} />
-                        <span>{category.background_color_dark}</span>
-                      </ColorInfoContainer>
-                    </TableBodyColumn>
-                    <TableBodyColumn>
-                      <ColorInfoContainer>
-                        <Square background={category.background_color_light} />
-                        <span>{category.background_color_light}</span>
+                        <Square background={category.color} />
+                        <span>{category.color}</span>
                       </ColorInfoContainer>
                     </TableBodyColumn>
                     <TableBodyColumn className="actions">

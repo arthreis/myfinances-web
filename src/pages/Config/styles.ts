@@ -131,10 +131,7 @@ export const TableContainer = styled.section`
       content: 'Ícone';
     }
     td:nth-of-type(3):before {
-      content: 'Cor Dark';
-    }
-    td:nth-of-type(4):before {
-      content: 'Cor Light';
+      content: 'Cor';
     }
     td:nth-of-type(5):before {
       content: 'Ações';

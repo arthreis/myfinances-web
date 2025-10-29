@@ -158,13 +158,7 @@ export default function DashboardGraphView({
           </header>
           {overviewData.category && (
             <h2>
-              <CategoryIcon
-                color={
-                  theme.title === 'dark'
-                    ? overviewData.category.background_color_dark
-                    : overviewData.category.background_color_light
-                }
-              />
+              <CategoryIcon color={overviewData.category.color} />
               <span>{overviewData.category.title}</span>
             </h2>
           )}

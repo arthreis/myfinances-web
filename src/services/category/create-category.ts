@@ -5,8 +5,7 @@ import type { Category } from '@/schemas';
 export interface CategoryFormData {
   title: string;
   icon: string;
-  background_color_dark: string;
-  background_color_light: string;
+  color: string;
 }
 
 export const createCategory = async (
