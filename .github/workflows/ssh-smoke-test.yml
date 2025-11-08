@@ -1,20 +1,14 @@
-name: ssh-smoke-test
+name: smoke-local
 on:
   workflow_dispatch:
 
 jobs:
-  test-ssh:
-    runs-on: ubuntu-latest
+  ping-runner:
+    runs-on: self-hosted
     steps:
-      - name: Connect and run basic commands
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script_stop: true
-          timeout: 1m
-          script: |
-            whoami
-            hostname -A || hostname -I
-            docker --version || echo "docker not found"
+      - name: Checagens básicas
+        run: |
+          whoami
+          hostname -A || hostname -I
+          docker ps
+          docker compose version || true
