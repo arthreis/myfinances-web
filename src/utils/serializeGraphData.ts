@@ -1,49 +1,22 @@
-import { format, addHours } from 'date-fns';
 import { tint } from 'polished';
-import { GraphData, Category } from '../services/interfaces';
+import { Category, type DonutGraphData, type LineGraphData } from '../schemas';
 import Theme from '../styles/themes/theme';
+import { formatUTCDate } from './dates';
 
-export default function serializeGraphData(
-  theme: Theme,
-  data: any,
-  type: 'donut' | 'line',
-): GraphData {
-  if (type === 'donut') {
-    return {
-      labels: data.map((item: Category) => item.title),
-      datasets: [
-        {
-          label: 'Transações por Categoria',
-          ...data.reduce(
-            (accumulator: any, current: Category) => {
-              accumulator.data.push(current.transactionsCount);
-              accumulator.backgroundColor.push(
-                theme.title === 'dark'
-                  ? current.background_color_light
-                  : current.background_color_dark,
-              );
+interface LineData {
+  income: [number, number][];
+  outcome: [number, number][];
+}
 
-              accumulator.borderColor.push(
-                theme.title === 'dark'
-                  ? current.background_color_dark
-                  : current.background_color_light,
-              );
+type DonutData = Category & {
+  user_id: string;
+}
 
-              return accumulator;
-            },
-            {
-              data: [],
-              backgroundColor: [],
-              borderColor: [],
-            },
-          ),
-        },
-      ],
-    };
-  }
-  return {
-    labels: data.income.map((entry: any[]) =>
-      format(addHours(new Date(entry[0]), 3), 'dd'),
+export function serializeLineGraphData(theme: Theme, data: LineData,): LineGraphData {
+
+  const line: LineGraphData = {
+    labels: data.income.map((entry: number[]) =>
+      formatUTCDate(entry[0], 'dd/MM'),
     ),
     datasets: [
       {
@@ -52,7 +25,7 @@ export default function serializeGraphData(
         backgroundColor: theme.colors.success,
         borderColor: tint(0.1, theme.colors.success),
         borderJoinStyle: 'miter',
-        data: data.income.map((entry: any[]) => entry[1]),
+        data: data.income.map((entry: number[]) => entry[1]),
       },
       {
         label: 'Saídas',
@@ -60,8 +33,33 @@ export default function serializeGraphData(
         borderColor: tint(0.1, theme.colors.danger),
         backgroundColor: theme.colors.danger,
         borderJoinStyle: 'miter',
-        data: data.outcome.map((entry: any[]) => entry[1]),
+        data: data.outcome.map((entry: number[]) => entry[1]),
       },
     ],
   };
+  return line;
+}
+
+export function serializeDonutGraphData(theme: Theme, data: DonutData[], tooltipLabel: string): DonutGraphData {
+
+  const donut: DonutGraphData = new Object() as DonutGraphData;
+  donut.labels = data.map((item: Category) => item.title);
+
+  donut.datasets = [
+    {
+      label: tooltipLabel ?? 'Transações por Categoria',
+      data: [],
+      backgroundColor: [],
+      borderColor: [],
+    },
+  ];
+
+  data.forEach((current: Category) => {
+    donut.datasets[0].data.push(
+      current.transactionsCount ?? current.transactionsTotalValue ?? 0,
+    );
+    donut.datasets[0].backgroundColor.push(current.color);
+    donut.datasets[0].borderColor.push(current.color);
+  });
+    return donut;
 }

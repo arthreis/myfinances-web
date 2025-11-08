@@ -1,15 +1,19 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import type React from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 
-import { Container } from './styles';
+import { ButtonStyles } from './styles';
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  outlined?: boolean;
+};
 
 function Button(props: ButtonProps): React.JSX.Element {
   const { children } = props;
   return (
-    <Container type="button" {...props}>
+    <ButtonStyles type="button" {...props}>
       {children}
-    </Container>
+    </ButtonStyles>
   );
 }
 

@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 
-import Dropzone, { Accept } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 import { DropContainer, UploadMessage } from './styles';
 
 interface UploadProps {
-  onUpload: (...args: any[]) => any;
+  readonly onUpload: (...args: File[]) => void;
 }
 
 function Upload({ onUpload }: UploadProps): React.JSX.Element {
@@ -27,14 +27,13 @@ function Upload({ onUpload }: UploadProps): React.JSX.Element {
 
   return (
     <Dropzone
-      // accept=".csv, application/vnd.ms-excel, text/csv"
       accept={{
         'application/vnd.ms-excel': [],
         'text/csv': [],
       }}
-      onDropAccepted={files => onUpload(files)}
+      onDropAccepted={files => onUpload(files[0])}
     >
-      {({ getRootProps, getInputProps, isDragActive, isDragReject }): any => (
+      {({ getRootProps, getInputProps, isDragActive, isDragReject }): React.JSX.Element => (
         <DropContainer
           {...getRootProps()}
           isDragActive={isDragActive}

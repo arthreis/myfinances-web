@@ -1,76 +1,11 @@
-import React, {
-  InputHTMLAttributes,
-  useEffect,
-  useRef,
-  useCallback,
-  useState,
-} from 'react';
-import { IconBaseProps } from 'react-icons';
-import { useField } from '@unform/core';
-import { FiAlertCircle } from 'react-icons/fi';
+import { forwardRef, type ComponentProps } from 'react';
+import { InputCustom } from './styles';
 
-import { Container, Error } from './styles';
+type InputProps = ComponentProps<'input'>;
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
-  icon?: React.ComponentType<IconBaseProps>;
-  containerClassName?: string;
-  mask?: string;
-}
-
-function Input({
-  name,
-  icon: Icon,
-  containerClassName,
-  ...rest
-}: InputProps): React.JSX.Element {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [isFilled, setIsFilled] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleInputFocus = useCallback(() => {
-    setIsFocused(true);
-  }, []);
-
-  const handleInputBlur = useCallback(() => {
-    setIsFocused(false);
-    setIsFilled(!!inputRef.current?.value);
-  }, []);
-
-  const { fieldName, defaultValue, error, registerField } = useField(name);
-
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      path: 'value',
-    });
-  }, [fieldName, registerField]);
-
-  return (
-    <Container
-      className={containerClassName}
-      isFilled={isFilled}
-      isFocused={isFocused}
-      hasError={!!error}
-    >
-      {Icon && <Icon size={20} />}
-
-      <input
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-        defaultValue={defaultValue}
-        {...rest}
-        ref={inputRef}
-      />
-
-      {error && (
-        <Error title={error}>
-          <FiAlertCircle size={20} />
-        </Error>
-      )}
-    </Container>
-  );
-}
-
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  return <InputCustom {...props} ref={ref} />;
+});
 export default Input;
+
+Input.displayName = 'Input';

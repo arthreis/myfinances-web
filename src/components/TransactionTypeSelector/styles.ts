@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { tint, shade, rgba } from 'polished';
+import { rgba } from 'polished';
+import { InputCssCommom } from '../Input/styles';
 
 interface TypeInputProps {
   transactionType: 'income' | 'outcome';
@@ -30,18 +31,9 @@ const typeInputVariation = {
 };
 
 export const TypeInput = styled.div<TypeInputProps>`
-  flex: 1;
-  color: ${props => props.theme.colors.primaryText};
-  cursor: pointer;
+  ${InputCssCommom}
+
   text-align: center;
-  background: transparent;
-  padding: 16px;
-  border-radius: 10px;
-  border: 1px solid
-    ${props =>
-      props.theme.title === 'light'
-        ? tint(0.8, props.theme.colors.defaultText)
-        : shade(0.1, props.theme.colors.default)};
 
   & + div {
     margin-left: 8px;

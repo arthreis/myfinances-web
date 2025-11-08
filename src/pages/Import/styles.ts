@@ -10,14 +10,22 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   font-weight: 500;
-  font-size: 36px;
   line-height: 54px;
   color: ${props => props.theme.colors.primaryText};
   text-align: center;
+
+  font-size: ${({ theme }) => theme.fontSize.desktop.XL};
+
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.fontSize.tablet.XL};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSize.mobile.XL};
+  }
 `;
 
 export const ImportFileContainer = styled.section`
-  background: ${props => props.theme.colors.default};
+  background: ${props => props.theme.colors.tertiary};
   margin-top: 40px;
   border-radius: 5px;
   padding: 64px;
@@ -32,9 +40,16 @@ export const Footer = styled.section`
   p {
     display: flex;
     align-items: center;
-    font-size: 12px;
     line-height: 18px;
-    color: ${props => props.theme.colors.defaultText};
+    color: ${props => props.theme.colors.primaryText};
+
+    font-size: ${({ theme }) => theme.fontSize.desktop.XS};
+    @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+      font-size: ${({ theme }) => theme.fontSize.tablet.XS};
+    }
+    @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+      font-size: ${({ theme }) => theme.fontSize.mobile.XS};
+    }
 
     img {
       margin-right: 5px;

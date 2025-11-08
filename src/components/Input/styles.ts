@@ -1,44 +1,58 @@
 import styled, { css } from 'styled-components';
 
-import Tooltip from '../Tooltip';
+export const InputCssBorder = css`
+  border: 1px solid ${props =>
+    props.theme.title === 'light'
+      ? props.theme.colors.tertiary
+      : props.theme.colors.tertiary};
 
-interface ContainerProps {
-  isFilled: boolean;
-  isFocused: boolean;
-  hasError: boolean;
-}
+  &:hover, :focus {
+    border: 1px solid ${props =>
+      props.theme.title === 'light'
+        ? props.theme.colors.secondaryText
+        : props.theme.colors.secondaryText};
+  }
 
-export const Container = styled.div<ContainerProps>`
-  background: ${props => props.theme.colors.background};
+`;
+
+export const InputCssBackground = css`
+  background-color: ${({ theme }) =>
+    theme.title === 'light' ? theme.colors.white : theme.colors.tertiary};
+
+`;
+
+export const InputCssCommom = css`
+  ${InputCssBorder}
+  ${InputCssBackground}
   border-radius: 10px;
   padding: 16px;
-  border: 2px solid ${props => props.theme.colors.primary};
-  color: ${props => props.theme.colors.defaultText};
   width: 100%;
+  color: ${props => props.theme.colors.primaryText};
 
-  display: flex;
-  align-items: center;
+  &::placeholder {
+    color: ${props => props.theme.colors.secondaryText};
+  }
 
-  ${props =>
-    props.hasError &&
-    css`
-      border-color: ${props.theme.colors.danger};
-    `}
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-calendar-picker-indicator {
+    ${({ theme }) =>
+      theme.title === 'light'
+        ? css` filter: invert(0); `
+        : css` filter: invert(1); `}
+  }
+`;
 
-  ${props =>
-    (props.isFocused || props.isFilled) &&
-    css`
-      color: ${props.theme.colors.secondary};
-    `}
+export const InputCustom = styled.input`
 
-  input {
-    border: 0;
-    flex: 1;
-    background: transparent;
-    color: ${props => props.theme.colors.primaryText};
+  ${InputCssCommom}
 
+  /* input {
     &::placeholder {
-      color: ${props => props.theme.colors.defaultText};
+      color: ${props => props.theme.colors.primaryText};
     }
 
     &::-webkit-outer-spin-button,
@@ -46,28 +60,20 @@ export const Container = styled.div<ContainerProps>`
       -webkit-appearance: none;
       margin: 0;
     }
-  }
+  } */
 
-  > svg {
-    margin-right: 16px;
-  }
-`;
-
-export const Error = styled(Tooltip)`
-  height: 20px;
-  margin-left: 16px;
-  color: ${props => props.theme.colors.danger};
-
-  svg {
-    margin: 0;
-  }
-
-  span {
-    background: ${props => props.theme.colors.danger};
-    color: ${props => props.theme.colors.dangerText};
-
-    &::before {
-      border-color: ${props => props.theme.colors.danger} transparent;
-    }
-  }
+  /* input[type='date'] {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1em;
+    width: 90%;
+    outline: none;
+    border: none;
+    border: 2px solid yellow;
+    border-radius: 5px;
+    padding: 0.7em 0.5em;
+    padding: 8px;
+    font-family: Quicksand;
+    font-size: 1rem;
+  } */
 `;

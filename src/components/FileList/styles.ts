@@ -35,9 +35,16 @@ export const FileInfo = styled.div`
     justify-content: space-between;
 
     span {
-      font-size: 12px;
-      color: ${props => props.theme.colors.defaultText};
+      color: ${props => props.theme.colors.primaryText};
       margin-top: 5px;
+
+      font-size: ${({ theme }) => theme.fontSize.desktop.XS};
+      @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+        font-size: ${({ theme }) => theme.fontSize.tablet.XS};
+      }
+      @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+        font-size: ${({ theme }) => theme.fontSize.mobile.XS};
+      }
     }
 
     svg {

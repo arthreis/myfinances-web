@@ -1,28 +1,54 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
+    // "target": "ES2022",
+    "useDefineForClassFields": true,
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
     ],
-    "allowJs": true,
+    "module": "ESNext",
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@router/*": [
+        "./src/router/*"
+      ],
+      "@schemas/*": [
+        "./src/schemas/*"
+      ],
+    },
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src"
+    "src",
+    // "src/components",
+    "src/types/custom.d.ts"
   ],
-  "files": [
-    "src/styles/styled.d.ts"
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }

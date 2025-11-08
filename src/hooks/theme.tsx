@@ -6,6 +6,7 @@ import usePersistedState from './usePersistedState';
 import Theme from '../styles/themes/theme';
 import light from '../styles/themes/light';
 import dark from '../styles/themes/dark';
+import { constants } from '../utils/constants';
 
 interface ThemeContextData {
   theme: Theme;
@@ -14,9 +15,13 @@ interface ThemeContextData {
 
 const ThemeContext = createContext({} as ThemeContextData);
 
-export const AppThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+export function AppThemeProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.JSX.Element {
   const [theme, setTheme] = usePersistedState<Theme>(
-    '@GO_FINANCES/theme',
+    `${constants.NAME_KEY_STORAGE}/theme`,
     light,
   );
 
@@ -24,12 +29,17 @@ export const AppThemeProvider: React.FC<{children: React.ReactNode}> = ({ childr
     setTheme(theme.title === 'light' ? dark : light);
   }, [theme, setTheme]);
 
+  const themeProvider = React.useMemo(
+    () => ({ theme, toggleTheme }),
+    [theme, toggleTheme],
+  );
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={themeProvider}>
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ThemeContext.Provider>
   );
-};
+}
 
 export function useTheme(): ThemeContextData {
   const context = useContext(ThemeContext);

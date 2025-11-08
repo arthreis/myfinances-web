@@ -3,13 +3,12 @@ import styled, {
   FlattenSimpleInterpolation,
   ThemeProps,
 } from 'styled-components';
-import Theme from '../../styles/themes/theme';
+import Theme from '@/styles/themes/theme';
 
 interface UploadProps extends ThemeProps<Theme> {
   isDragActive: boolean;
   isDragReject: boolean;
   refKey?: string;
-  [key: string]: any;
   type?: 'error' | 'success' | 'default';
 }
 
@@ -24,7 +23,7 @@ const dragReject = (props: UploadProps): FlattenSimpleInterpolation => css`
 export const DropContainer = styled.div.attrs({
   className: 'dropzone',
 })`
-  border: 1.5px dashed ${props => props.theme.colors.defaultText};
+  border: 1.5px dashed ${props => props.theme.colors.primaryText};
   border-radius: 5px;
   cursor: pointer;
 
@@ -37,7 +36,7 @@ export const DropContainer = styled.div.attrs({
     props.isDragReject && dragReject(props)}
 `;
 
-const messageColors = (theme: Theme): any => ({
+const messageColors = (theme: Theme) => ({
   default:
     theme.title === 'light' ? theme.colors.primary : theme.colors.secondary,
   error: theme.colors.danger,
@@ -46,9 +45,16 @@ const messageColors = (theme: Theme): any => ({
 
 export const UploadMessage = styled.p`
   display: flex;
-  font-size: 16px;
   line-height: 24px;
   padding: 48px 0;
+
+  font-size: ${({ theme }) => theme.fontSize.desktop.MD};
+  @media (max-width: ${p => p.theme.layout.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.fontSize.tablet.MD};
+  }
+  @media (max-width: ${p => p.theme.layout.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSize.mobile.MD};
+  }
 
   color: ${({ type, theme }: UploadProps) =>
     messageColors(theme)[type || 'default']};

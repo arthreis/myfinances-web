@@ -1,25 +1,28 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
 import api from '../services/api';
+import { constants } from '../utils/constants';
+import { userSignIn } from '../services/user/sign-in';
+import type { User } from '@/schemas';
 
 interface AuthState {
   token: string;
-  user: any;
+  user: User;
 }
 
-interface SignUpCredentials {
-  email: string;
-  password: string;
+export interface SignInCredentials {
+  email: string | undefined;
+  password: string | undefined;
 }
 
 interface AuthContextData {
   token: string;
-  user: any;
-  signIn(credentials: SignUpCredentials): Promise<void>;
+  user: User;
+  signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
 
-export const AuthContext = createContext<AuthContextData>(
+const AuthContext = createContext<AuthContextData>(
   {} as AuthContextData,
 );
 
@@ -29,8 +32,8 @@ export function AuthProvider({
   children: React.ReactNode;
 }): React.JSX.Element {
   const [data, setData] = useState<AuthState>(() => {
-    const user = localStorage.getItem('@GO_FINANCES/user');
-    const token = localStorage.getItem('@GO_FINANCES/token');
+    const user = localStorage.getItem(`${constants.NAME_KEY_STORAGE}/user`);
+    const token = localStorage.getItem(`${constants.NAME_KEY_STORAGE}/token`);
 
     if (user && token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
@@ -43,13 +46,15 @@ export function AuthProvider({
     return {} as AuthState;
   });
 
-  const signIn = useCallback(async ({ email, password }: SignUpCredentials) => {
-    const response = await api.post('/sessions', { email, password });
-
+  const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
+    const response = await userSignIn({ email, password });
     const { user, token } = response.data;
 
-    localStorage.setItem('@GO_FINANCES/user', JSON.stringify(user));
-    localStorage.setItem('@GO_FINANCES/token', token);
+    localStorage.setItem(
+      `${constants.NAME_KEY_STORAGE}/user`,
+      JSON.stringify(user),
+    );
+    localStorage.setItem(`${constants.NAME_KEY_STORAGE}/token`, token);
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
@@ -57,18 +62,38 @@ export function AuthProvider({
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@GO_FINANCES/user');
-    localStorage.removeItem('@GO_FINANCES/token');
+    localStorage.removeItem(`${constants.NAME_KEY_STORAGE}/user`);
+    localStorage.removeItem(`${constants.NAME_KEY_STORAGE}/token`);
 
     setData({} as AuthState);
   }, []);
 
+  React.useEffect(() => {
+    const interceptor = api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        const status = error?.response?.status;
+        const requestUrl = error?.config?.url ?? '';
+
+        if (status === 401 && !requestUrl.includes('/sign-in')) {
+          signOut();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    () => {
+      api.interceptors.response.eject(interceptor);
+    };
+  }, [signOut]);
+
+  const userProvider = React.useMemo(
+    () => ({ user: data.user, signIn, signOut, token: data.token }),
+    [data.user, signIn, signOut, data.token],
+  );
+
   return (
-    <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, token: data.token }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={userProvider}>{children}</AuthContext.Provider>
   );
 }
 

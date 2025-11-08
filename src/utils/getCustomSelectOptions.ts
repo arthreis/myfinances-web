@@ -1,8 +1,14 @@
 import { CSSProperties } from 'styled-components';
 import { shade, tint } from 'polished';
+import { StylesConfig, GroupBase } from 'react-select';
 import Theme from '../styles/themes/theme';
+import type { Category } from '@/schemas';
 
-export default function getCustomSelectOptions(theme: Theme): any {
+type OptionType = Category;
+type IsMulti = false;
+type CustomStylesConfig = StylesConfig<OptionType, IsMulti, GroupBase<OptionType>>;
+
+export default function getCustomSelectOptions(theme: Theme): CustomStylesConfig {
   return {
     input: (provided: CSSProperties) => ({
       ...provided,
@@ -10,20 +16,16 @@ export default function getCustomSelectOptions(theme: Theme): any {
     }),
     placeholder: (provided: CSSProperties) => ({
       ...provided,
-      color: theme.colors.defaultText,
+      color: theme.colors.secondaryText,
     }),
     control: (provided: CSSProperties) => {
       return {
         ...provided,
         height: 60,
         borderRadius: 10,
-        backgroundColor:
-          theme.title === 'light'
-            ? tint(0.95, theme.colors.defaultText)
-            : shade(0.25, theme.colors.default),
+        backgroundColor: theme.colors.tertiary,
         border: 'none',
         boxShadow: 'none',
-        borderColor: theme.colors.default,
       };
     },
     valueContainer: (provided: CSSProperties) => ({
@@ -38,21 +40,21 @@ export default function getCustomSelectOptions(theme: Theme): any {
       ...provided,
       backgroundColor:
         theme.title === 'light'
-          ? tint(0.95, theme.colors.defaultText)
-          : shade(0.25, theme.colors.default),
+          ? tint(0.95, theme.colors.primaryText)
+          : shade(0.25, theme.colors.tertiary),
     }),
   };
 }
 
-export function getCustomSelectOptionsModal(theme: Theme): any {
-  return {
+export function getCustomSelectOptionsModal(theme: Theme): CustomStylesConfig {
+  const options = {
     ...getCustomSelectOptions(theme),
     menu: (provided: CSSProperties) => ({
       ...provided,
       backgroundColor:
         theme.title === 'light'
-          ? tint(0.8, theme.colors.defaultText)
-          : shade(0.25, theme.colors.default),
+          ? tint(0.8, theme.colors.primaryText)
+          : shade(0.25, theme.colors.tertiary),
       padding: '5px 0',
     }),
     control: (provided: CSSProperties) => {
@@ -62,12 +64,14 @@ export function getCustomSelectOptionsModal(theme: Theme): any {
         borderRadius: 10,
         backgroundColor:
           theme.title === 'light'
-            ? tint(0.8, theme.colors.defaultText)
-            : shade(0.25, theme.colors.default),
+            ? tint(0.8, theme.colors.primaryText)
+            : shade(0.25, theme.colors.tertiary),
         border: 'none',
         boxShadow: 'none',
-        borderColor: tint(0.8, theme.colors.defaultText),
+        borderColor: tint(0.8, theme.colors.primaryText),
       };
     },
   };
+
+  return options;
 }

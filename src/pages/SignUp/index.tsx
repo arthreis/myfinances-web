@@ -1,82 +1,91 @@
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
-import { FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { useNavigate, Link } from 'react-router-dom';
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
 
-import logoImg from '../../assets/logo.svg';
+import Logo from '@/assets/logo.svg?react';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
 
-import api from '../../services/api';
-
-import getValidationErrors from '../../utils/getValidationErrors';
-
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { userSignUp } from '@/services/user/sign-up';
 import { Container, Content } from './styles';
+import { useTheme } from '@/hooks/theme';
 
-interface SignUpFormData {
-  name: string;
-  email: string;
-  password: string;
-}
+const schema = Yup.object().shape({
+  name: Yup.string().required('Nome é obrigatório'),
+  email: Yup.string().required('E-mail é obrigatório').email('Digite um e-mail válido'),
+  password: Yup.string().min(6, 'No mínimo 6 caracters').required('Senha é obrigatória'),
+});
+
+export type SignUpForm = Yup.InferType<typeof schema>;
 
 function SignUp(): React.JSX.Element {
-  const formRef = useRef<FormHandles>(null);
   const navigate = useNavigate();
 
-  const handleSubmit = useCallback(
-    async (data: SignUpFormData) => {
-      try {
-        const schema = Yup.object().shape({
-          name: Yup.string().required('Nome é obrigatório'),
-          email: Yup.string()
-            .required('E-mail é obrigatório')
-            .email('Digite um e-mail válido'),
-          password: Yup.string().min(6, 'No mínimo 6 caracters'),
-        });
+  const { register, handleSubmit, formState, reset } = useForm<SignUpForm>({
+    resolver: yupResolver(schema),
+  });
 
-        await schema.validate(data, {
-          abortEarly: false,
-        });
+  async function handleSignUp(data: SignUpForm) {
+    await userSignUp({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    });
 
-        await api.post('/users', data);
+    toast.success('Cadastro realizado com sucesso!');
 
-        toast.success('Cadastro realizado com sucesso!');
+    reset();
 
-        navigate('Login');
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err);
+    navigate('/');
+  }
 
-          formRef.current?.setErrors(errors);
-        }
-      }
-    },
-    [navigate],
-  );
+  const { theme } = useTheme();
 
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="GoFinances" />
+        <Logo color={theme.colors.primary} />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input icon={FiUser} name="name" placeholder="Nome" />
-          <Input icon={FiMail} name="email" placeholder="E-mail" />
+        <form onSubmit={handleSubmit(handleSignUp)}>
           <Input
-            icon={FiLock}
+            {...register('name')}
+            name="name"
+            placeholder="Nome"
+          />
+          {formState.errors.name && (
+            <p className="text-red-400 text-sm">
+              {formState.errors.name.message}
+            </p>
+          )}
+          <Input
+            {...register('email')}
+            name="email"
+            placeholder="E-mail"
+          />
+          {formState.errors.email && (
+            <p className="text-red-400 text-sm">
+              {formState.errors.email.message}
+            </p>
+          )}
+          <Input
+            {...register('password')}
             type="password"
             name="password"
             placeholder="Senha"
           />
+          {formState.errors.password && (
+            <p className="text-red-400 text-sm">
+              {formState.errors.password.message}
+            </p>
+          )}
 
-          <Button type="submit">Entrar</Button>
-        </Form>
+          <Button type="submit">Cadastrar</Button>
+        </form>
 
-        <Link to="/">Já tem uma conta? Logue-se agora</Link>
+        <Link to="/">Já tem uma conta? Entre agora</Link>
       </Content>
     </Container>
   );
