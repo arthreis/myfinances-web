@@ -1,18 +1,17 @@
 name: build-and-deploy
-
 on:
   push:
-    branches: [ "main"]
+    branches: [ "develop", "master" ]
   workflow_dispatch:
 
 jobs:
   build-and-push:
+    name: Build and push image
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -23,35 +22,62 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push image
+      - name: Build and push
+        id: docker_build
         uses: docker/build-push-action@v6
-        env:
-          IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/myfinances-web
         with:
           context: .
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:latest
-            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/myfinances-web:latest
+            ${{ secrets.DOCKER_USERNAME }}/myfinances-web:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+    outputs:
+      image_sha: ${{ github.sha }}
 
-  deploy:
+  deploy-staging:
+    name: Deploy to staging
+    if: github.ref == 'refs/heads/develop'
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: false
+    environment:
+      name: staging
+      url: ${{ vars.STAGING_URL }}
     needs: build-and-push
-    runs-on: self-hosted
+    runs-on: [self-hosted, staging]
     steps:
-      - name: Info do runner
+      - name: Deploy STAGING
+        env:
+          TAG: ${{ needs.build-and-push.outputs.image_sha }}
         run: |
-          echo "Runner em: $(hostname) (user: $(whoami))"
-          docker --version
-          docker compose version || true
+          echo "Deploying build $TAG to STAGING"
+          cd /srv/docker/myfinances/myfinances-web-staging
+          export TAG=$TAG
+          docker compose pull
+          docker compose up -d
+          docker image prune -f
 
-      - name: Login no Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Deploy com docker compose
+  deploy-prod:
+    name: Deploy to production
+    if: github.ref == 'refs/heads/master'
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+    needs: build-and-push
+    runs-on: [self-hosted, production]
+    steps:
+      - name: Deploy PRODUCTION
+        env:
+          TAG: ${{ needs.build-and-push.outputs.image_sha }}
         run: |
+          echo "Deploying build $TAG to PRODUCTION"
           cd /srv/docker/myfinances/myfinances-web
+          export TAG=$TAG
           docker compose pull
           docker compose up -d
           docker image prune -f
